@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://bycsslfcog0wh"]
+
+[ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="1_pbbah"]
+
+[node name="ui" type="Control" unique_id=1436271836]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Container" type="Container" parent="." unique_id=2064124840]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -139.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="BoxContainer" type="BoxContainer" parent="Container" unique_id=1971159161]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Container/BoxContainer" unique_id=1028125606]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = ExtResource("1_pbbah")
+expand_mode = 3
+
+[node name="Label" type="Label" parent="Container/BoxContainer/TextureRect" unique_id=1723784347]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 58.0
+offset_bottom = 81.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "SWORD"
+horizontal_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="Container/BoxContainer/TextureRect" unique_id=382951321]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = -27.0
+grow_horizontal = 2

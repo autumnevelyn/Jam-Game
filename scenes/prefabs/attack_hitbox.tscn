@@ -7,6 +7,7 @@
 size = Vector2(15, 15)
 
 [node name="attack_hitbox" type="Area2D" unique_id=1244579918 groups=["Cutting Tool"]]
+collision_mask = 2
 script = ExtResource("1_v8v5g")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1124818511]
@@ -20,4 +21,5 @@ texture_filter = 1
 scale = Vector2(0.12499999, 0.12499999)
 texture = ExtResource("2_v8v5g")
 
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

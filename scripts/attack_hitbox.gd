@@ -21,3 +21,9 @@ func _process(delta: float) -> void:
 
 func _on_timer_timeout() -> void:
 	active = false;
+
+
+func _on_area_entered(area: Area2D) -> void:
+	if area.get_parent().is_in_group("Cuttable") and active:
+		active = false;
+		area.get_parent().queue_free();
