@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://spxhnfmfnwy"]
+
+[ext_resource type="PackedScene" uid="uid://l1dhtqji1d6x" path="res://scenes/levels/level_1.tscn" id="1_lhpjk"]
+
+[node name="GameMain" type="Node2D" unique_id=525167573]
+
+[node name="level" parent="." unique_id=1973902866 instance=ExtResource("1_lhpjk")]
+
+[node name="Control" type="Control" parent="." unique_id=3302669]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0

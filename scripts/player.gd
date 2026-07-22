@@ -4,12 +4,13 @@ extends CharacterBody2D
 @onready var attack_hitbox: Area2D = $attack_hitbox
 @onready var texture_progress_bar: TextureProgressBar = $TextureProgressBar
 
-const movement_speed = 150;
+const movement_speed = 100;
 
 var direction = Vector2(1, 0);
 
 
 func _physics_process(delta: float) -> void:
+	
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var directionX := Input.get_axis("ui_left", "ui_right")

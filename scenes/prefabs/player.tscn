@@ -1,24 +1,22 @@
 [gd_scene format=3 uid="uid://c4c30da2f5eb5"]
 
-[ext_resource type="Texture2D" uid="uid://borp3s36rs4oe" path="res://assets/Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Characters/Basic Charakter Spritesheet.png" id="1_06qtw"]
 [ext_resource type="Script" uid="uid://c3ubxpp10k6x6" path="res://scripts/player.gd" id="1_tou0u"]
 [ext_resource type="PackedScene" uid="uid://bxi372o7q3eh1" path="res://scenes/prefabs/attack_hitbox.tscn" id="3_n0leu"]
 [ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="4_8cdkg"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_3xd07"]
-size = Vector2(15, 15)
+[sub_resource type="CircleShape2D" id="CircleShape2D_6761a"]
+radius = 7.5
 
 [node name="player" type="CharacterBody2D" unique_id=821665466]
 script = ExtResource("1_tou0u")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1739673041]
-shape = SubResource("RectangleShape2D_3xd07")
+shape = SubResource("CircleShape2D_6761a")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=873580555]
 texture_filter = 1
-texture = ExtResource("1_06qtw")
-hframes = 4
-vframes = 4
+scale = Vector2(0.12499999, 0.12499999)
+texture = ExtResource("4_8cdkg")
 
 [node name="Timer" type="Timer" parent="." unique_id=262521996]
 one_shot = true
