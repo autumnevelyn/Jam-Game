@@ -19,3 +19,4 @@ hframes = 4
 vframes = 4
 
 [node name="Timer" type="Timer" parent="." unique_id=262521996]
+one_shot = true
