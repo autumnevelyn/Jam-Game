@@ -28,14 +28,22 @@ func _physics_process(delta: float) -> void:
 	if(directionY != 0):
 		attack_hitbox.position.y = directionY * 16; 
 	elif(directionX != 0): attack_hitbox.position.y = 0;
-	if Input.is_action_pressed("ui_accept"):
-		timer.start();
+	if Input.is_action_just_pressed("ui_accept"):
+		tryAttack();
 		
 		
 	texture_progress_bar.value = (timer.time_left / timer.wait_time) * 100;
 
 	move_and_slide()
 	
+func tryAttack():
+	if(timer.is_stopped()):
+		timer.start();
+	else:
+		var tween = create_tween();
+		texture_progress_bar.tint_progress = Color(1.0, 0.0, 0.0);
+		tween.tween_property(texture_progress_bar, "tint_progress", Color(1.0, 1.0, 1.0), 1.0);
+		
 	
 func attack():
 	attack_hitbox.active = true;

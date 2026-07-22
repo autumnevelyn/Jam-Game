@@ -32,6 +32,7 @@ offset_top = -18.0
 offset_right = 113.0
 offset_bottom = 110.0
 scale = Vector2(0.235, 0.035)
+value = 44.0
 texture_progress = ExtResource("4_8cdkg")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
