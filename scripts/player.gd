@@ -53,12 +53,13 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 func tryAttack():
-	if(timer.is_stopped() and not stunned):
-		timer.start();
-	else:
-		var tween = create_tween();
-		texture_progress_bar.tint_progress = Color(1.0, 0.0, 0.0);
-		tween.tween_property(texture_progress_bar, "tint_progress", Color(1.0, 1.0, 1.0), 1.0);
+	if(PlayerData.currentSkills.size() > 0):
+		if(timer.is_stopped() and not stunned):
+			timer.start();
+		else:
+			var tween = create_tween();
+			texture_progress_bar.tint_progress = Color(1.0, 0.0, 0.0);
+			tween.tween_property(texture_progress_bar, "tint_progress", Color(1.0, 1.0, 1.0), 1.0);
 		
 	
 func attack():

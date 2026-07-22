@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://d1plm63wydsgj"]
+
+[ext_resource type="Script" uid="uid://dtwgaml7m0g2q" path="res://scripts/skill.gd" id="1_g5lod"]
+[ext_resource type="Resource" uid="uid://nrl0kefm1ofa" path="res://scenes/prefabs/items/sword.tres" id="2_0ck4f"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jq8tk"]
+radius = 8.0
+
+[node name="skill" type="Area2D" unique_id=1686755671]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("1_g5lod")
+skill = ExtResource("2_0ck4f")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1452894346]
+shape = SubResource("CircleShape2D_jq8tk")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1789972032]
+scale = Vector2(0.12499999, 0.12499999)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

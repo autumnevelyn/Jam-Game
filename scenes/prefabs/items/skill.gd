@@ -10,5 +10,6 @@ extends Resource
 @export var cooldown_time := 1.0;
 
 @export var damage := 1.0;
+@export var hitbox_size: Shape2D;
 @export var range := 1.0;
 @export var homing := false;
