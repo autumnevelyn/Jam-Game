@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://bxi372o7q3eh1"]
+
+[ext_resource type="Texture2D" uid="uid://b6u4kvl67xeo6" path="res://assets/Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Objects/Basic_tools_and_meterials.png" id="1_2ic2g"]
+[ext_resource type="Script" uid="uid://d14eb3f4cdeli" path="res://scripts/attack_hitbox.gd" id="1_v8v5g"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3xd07"]
+size = Vector2(16, 16)
+
+[node name="attack_hitbox" type="Area2D" unique_id=1244579918]
+script = ExtResource("1_v8v5g")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1124818511]
+shape = SubResource("RectangleShape2D_3xd07")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=184195697]
+texture_filter = 1
+texture = ExtResource("1_2ic2g")
+hframes = 3
+vframes = 2
+frame = 1
+
+[node name="Timer" type="Timer" parent="." unique_id=765664426]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
