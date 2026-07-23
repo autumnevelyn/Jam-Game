@@ -19,7 +19,7 @@ enum RunState {
 
 var current_run_state: RunState = RunState.MENU
 var current_room: int = -1
-var current_level: Node2D;
+var current_level: Node2D = null;
 var total_rooms_in_run: int = 0
 var is_paused: bool = false
 
@@ -101,14 +101,17 @@ func runstate_room_transition():
 	
 	await tween.finished;
 	
-	if(current_level):
+	if(current_level != null):
+		print(current_level)
 		current_level.queue_free();
-		print(current_room)
-		EventBus.unsubscribe(EventBus.ENEMY_KILLED, current_level._on_enemy_killed)
+	
 	var new_level = load("res://scenes/levels/level_" + str(current_room + 1) +".tscn").instantiate(); 
 	current_level = new_level;
+	add_child(current_level);
+	
 	EventBus.subscribe(EventBus.ENEMY_KILLED, current_level._on_enemy_killed)
-	add_child(new_level);
+	
+	
 	ui._on_enemy_killed({}, true);
 	
 	tween = create_tween();

@@ -9,6 +9,20 @@ corner_radius_top_right = 15
 corner_radius_bottom_right = 15
 corner_radius_bottom_left = 15
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g3w80"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s8va5"]
+bg_color = Color(0.6955031, 0.6955032, 0.6955029, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
 [node name="Menu" type="Control" unique_id=1313905390]
 layout_mode = 3
 anchors_preset = 15
@@ -37,6 +51,7 @@ offset_left = -124.0
 offset_right = 124.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 62
 alignment = 1
 vertical = true
 
@@ -44,8 +59,38 @@ vertical = true
 custom_minimum_size = Vector2(0, 56.56)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 39
 theme_override_styles/normal = SubResource("StyleBoxFlat_3xd07")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_g3w80")
+theme_override_styles/hover = SubResource("StyleBoxFlat_s8va5")
 text = "Start"
 
+[node name="Button2" type="Button" parent="BoxContainer" unique_id=533453274]
+custom_minimum_size = Vector2(0, 56.56)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 39
+theme_override_styles/normal = SubResource("StyleBoxFlat_3xd07")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_g3w80")
+theme_override_styles/hover = SubResource("StyleBoxFlat_s8va5")
+text = "Settings"
+
+[node name="Button3" type="Button" parent="BoxContainer" unique_id=714590606]
+custom_minimum_size = Vector2(0, 56.56)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 39
+theme_override_styles/normal = SubResource("StyleBoxFlat_3xd07")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_g3w80")
+theme_override_styles/hover = SubResource("StyleBoxFlat_s8va5")
+text = "Quit"
+
 [connection signal="pressed" from="BoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="BoxContainer/Button2" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="BoxContainer/Button3" to="." method="_on_button_3_pressed"]

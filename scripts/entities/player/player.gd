@@ -78,18 +78,6 @@ func state_stunned_enter() -> void:
 func state_stunned_physics_process(delta: float) -> void:
 	movement_component.process_movement(Vector2.ZERO, delta)
 
-
-#func state_slash_enter() -> void:
-	#active_state = State.SLASH
-	#velocity = Vector2.ZERO
-	#slash_timer.wait_time = 0.5
-	#slash_timer.start()
-	#_perform_attack()
-#
-#
-#func state_slash_physics_process(delta: float) -> void:
-	#pass
-
 # input helpers
 
 func _get_input_direction() -> Vector2:
@@ -125,7 +113,7 @@ func _perform_attack() -> void:
 
 
 func _get_mouse_direction() -> Vector2:
-	return Vector2.from_angle(attack_hitbox.get_angle_to(get_global_mouse_position())).normalized()
+	return Vector2.from_angle(get_angle_to(get_global_mouse_position())).normalized()
 #func _get_mouse_direction() -> Vector2:
 	#return (get_global_mouse_position() - global_position).normalized()
 
@@ -151,10 +139,9 @@ func _on_attack_fired(data: Dictionary) -> void:
 	attack_hitbox.position = mouse_dir * 16.0
 	attack_hitbox.damage = data.get("damage", 1.0)
 	attack_hitbox.effects = data.get("effects", [])
-	print(str(attack_hitbox.damage) + ", " + str(attack_hitbox.effects));
 
 func _on_item_picked_up(data: Dictionary):
-	print(PlayerData.current_skills)
+	pass
 
 # signal handlers
 
