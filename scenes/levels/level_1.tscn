@@ -474,4 +474,4 @@ initial_direction = Vector2(0, -1)
 position = Vector2(154, 567)
 
 [node name="item" parent="." unique_id=1686755671 instance=ExtResource("5_6761a")]
-position = Vector2(271, 286)
+position = Vector2(235, 578)

@@ -33,3 +33,14 @@ layout_mode = 2
 
 [node name="hearts3" parent="health_container" unique_id=86800923 instance=ExtResource("3_t1p0u")]
 layout_mode = 2
+
+[node name="enemies left_label" type="Label" parent="." unique_id=217801679]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 23.0
+grow_horizontal = 0
+text = "1"
+horizontal_alignment = 2
