@@ -447,6 +447,15 @@ position = Vector2(504, 168)
 [node name="cuttable_object6" parent="." unique_id=1543497022 instance=ExtResource("3_nsrm0")]
 position = Vector2(472, 168)
 
+[node name="cuttable_object7" parent="." unique_id=392760242 instance=ExtResource("3_nsrm0")]
+position = Vector2(536, 449)
+
+[node name="cuttable_object8" parent="." unique_id=17483622 instance=ExtResource("3_nsrm0")]
+position = Vector2(552, 449)
+
+[node name="cuttable_object9" parent="." unique_id=1934855914 instance=ExtResource("3_nsrm0")]
+position = Vector2(568, 449)
+
 [node name="enemy_waddler" parent="." unique_id=1562589981 instance=ExtResource("6_sk5k4")]
 position = Vector2(550, 327)
 
@@ -456,6 +465,13 @@ position = Vector2(551, 511)
 [node name="enemy_waddler3" parent="." unique_id=190805292 instance=ExtResource("6_sk5k4")]
 position = Vector2(320, 489)
 initial_direction = Vector2(0, -1)
+
+[node name="enemy_waddler4" parent="." unique_id=1129351486 instance=ExtResource("6_sk5k4")]
+position = Vector2(151, 706)
+initial_direction = Vector2(0, -1)
+
+[node name="enemy_waddler5" parent="." unique_id=129426385 instance=ExtResource("6_sk5k4")]
+position = Vector2(154, 567)
 
 [node name="item" parent="." unique_id=1686755671 instance=ExtResource("5_6761a")]
 position = Vector2(271, 286)

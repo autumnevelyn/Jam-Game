@@ -7,11 +7,12 @@ extends Node2D
 
 
 func _ready() -> void:
+	pass
 	# register this level with GameManager
-	GameManager.current_room = 0
+	#GameManager.current_room = 0
 
 	# connect enemy kill events to room clearing logic
-	EventBus.subscribe(EventBus.ENEMY_KILLED, _on_enemy_killed)
+	#EventBus.subscribe(EventBus.ENEMY_KILLED, _on_enemy_killed)
 
 
 func _process(delta: float) -> void:
