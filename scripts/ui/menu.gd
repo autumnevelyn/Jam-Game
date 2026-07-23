@@ -13,3 +13,7 @@ func _process(delta: float) -> void:
 func _on_button_pressed() -> void:
 	GameManager.advance_room();
 	queue_free();
+
+
+func _on_button_3_pressed() -> void:
+	get_tree().quit();
