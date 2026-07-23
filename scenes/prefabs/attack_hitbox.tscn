@@ -14,6 +14,7 @@ script = ExtResource("1_v8v5g")
 shape = SubResource("RectangleShape2D_3xd07")
 
 [node name="Timer" type="Timer" parent="." unique_id=765664426]
+wait_time = 0.25
 one_shot = true
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1317716000]

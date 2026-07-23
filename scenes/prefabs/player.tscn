@@ -46,9 +46,9 @@ collision_mask = 3
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hurtbox" unique_id=1113205708]
 shape = SubResource("CircleShape2D_jq8tk")
 
-[node name="stunTimer" type="Timer" parent="." unique_id=834172308]
+[node name="timer2" type="Timer" parent="." unique_id=834172308]
 wait_time = 0.5
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="body_entered" from="hurtbox" to="." method="_on_hurtbox_body_entered"]
-[connection signal="timeout" from="stunTimer" to="." method="_on_stun_timer_timeout"]
+[connection signal="timeout" from="timer2" to="." method="_on_timer_2_timeout"]
