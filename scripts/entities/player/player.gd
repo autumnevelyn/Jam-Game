@@ -14,11 +14,9 @@ extends CharacterBody2D
 @onready var hurtbox: Area2D = $hurtbox
 
 # -- State --
-enum State { IDLE, WALK, STUNNED, SLASH1, SLASH2, SLASH3 }
+enum State { IDLE, WALK, STUNNED, SLASH }
 
 var active_state: State = State.IDLE
-var buffer_slash: bool = false
-var combo_step: int = 0
 var _skills: Array = []
 
 
@@ -33,15 +31,10 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	state_machine.physics_process(delta)
 	_update_cooldown_bar()
-	
-	print(active_state);
-	print(buffer_slash)
-
 
 # state methods — called by StateMachine via convention
 
 func state_idle_enter() -> void:
-	buffer_slash = false
 	active_state = State.IDLE
 
 
@@ -88,47 +81,16 @@ func state_stunned_physics_process(delta: float) -> void:
 	movement_component.process_movement(Vector2.ZERO, delta)
 
 
-func state_slash1_enter() -> void:
-	active_state = State.SLASH1
-	buffer_slash = false
-	combo_step = 1
+func state_slash_enter() -> void:
+	active_state = State.SLASH
 	velocity = Vector2.ZERO
 	slash_timer.wait_time = 0.5
 	slash_timer.start()
 	_perform_attack()
 
 
-func state_slash1_physics_process(delta: float) -> void:
-	_handle_slash_combo_buffer()
-
-
-func state_slash2_enter() -> void:
-	active_state = State.SLASH2
-	buffer_slash = false
-	combo_step = 2
-	velocity = Vector2.ZERO
-	slash_timer.wait_time = 0.5
-	slash_timer.start()
-	_perform_attack()
-
-
-func state_slash2_physics_process(delta: float) -> void:
-	_handle_slash_combo_buffer()
-
-
-func state_slash3_enter() -> void:
-	active_state = State.SLASH3
-	buffer_slash = false
-	combo_step = 3
-	velocity = Vector2.ZERO
-	slash_timer.wait_time = 1.0
-	slash_timer.start()
-	_perform_attack()
-
-
-func state_slash3_physics_process(delta: float) -> void:
-	_handle_slash_combo_buffer()
-
+func state_slash_physics_process(delta: float) -> void:
+	pass
 
 # input helpers
 
@@ -139,13 +101,9 @@ func _get_input_direction() -> Vector2:
 
 
 func _handle_attack_input() -> void:
-	if Input.is_action_just_pressed("leftClick") and not buffer_slash:
+	if Input.is_action_just_pressed("leftClick"):
 		_start_attack_combo()
 
-
-func _handle_slash_combo_buffer() -> void:
-	if Input.is_action_just_pressed("leftClick") and not buffer_slash:
-		buffer_slash = true
 
 
 func _handle_skill_input() -> void:
@@ -155,13 +113,12 @@ func _handle_skill_input() -> void:
 		_try_use_skill(1)
 	if Input.is_action_just_pressed("skill 3"):
 		_try_use_skill(2)
-	if Input.is_action_just_pressed("skill4"):
+	if Input.is_action_just_pressed("skill 4"):
 		_try_use_skill(3)
 
 
 func _start_attack_combo() -> void:
-	buffer_slash = true
-	state_machine.transition("slash1")
+	state_machine.transition("slash")
 
 
 func _perform_attack() -> void:
@@ -215,19 +172,8 @@ func _on_slash_timer_timeout() -> void:
 	match active_state:
 		State.STUNNED:
 			state_machine.transition("idle")
-		State.SLASH1:
-			if buffer_slash:
-				state_machine.transition("slash2")
-			else:
-				state_machine.transition("idle")
-		State.SLASH2:
-			if buffer_slash:
-				state_machine.transition("slash3")
-			else:
-				state_machine.transition("idle")
-		State.SLASH3:
+		State.SLASH:
 			state_machine.transition("idle")
-
 
 func _on_hurtbox_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Enemy"):
@@ -237,11 +183,10 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 # helpers
 
 func _update_cooldown_bar() -> void:
-	pass
-	#if slash_timer.is_stopped():
-	#	cooldown_bar.value = 0.0
-	#else:
-	#	cooldown_bar.value = (slash_timer.time_left / slash_timer.wait_time) * 100.0
+	if slash_timer.is_stopped():
+		cooldown_bar.value = 0.0
+	else:
+		cooldown_bar.value = (slash_timer.time_left / slash_timer.wait_time) * 100.0
 
 
 func _refresh_skills() -> void:
