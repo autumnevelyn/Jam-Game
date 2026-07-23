@@ -73,7 +73,7 @@ func input(event: InputEvent) -> void:
 	_call_state_method("input", event)
 
 
-# ── Internal ────────────────────────────────────────────────────────────────
+# -- Internal ----------------------------------------------------------------
 
 func _method_name(suffix: String) -> String:
 	return "state_%s_%s" % [current_state.to_lower(), suffix]

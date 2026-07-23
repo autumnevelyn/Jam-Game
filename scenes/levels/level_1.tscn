@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://bcdporl65ph2r" path="res://assets/Pixel Art Top Down - Basic v1.2.3/Texture/TX Tileset Stone Ground.png" id="3_oc4kc"]
 [ext_resource type="PackedScene" uid="uid://d1plm63wydsgj" path="res://scenes/prefabs/skill.tscn" id="5_6761a"]
 [ext_resource type="PackedScene" uid="uid://dyc3suf0e7he0" path="res://scenes/prefabs/enemy_waddler.tscn" id="6_sk5k4"]
+[ext_resource type="Script" uid="uid://dm8c5146rdpbp" path="res://scripts/items/skill.gd" id="7_oc4kc"]
+[ext_resource type="Texture2D" uid="uid://6dw2tqip530j" path="res://assets/isometric tileset/isometric tileset/separated images/tile_024.png" id="8_s8va5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x42e6"]
 texture = ExtResource("3_oc4kc")
@@ -414,6 +416,19 @@ texture = ExtResource("3_oc4kc")
 physics_layer_0/collision_layer = 1
 sources/1 = SubResource("TileSetAtlasSource_x42e6")
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_50rl7"]
+
+[sub_resource type="Resource" id="Resource_r053x"]
+script = ExtResource("7_oc4kc")
+texture = ExtResource("8_s8va5")
+skill_name = "Fire"
+description = "Sets stuff on fire"
+ticks = 2
+base_damage = 2.0
+effect_name = "burn"
+hitbox_size = SubResource("CircleShape2D_50rl7")
+metadata/_custom_type_script = "uid://dm8c5146rdpbp"
+
 [node name="level" type="Node2D" unique_id=1973902866]
 script = ExtResource("1_sk5k4")
 
@@ -459,3 +474,7 @@ initial_direction = Vector2(0, -1)
 
 [node name="item" parent="." unique_id=1686755671 instance=ExtResource("5_6761a")]
 position = Vector2(271, 286)
+
+[node name="item2" parent="." unique_id=1310020022 instance=ExtResource("5_6761a")]
+position = Vector2(401, 161)
+skill = SubResource("Resource_r053x")

@@ -124,8 +124,9 @@ func _perform_attack() -> void:
 
 
 func _get_mouse_direction() -> Vector2:
-	return Vector2.from_angle(attack_hitbox.get_angle_to(get_global_mouse_position()))
-
+	return Vector2.from_angle(attack_hitbox.get_angle_to(get_global_mouse_position())).normalized()
+#func _get_mouse_direction() -> Vector2:
+	#return (get_global_mouse_position() - global_position).normalized()
 
 func _try_use_skill(slot: int) -> void:
 	if slot >= _skills.size():
@@ -139,7 +140,7 @@ func _try_use_skill(slot: int) -> void:
 	})
 
 
-# ── Attack Fired Handler ────────────────────────────────────
+# -- Attack Fired Handler ------------------------------------
 
 func _on_attack_fired(data: Dictionary) -> void:
 	# Spawn the attack hitbox in the direction of the mouse
@@ -185,14 +186,6 @@ func _on_stun_timer_timeout() -> void:
 func _on_hurtbox_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Enemy"):
 		health_component.take_damage(1.0, body)
-
-
-# helpers
-
-# old
-#func _get_mouse_direction() -> Vector2:
-	#return (get_global_mouse_position() - global_position).normalized()
-
 
 func _refresh_skills() -> void:
 	_skills = PlayerData.current_skills.duplicate()

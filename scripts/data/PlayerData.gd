@@ -14,7 +14,7 @@ signal money_changed(old_value: float, new_value: float)
 ## Emitted when the level changes.
 signal level_changed(old_level: int, new_level: int)
 
-# ── Stats ───────────────────────────────────────────────────────────────────
+# -- Stats ------------------------------------------------------------------─
 var max_health: float = 3.0
 var health: float = 3.0:
 	set(value):
@@ -36,7 +36,7 @@ var money: float = 0.0:
 		money = value
 		money_changed.emit(old, money)
 
-# ── Inventory ───────────────────────────────────────────────────────────────
+# -- Inventory --------------------------------------------------------------─
 var current_skills: Array = []
 var current_equipment: Array = []
 var current_relics: Array = []
@@ -47,7 +47,7 @@ const MAX_EQUIPMENT_SLOTS: int = 4
 const MAX_RELIC_SLOTS: int = 4
 
 
-# ── Public API ──────────────────────────────────────────────────────────────
+# -- Public API --------------------------------------------------------------
 
 ## Apply damage to the player. Returns the actual damage dealt.
 func take_damage(amount: float, source = null) -> float:
