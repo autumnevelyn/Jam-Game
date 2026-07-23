@@ -17,7 +17,10 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-PlayerData="*uid://bnyw6qdfu6uia"
+EventBus="*res://core/EventBus.gd"
+GameManager="*res://core/GameManager.gd"
+GameData="*res://data/GameData.gd"
+PlayerData="*res://data/PlayerData.gd"
 
 [display]
 

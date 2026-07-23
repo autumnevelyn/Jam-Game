@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dfjeveiv43afv" path="res://scripts/cuttable_object.gd" id="1_6yspx"]
 [ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="2_ea3wa"]
+[ext_resource type="Script" path="res://entities/components/health_component.gd" id="3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kmkce"]
 size = Vector2(16, 16)
@@ -26,4 +27,9 @@ shape = SubResource("RectangleShape2D_3xd07")
 scale = Vector2(0.125, 0.125)
 texture = ExtResource("2_ea3wa")
 
-[connection signal="area_entered" from="hurtbox" to="." method="_on_area_2d_area_entered"]
+[node name="health_component" type="Node" parent="." unique_id=100000020]
+script = ExtResource("3")
+max_health = 1.0
+invincibility_time = 0.0
+
+[connection signal="area_entered" from="hurtbox" to="." method="_on_hurtbox_area_entered"]

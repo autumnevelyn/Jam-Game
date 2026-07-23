@@ -1,18 +1,19 @@
+# cuttable_object.gd
+# destructible object that can be destroyed by the player's attack hitbox.
 extends StaticBody2D
 
+@onready var health_component: HealthComponent = $health_component
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
-	pass # Replace with function body.
+	if health_component:
+		health_component.died.connect(_on_destroyed)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _on_destroyed() -> void:
+	queue_free()
+
+
+func _on_hurtbox_area_entered(area: Area2D) -> void:
+	# handled by attack_hitbox -> EventBus -> CombatSystem
 	pass
-
-
-func _on_area_2d_area_entered(area: Area2D) -> void:
-	pass
-	#if(area.is_in_group("Cutting Tool") and area.active):
-	#	area.active = false;
-	#	queue_free();

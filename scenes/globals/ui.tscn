@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bycsslfcog0wh"]
 
 [ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="1_pbbah"]
-[ext_resource type="Script" uid="uid://iwu6e7c2i21y" path="res://scripts/ui.gd" id="1_uke1k"]
+[ext_resource type="Script" uid="uid://iwu6e7c2i21y" path="res://ui/ui.gd" id="1_uke1k"]
 [ext_resource type="PackedScene" uid="uid://cef7vq5alew06" path="res://scenes/prefabs/ui/heart.tscn" id="3_t1p0u"]
 
 [node name="ui" type="Control" unique_id=1436271836]

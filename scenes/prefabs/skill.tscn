@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://d1plm63wydsgj"]
 
-[ext_resource type="Script" uid="uid://dtwgaml7m0g2q" path="res://scripts/skill.gd" id="1_g5lod"]
+[ext_resource type="Script" path="res://entities/items/skill_pickup.gd" id="1_g5lod"]
 [ext_resource type="Resource" uid="uid://nrl0kefm1ofa" path="res://scenes/prefabs/items/sword.tres" id="2_0ck4f"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jq8tk"]

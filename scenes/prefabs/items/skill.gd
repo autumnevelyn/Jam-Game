@@ -1,4 +1,4 @@
-class_name Skill
+# class_name moved to res://items/skill.gd
 extends Resource
 
 @export var texture: Texture2D;
