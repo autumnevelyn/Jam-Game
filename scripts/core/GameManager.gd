@@ -18,7 +18,7 @@ enum RunState {
 @onready var ui: Control = get_tree().root.get_node("GameMain/CanvasLayer/ui");
 
 var current_run_state: RunState = RunState.MENU
-var current_room: int = 0
+var current_room: int = -1
 var current_level: Node2D;
 var total_rooms_in_run: int = 0
 var is_paused: bool = false
@@ -27,16 +27,16 @@ var is_paused: bool = false
 func _ready() -> void:
 	process_mode = PROCESS_MODE_ALWAYS
 	
-	current_level = get_tree().root.get_node("GameMain/level");
+	#current_level = get_tree().root.get_node("GameMain/level");
 	EventBus.subscribe(EventBus.GAME_ROOM_CLEARED, _on_room_cleared);
-	EventBus.subscribe(EventBus.ENEMY_KILLED, current_level._on_enemy_killed)
+	#EventBus.subscribe(EventBus.ENEMY_KILLED, current_level._on_enemy_killed)
 
 func _process(delta: float) -> void:
 	pass
 
 ## Start a new game run.
 func start_run() -> void:
-	current_room = 0
+	current_room = -1
 	total_rooms_in_run = 0
 	_change_state(RunState.PLAYING)
 	EventBus.emit_event(EventBus.GAME_RUN_STARTED, {
@@ -101,9 +101,10 @@ func runstate_room_transition():
 	
 	await tween.finished;
 	
-	current_level.queue_free();
-	print(current_room)
-	EventBus.unsubscribe(EventBus.ENEMY_KILLED, current_level._on_enemy_killed)
+	if(current_level):
+		current_level.queue_free();
+		print(current_room)
+		EventBus.unsubscribe(EventBus.ENEMY_KILLED, current_level._on_enemy_killed)
 	var new_level = load("res://scenes/levels/level_" + str(current_room + 1) +".tscn").instantiate(); 
 	current_level = new_level;
 	EventBus.subscribe(EventBus.ENEMY_KILLED, current_level._on_enemy_killed)
