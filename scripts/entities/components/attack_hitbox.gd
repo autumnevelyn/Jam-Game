@@ -1,5 +1,5 @@
 # attack_hitbox.gd
-# hitbox area for player melee attacks.
+# hitbox area for player attacks. Supports combined effects from skill combos.
 extends Area2D
 
 @onready var timer: Timer = $Timer
@@ -7,6 +7,8 @@ extends Area2D
 var parent: Node2D
 var active: bool = false
 var damage: float = 1.0
+## Array of effect dicts: {name: String, strength: float}
+var effects: Array = []
 
 
 func _ready() -> void:
@@ -40,6 +42,7 @@ func _on_area_entered(area: Area2D) -> void:
 		"target": target,
 		"attacker": parent,
 		"damage": damage,
+		"effects": effects.duplicate(),
 		"position": global_position,
 	})
 

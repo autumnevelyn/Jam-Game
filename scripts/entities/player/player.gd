@@ -1,17 +1,15 @@
 # player.gd
 # thin player controller. Delegates movement, combat, and health to components.
-# state logic lives in convention-based methods (see state_* methods below).
+# Uses the tick-based SkillSystem (autoload) for all attack/skill timers.
 extends CharacterBody2D
 
 # -- Components --
 @onready var health_component: HealthComponent = $health_component
 @onready var movement_component: MovementComponent = $movement_component
-@onready var combat_component: CombatComponent = $combat_component
 @onready var state_machine: StateMachine = $state_machine
 @onready var attack_hitbox: Area2D = $attack_hitbox
-@onready var cooldown_bar: TextureProgressBar = $cooldown_bar
-@onready var slash_timer: Timer = $slash_timer
 @onready var hurtbox: Area2D = $hurtbox
+@onready var stun_timer: Timer = $stun_timer
 
 # -- State --
 enum State { IDLE, WALK, STUNNED, SLASH }
@@ -26,11 +24,16 @@ func _ready() -> void:
 	health_component.died.connect(_on_died)
 	health_component.health_changed.connect(_on_health_changed)
 	_refresh_skills()
+	
+	# Register this player with the SkillSystem autoload
+	SkillSystem.set_player(self)
+	
+	# Listen for attack-fired events to spawn hitboxes
+	EventBus.subscribe(EventBus.ATTACK_FIRED, _on_attack_fired)
 
 
 func _physics_process(delta: float) -> void:
 	state_machine.physics_process(delta)
-	_update_cooldown_bar()
 
 # state methods — called by StateMachine via convention
 
@@ -44,9 +47,6 @@ func state_idle_physics_process(delta: float) -> void:
 		movement_component.process_movement(direction, delta)
 		state_machine.transition("walk")
 		return
-
-	if not attack_hitbox.active:
-		attack_hitbox.position = Vector2.ZERO
 
 	_handle_attack_input()
 	_handle_skill_input()
@@ -63,9 +63,6 @@ func state_walk_physics_process(delta: float) -> void:
 		state_machine.transition("idle")
 		return
 
-	if not attack_hitbox.active:
-		attack_hitbox.position = Vector2.ZERO
-
 	_handle_attack_input()
 	_handle_skill_input()
 	movement_component.process_movement(direction, delta)
@@ -73,24 +70,24 @@ func state_walk_physics_process(delta: float) -> void:
 
 func state_stunned_enter() -> void:
 	active_state = State.STUNNED
-	slash_timer.wait_time = 0.5
-	slash_timer.start()
+	stun_timer.wait_time = 0.5
+	stun_timer.start()
 
 
 func state_stunned_physics_process(delta: float) -> void:
 	movement_component.process_movement(Vector2.ZERO, delta)
 
 
-func state_slash_enter() -> void:
-	active_state = State.SLASH
-	velocity = Vector2.ZERO
-	slash_timer.wait_time = 0.5
-	slash_timer.start()
-	_perform_attack()
-
-
-func state_slash_physics_process(delta: float) -> void:
-	pass
+#func state_slash_enter() -> void:
+	#active_state = State.SLASH
+	#velocity = Vector2.ZERO
+	#slash_timer.wait_time = 0.5
+	#slash_timer.start()
+	#_perform_attack()
+#
+#
+#func state_slash_physics_process(delta: float) -> void:
+	#pass
 
 # input helpers
 
@@ -102,8 +99,7 @@ func _get_input_direction() -> Vector2:
 
 func _handle_attack_input() -> void:
 	if Input.is_action_just_pressed("leftClick"):
-		_start_attack_combo()
-
+		SkillSystem.start_basic_attack()
 
 
 func _handle_skill_input() -> void:
@@ -143,6 +139,17 @@ func _try_use_skill(slot: int) -> void:
 	})
 
 
+# ── Attack Fired Handler ────────────────────────────────────
+
+func _on_attack_fired(data: Dictionary) -> void:
+	# Spawn the attack hitbox in the direction of the mouse
+	var mouse_dir = _get_mouse_direction()
+	attack_hitbox.active = true
+	attack_hitbox.position = mouse_dir * 16.0
+	attack_hitbox.damage = data.get("damage", 1.0)
+	attack_hitbox.effects = data.get("effects", [])
+
+
 # signal handlers
 
 func _on_damaged(amount: float, source: Node) -> void:
@@ -168,7 +175,7 @@ func _on_health_changed(old_value: float, new_value: float, max_value: float) ->
 	#	tween.tween_property(cooldown_bar, "tint_progress", Color(1.0, 1.0, 1.0), 1.0)
 
 
-func _on_slash_timer_timeout() -> void:
+func _on_stun_timer_timeout() -> void:
 	match active_state:
 		State.STUNNED:
 			state_machine.transition("idle")
@@ -182,11 +189,9 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 
 # helpers
 
-func _update_cooldown_bar() -> void:
-	if slash_timer.is_stopped():
-		cooldown_bar.value = 0.0
-	else:
-		cooldown_bar.value = (slash_timer.time_left / slash_timer.wait_time) * 100.0
+# old
+#func _get_mouse_direction() -> Vector2:
+	#return (get_global_mouse_position() - global_position).normalized()
 
 
 func _refresh_skills() -> void:

@@ -25,7 +25,6 @@ func emit_event(event_name: String, data: Dictionary = {}) -> void:
 	if _listeners.has(event_name):
 		for callable in _listeners[event_name]:
 			callable.call(data)
-	print(event_name)
 
 
 func clear_all() -> void:
@@ -50,6 +49,20 @@ const RELIC_ACQUIRED        := "relic_acquired"
 
 const COMBAT_HIT            := "combat_hit"
 const COMBAT_MISS           := "combat_miss"
+
+# ── Tick-based skill timer events ───────────────────────────
+## Emitted when a skill timer starts for a given slot.
+const SKILL_TIMER_STARTED   := "skill_timer_started"
+## Emitted each tick for a running skill timer.
+const SKILL_TIMER_TICK      := "skill_timer_tick"
+## Emitted when a skill timer expires.
+const SKILL_TIMER_EXPIRED   := "skill_timer_expired"
+## Emitted when the basic attack timer starts.
+const BASIC_ATTACK_STARTED  := "basic_attack_started"
+## Emitted when an attack is fired (solo or combo).
+const ATTACK_FIRED          := "attack_fired"
+## Emitted when a non-damage skill is applied to self.
+const SELF_BUFF_APPLIED     := "self_buff_applied"
 
 const GAME_RUN_STARTED      := "game_run_started"
 const GAME_RUN_ENDED        := "game_run_ended"

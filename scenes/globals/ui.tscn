@@ -33,3 +33,12 @@ layout_mode = 2
 
 [node name="hearts3" parent="health_container" unique_id=86800923 instance=ExtResource("3_t1p0u")]
 layout_mode = 2
+
+[node name="skill_container" type="VBoxContainer" parent="." unique_id=1971159162]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 200.0
+offset_right = 100.0
+offset_bottom = 500.0
+theme_override_constants/separation = 8
+

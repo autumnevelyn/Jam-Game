@@ -2,16 +2,15 @@
 # extended state logic for the player. This file documents the convention:
 # each state method follows the pattern `state_{name}_{action}`.
 #
-# states: idle, walk, stunned, slash1, slash2, slash3
+# states: idle, walk, stunned
 # actions: enter, exit, physics_process(delta), process(delta), input(event)
 #
 # these methods live on the player node (owner of StateMachine).
 # see player.gd for the full implementations.
 #
-# to add a new state:
-#   1. Add it to the State enum in player.gd
-#   2. Create the state_{name}_enter() and state_{name}_physics_process() methods
-#   3. Set it as initial_state or transition to it
+# Attacks and skills are now handled via the tick-based SkillSystem.
+# Basic attack: left click starts a 1-tick (0.5s) timer -> fires basic attack
+# Skills: keys 1-4 start skill timers -> combo on same-tick expiry
 class_name PlayerStates
 extends Node
 
