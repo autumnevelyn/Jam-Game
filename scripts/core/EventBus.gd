@@ -25,6 +25,7 @@ func emit_event(event_name: String, data: Dictionary = {}) -> void:
 	if _listeners.has(event_name):
 		for callable in _listeners[event_name]:
 			callable.call(data)
+	print(event_name)
 
 
 func clear_all() -> void:

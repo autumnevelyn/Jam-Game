@@ -1,12 +1,18 @@
 [gd_scene format=3 uid="uid://spxhnfmfnwy"]
 
+[ext_resource type="Script" uid="uid://cfxs5qe4ihl2j" path="res://scripts/entities/game_main.gd" id="1_cq3vi"]
 [ext_resource type="PackedScene" uid="uid://l1dhtqji1d6x" path="res://scenes/levels/level_1.tscn" id="1_lhpjk"]
 [ext_resource type="PackedScene" uid="uid://bycsslfcog0wh" path="res://scenes/globals/ui.tscn" id="2_by607"]
+[ext_resource type="Script" uid="uid://c04qtxd53wsby" path="res://scripts/systems/CombatSystem.gd" id="4_j71hc"]
 
 [node name="GameMain" type="Node2D" unique_id=525167573]
+script = ExtResource("1_cq3vi")
 
 [node name="level" parent="." unique_id=1973902866 instance=ExtResource("1_lhpjk")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1476683087]
 
 [node name="ui" parent="CanvasLayer" unique_id=1436271836 instance=ExtResource("2_by607")]
+
+[node name="combat_system" type="Node" parent="." unique_id=692649367]
+script = ExtResource("4_j71hc")

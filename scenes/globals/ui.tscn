@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://bycsslfcog0wh"]
 
-[ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="1_pbbah"]
 [ext_resource type="Script" uid="uid://iwu6e7c2i21y" path="res://scripts/ui/ui.gd" id="1_uke1k"]
 [ext_resource type="PackedScene" uid="uid://cef7vq5alew06" path="res://scenes/prefabs/ui/heart.tscn" id="3_t1p0u"]
 
@@ -12,39 +11,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_uke1k")
-
-[node name="BoxContainer" type="BoxContainer" parent="." unique_id=1971159161]
-layout_mode = 0
-offset_top = 509.0
-offset_right = 1152.0
-offset_bottom = 609.0
-
-[node name="TextureRect" type="TextureRect" parent="BoxContainer" unique_id=1028125606]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-texture = ExtResource("1_pbbah")
-expand_mode = 3
-
-[node name="Label" type="Label" parent="BoxContainer/TextureRect" unique_id=1723784347]
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = 58.0
-offset_bottom = 81.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "SWORD"
-horizontal_alignment = 1
-
-[node name="ProgressBar" type="ProgressBar" parent="BoxContainer/TextureRect" unique_id=382951321]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_top = -27.0
-offset_bottom = 27.0
-grow_horizontal = 2
 
 [node name="health_container" type="BoxContainer" parent="." unique_id=1703910760]
 layout_mode = 1
