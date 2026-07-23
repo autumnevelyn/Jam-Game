@@ -15,6 +15,11 @@ func _ready() -> void:
 		movement_component.speed = speed
 
 
+func _exit_tree() -> void:
+	if health_component and health_component.died.is_connected(_on_died):
+		health_component.died.disconnect(_on_died)
+
+
 func _on_died() -> void:
 	EventBus.emit_event(EventBus.ENEMY_KILLED, {
 		"enemy": self,

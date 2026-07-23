@@ -41,6 +41,22 @@ func _ready() -> void:
 	EventBus.subscribe(EventBus.BASIC_ATTACK_STARTED, _on_basic_attack_started)
 
 
+func _exit_tree() -> void:
+	# clean up subscriptions
+	EventBus.unsubscribe(EventBus.ENEMY_KILLED, _on_enemy_killed)
+	EventBus.unsubscribe(EventBus.SKILL_TIMER_STARTED, _on_skill_timer_started)
+	EventBus.unsubscribe(EventBus.SKILL_TIMER_TICK, _on_skill_timer_tick)
+	EventBus.unsubscribe(EventBus.SKILL_TIMER_EXPIRED, _on_skill_timer_expired)
+	EventBus.unsubscribe(EventBus.BASIC_ATTACK_STARTED, _on_basic_attack_started)
+	# disconnect signals
+	if PlayerData.health_changed.is_connected(_on_player_health_changed):
+		PlayerData.health_changed.disconnect(_on_player_health_changed)
+	if PlayerData.player_died.is_connected(_on_player_died):
+		PlayerData.player_died.disconnect(_on_player_died)
+	if PlayerData.skill_added.is_connected(_on_skill_added):
+		PlayerData.skill_added.disconnect(_on_skill_added)
+
+
 ## Called when the player's health changes.
 func _on_player_health_changed(_old: float, _new: float, _max: float) -> void:
 	_update_all_hearts()

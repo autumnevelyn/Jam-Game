@@ -33,6 +33,20 @@ func _ready() -> void:
 	EventBus.subscribe(EventBus.ITEM_PICKED_UP, _on_item_picked_up);
 
 
+func _exit_tree() -> void:
+	# clean up EventBus subscriptions
+	EventBus.unsubscribe(EventBus.ATTACK_FIRED, _on_attack_fired)
+	EventBus.unsubscribe(EventBus.ITEM_PICKED_UP, _on_item_picked_up)
+	# disconnect component signals
+	if health_component:
+		if health_component.damaged.is_connected(_on_damaged):
+			health_component.damaged.disconnect(_on_damaged)
+		if health_component.died.is_connected(_on_died):
+			health_component.died.disconnect(_on_died)
+		if health_component.health_changed.is_connected(_on_health_changed):
+			health_component.health_changed.disconnect(_on_health_changed)
+
+
 func _physics_process(delta: float) -> void:
 	state_machine.physics_process(delta)
 

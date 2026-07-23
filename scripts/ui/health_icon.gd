@@ -12,6 +12,11 @@ func _ready() -> void:
 	PlayerData.health_changed.connect(_on_health_changed)
 
 
+func _exit_tree() -> void:
+	if PlayerData.health_changed.is_connected(_on_health_changed):
+		PlayerData.health_changed.disconnect(_on_health_changed)
+
+
 func set_id(value: int) -> void:
 	_id = value
 

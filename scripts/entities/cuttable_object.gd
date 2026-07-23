@@ -10,6 +10,11 @@ func _ready() -> void:
 		health_component.died.connect(_on_destroyed)
 
 
+func _exit_tree() -> void:
+	if health_component and health_component.died.is_connected(_on_destroyed):
+		health_component.died.disconnect(_on_destroyed)
+
+
 func _on_destroyed() -> void:
 	queue_free()
 

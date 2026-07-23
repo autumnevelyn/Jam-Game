@@ -15,6 +15,11 @@ func _ready() -> void:
 	#EventBus.subscribe(EventBus.ENEMY_KILLED, _on_enemy_killed)
 
 
+func _exit_tree() -> void:
+	if EventBus:
+		EventBus.unsubscribe(EventBus.ENEMY_KILLED, _on_enemy_killed)
+
+
 func _process(delta: float) -> void:
 	# camera follows player with mouse offset (for aiming)
 	if player and camera_2d:
