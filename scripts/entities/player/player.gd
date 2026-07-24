@@ -17,7 +17,7 @@ enum State { IDLE, WALK, STUNNED, SLASH }
 var active_state: State = State.IDLE
 var _skills: Array = []
 
-var knockback_force := 200.0;
+var knockback_force := 400.0;
 
 
 func _ready() -> void:
