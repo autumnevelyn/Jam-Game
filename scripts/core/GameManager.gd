@@ -18,7 +18,7 @@ enum RunState {
 @onready var ui: Control = get_tree().root.get_node("GameMain/CanvasLayer/ui");
 
 var current_run_state: RunState = RunState.MENU
-var current_room: int = -1
+var current_room: int = 0
 var current_level: Node2D = null;
 var total_rooms_in_run: int = 0
 var is_paused: bool = false
@@ -36,9 +36,9 @@ func _process(delta: float) -> void:
 
 ## Start a new game run.
 func start_run() -> void:
-	current_room = -1
+	current_room = 0
 	total_rooms_in_run = 0
-	_change_state(RunState.PLAYING)
+	_change_state(RunState.ROOM_TRANSITION)
 	EventBus.emit_event(EventBus.GAME_RUN_STARTED, {
 		"room": current_room,
 	})

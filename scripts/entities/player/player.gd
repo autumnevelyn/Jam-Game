@@ -20,6 +20,7 @@ var _skills: Array = []
 var _direction := Vector2(0, 1);
 
 var knockback_force := 400.0;
+var dead := false;
 
 
 func _ready() -> void:
@@ -190,6 +191,8 @@ func _on_died() -> void:
 		"position": global_position,
 	})
 	GameManager.end_run(false)
+	
+	dead = true;
 
 
 func _on_health_changed(old_value: float, new_value: float, max_value: float) -> void:
@@ -201,9 +204,12 @@ func _on_health_changed(old_value: float, new_value: float, max_value: float) ->
 
 
 func _on_stun_timer_timeout() -> void:
+	print(active_state)
 	match active_state:
 		State.STUNNED:
-			state_machine.transition("idle")
+			if(not dead):
+				state_machine.transition("idle")
+				print("stand up")
 		State.SLASH:
 			state_machine.transition("idle")
 

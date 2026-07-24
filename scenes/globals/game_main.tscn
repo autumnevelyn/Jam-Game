@@ -16,9 +16,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0, 0, 0, 0)
 
 [node name="Menu" parent="CanvasLayer" unique_id=1313905390 instance=ExtResource("3_cq3vi")]
+mouse_filter = 2
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1734675556]
 stream = ExtResource("4_r6rm0")
