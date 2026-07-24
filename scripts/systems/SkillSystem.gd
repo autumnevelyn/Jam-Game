@@ -65,7 +65,7 @@ func get_remaining_ticks(slot: int) -> int:
 	return -1
 
 
-# -- Process ticks --
+# ---- Process ticks ----
 func _on_tick() -> void:
 	var expiring: Array = []
 	
@@ -138,7 +138,7 @@ func _on_tick() -> void:
 			"direction": _get_mouse_direction(),
 		})
 	
-	# -- non-damaging skills that expired alone --
+	# ---- non-damaging skills that expired alone ----
 	elif non_damaging.size() > 0:
 		for countdown in non_damaging:
 			EventBus.emit_event(EventBus.SELF_BUFF_APPLIED, {
@@ -154,7 +154,7 @@ func _on_tick() -> void:
 		})
 
 
-# -- Helpers --------------------------------------------------
+# ---- Helpers ----
 
 ## Add an effect to the array, stacking strength if it already exists.
 func _add_or_stack_effect(effects: Array, name: String, strength: float) -> void:

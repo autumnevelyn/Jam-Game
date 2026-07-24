@@ -47,7 +47,7 @@ func _on_died():
 	
 	add_sibling(droped_item);
 	droped_item.skill = item_type;
-	print(item_type)
+	print_rich("dropped: ", item_type)
 	droped_item.position = position;
 	droped_item.update();
 	super._on_died()
@@ -55,7 +55,7 @@ func _on_died():
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if(body.name == "player"):
 		target = body;
-		print("a")
+		#print("a")
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:

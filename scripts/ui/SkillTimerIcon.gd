@@ -3,7 +3,7 @@
 # The circle is split into N segments (one per tick of the skill's timer).
 # When activated, all segments light up. Each segment fuses from one end,
 # and when the current tick expires, the whole segment goes transparent/greyed out.
-class_name SkillCircleIcon
+class_name SkillTimerIcon
 extends Control
 
 ## The skill resource to display.
@@ -27,7 +27,7 @@ var _remaining_ticks: int = 0
 ## Fuse progress within the current tick (0.0 to 1.0).
 var _tick_progress: float = 0.0
 
-# -- Colors --------------------------------------------------─
+# ---- Colors ----
 var _fuse_color_start: Color = Color(1.0, 0.8, 0.2)   # Bright gold
 var _fuse_color_end: Color = Color(1.0, 0.3, 0.1)     # Red-orange
 var _segment_done_color: Color = Color(0.3, 0.3, 0.3, 0.15)  # Very faint grey
@@ -42,7 +42,7 @@ var _inner_radius: float = 20.0
 ## Gap between segments in radians.
 var _segment_gap: float = 0.04
 
-##constuctor
+## Constuctor
 
 func _init(skill_res:Skill = null, slot: int = -1):
 	skill = skill_res

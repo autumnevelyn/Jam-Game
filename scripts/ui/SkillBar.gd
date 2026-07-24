@@ -4,35 +4,35 @@
 # Empty slots appear dimmed/greyed; filled slots show the skill texture.
 extends Control
 
-# -- Slot visuals -------------------------------------------------------------
+# ---- Slot visuals ----
 var _slot_size: float = 44.0
 var _slot_gap: float = 6.0
 
-# -- Colors -------------------------------------------------------------------
+# ---- Colors ----
 var _empty_slot_color: Color = Color(0.2, 0.2, 0.2, 0.5)
 var _filled_slot_bg: Color = Color(0.15, 0.15, 0.15, 0.7)
 var _basic_attack_tint: Color = Color(0.8, 0.8, 0.8, 0.9)
 var _slot_border_color: Color = Color(0.4, 0.4, 0.4, 0.6)
 
-# -- Cached style boxes -------------------------------------------------------
+# ---- Cached style boxes ----
 var _empty_style: StyleBoxFlat
 var _filled_style: StyleBoxFlat
 
-# -- Number of slots (1 basic attack + up to 4 skills) ------------------------
+# ---- Number of slots (1 basic attack + up to 4 skills) ----
 const TOTAL_SLOTS: int = 5
-const BASIC_ATTACK_SLOT: int = 0
+const BASIC_ATTACK_SLOT_IDX: int = 0
 
 
-# -- Lifecycle ----------------------------------------------------------------
+# ---- Lifecycle ----
 func _ready() -> void:
 	_build_styles()
 	
-	# React to skill changes
+	# react to skill changes
 	PlayerData.skill_added.connect(_on_skill_added)
 	
 	custom_minimum_size = Vector2(TOTAL_SLOTS * _slot_size + (TOTAL_SLOTS - 1) * _slot_gap, _slot_size + 12)
 	
-	# Draw initial state
+	# draw initial state
 	queue_redraw()
 
 
@@ -41,7 +41,7 @@ func _exit_tree() -> void:
 		PlayerData.skill_added.disconnect(_on_skill_added)
 
 
-# -- Style setup --------------------------------------------------------------
+# ---- Style setup ----
 func _build_styles() -> void:
 	_empty_style = StyleBoxFlat.new()
 	_empty_style.bg_color = _empty_slot_color
@@ -68,12 +68,12 @@ func _build_styles() -> void:
 	_filled_style.corner_radius_bottom_right = 6
 
 
-# -- Events -------------------------------------------------------------------
+# ---- Events ----
 func _on_skill_added(_slot_index: int, _skill: Resource) -> void:
 	queue_redraw()
 
 
-# -- Drawing ------------------------------------------------------------------
+# ---- Drawing ----
 func _draw() -> void:
 	var total_width = TOTAL_SLOTS * _slot_size + (TOTAL_SLOTS - 1) * _slot_gap
 	var start_x = (size.x - total_width) / 2.0
@@ -85,7 +85,7 @@ func _draw() -> void:
 		var x = start_x + i * (_slot_size + _slot_gap)
 		var slot_rect = Rect2(x, y, _slot_size, _slot_size)
 		
-		if i == BASIC_ATTACK_SLOT:
+		if i == BASIC_ATTACK_SLOT_IDX:
 			# Basic attack slot — always filled
 			_draw_slot(slot_rect, null, true)
 		else:

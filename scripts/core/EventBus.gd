@@ -8,7 +8,7 @@ extends Node
 
 var _listeners: Dictionary = {}
 
-# -- Public API --------------------------------------------------------------
+# ---- Public API ----
 
 func subscribe(event_name: String, callable: Callable) -> void:
 	if not _listeners.has(event_name):
@@ -36,7 +36,7 @@ func clear_all() -> void:
 	_listeners.clear()
 
 
-# -- Pre-defined event names (for discoverability) --------------------------
+# ---- Pre-defined event names (for discoverability) ----
 
 const PLAYER_DAMAGED        := "player_damaged"
 const PLAYER_HEALED         := "player_healed"
@@ -55,7 +55,7 @@ const RELIC_ACQUIRED        := "relic_acquired"
 const COMBAT_HIT            := "combat_hit"
 const COMBAT_MISS           := "combat_miss"
 
-# -- Tick-based skill timer events --------------------------─
+# ---- Tick-based skill timer events ----
 ## Emitted when a skill timer starts for a given slot.
 const SKILL_TIMER_STARTED   := "skill_timer_started"
 ## Emitted each tick for a running skill timer.

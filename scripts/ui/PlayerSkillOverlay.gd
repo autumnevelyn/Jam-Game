@@ -8,7 +8,7 @@ extends Node2D
 ## Matches SkillSystem.TICK_DURATION
 const TICK_DURATION: float = 2.0
 
-# -- Per-timer data -----------------------------------------------------------
+# ---- Per-timer data ----
 class ActiveTimer:
 	var slot: int
 	var skill: Skill  # null for basic attack
@@ -23,26 +23,26 @@ class ActiveTimer:
 		remaining_ticks = p_remaining
 		tick_start_msec = Time.get_ticks_msec()
 
-# -- State --------------------------------------------------------------------
+# ---- State ----
 var _active_timers: Dictionary = {}  # slot -> ActiveTimer
 
-# -- Drawing constants (smaller than the original SkillCircleIcon) ------------
-var _outer_radius: float = 22.0
-var _inner_radius: float = 17.0
-var _icon_size: float = 30.0
+# ---- Drawing constants (smaller than the original SkillCircleIcon) ----
+var _outer_radius: float = 10.0
+var _inner_radius: float = 8.0
+var _icon_size: float = 13.0
 var _segment_gap: float = 0.04
 
-# -- Colors -------------------------------------------------------------------
+# ---- Colors ----
 var _fuse_color_start: Color = Color(1.0, 0.8, 0.2)   # Bright gold
 var _fuse_color_end: Color = Color(1.0, 0.3, 0.1)     # Red-orange
 var _segment_done_color: Color = Color(0.3, 0.3, 0.3, 0.25)  # Greyed out
 var _placeholder_circle: Color = Color(0.6, 0.6, 0.6, 0.5)
 
-# -- Spacing between multiple timer circles -----------------------------------
-const CIRCLE_SPACING: float = 50.0
+# ---- Spacing between multiple timer circles ----
+const CIRCLE_SPACING: float = 22.0
 
 
-# -- Lifecycle ----------------------------------------------------------------
+# ---- Lifecycle ----
 func _ready() -> void:
 	EventBus.subscribe(EventBus.SKILL_TIMER_STARTED, _on_timer_started)
 	EventBus.subscribe(EventBus.SKILL_TIMER_TICK, _on_timer_tick)
@@ -66,7 +66,7 @@ func _process(_delta: float) -> void:
 	queue_redraw()
 
 
-# -- Event handlers -----------------------------------------------------------
+# ---- Event handlers ----
 
 func _on_timer_started(data: Dictionary) -> void:
 	var slot = data.get("slot", -1)
@@ -109,7 +109,7 @@ func _on_basic_attack_started(_data: Dictionary) -> void:
 	queue_redraw()
 
 
-# -- Drawing ------------------------------------------------------------------
+# ---- Drawing ----
 
 func _draw() -> void:
 	if _active_timers.is_empty():
