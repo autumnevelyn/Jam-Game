@@ -52,37 +52,6 @@ func _ready() -> void:
 	custom_minimum_size = Vector2(_outer_radius * 2, _outer_radius * 2)
 	mouse_filter = MOUSE_FILTER_IGNORE
 
-
-## Start the timer display.
-func start_timer(total_ticks: int) -> void:
-	_is_active = true
-	_total_ticks = total_ticks
-	_remaining_ticks = total_ticks
-	_tick_progress = 0.0
-	queue_redraw()
-
-
-## Advance the fuse animation by a tick-progress delta (0..1 per tick).
-func update_tick_progress(progress: float) -> void:
-	_tick_progress = progress
-	queue_redraw()
-
-
-## Called when one tick elapses.
-func on_tick_elapsed(remaining: int) -> void:
-	_remaining_ticks = remaining
-	_tick_progress = 0.0
-	queue_redraw()
-
-
-## Called when the timer expires or is cancelled.
-func stop_timer() -> void:
-	_is_active = false
-	_remaining_ticks = 0
-	_tick_progress = 0.0
-	queue_redraw()
-
-
 func _draw() -> void:
 	if not skill and not _is_active:
 		return

@@ -125,7 +125,7 @@ func _get_input_direction() -> Vector2:
 
 func _handle_attack_input() -> void:
 	if Input.is_action_just_pressed("leftClick"):
-		SkillSystem.start_basic_attack()
+		SkillSystem.queue_basic_attack()
 
 
 func _handle_skill_input() -> void:
@@ -161,7 +161,7 @@ func _try_use_skill(slot: int) -> void:
 	var skill_resource = _skills[slot]
 	if not skill_resource:
 		return
-	SkillSystem.start_skill(slot, skill_resource)
+	SkillSystem.queue_skill(slot, skill_resource)
 
 
 # ---- Attack Fired Handler ----

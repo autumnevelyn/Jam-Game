@@ -5,9 +5,6 @@
 # Includes per-frame fuse animation for the current tick.
 extends Node2D
 
-## Matches SkillSystem.TICK_DURATION
-const TICK_DURATION: float = 2.0
-
 # ---- Per-timer data ----
 class ActiveTimer:
 	var slot: int
@@ -141,7 +138,7 @@ func _draw_timer_circle(center: Vector2, timer: ActiveTimer) -> void:
 	# Compute per-frame tick progress for fuse animation
 	var now_msec = Time.get_ticks_msec()
 	var elapsed_sec = (now_msec - timer.tick_start_msec) / 1000.0
-	var tick_progress = clampf(elapsed_sec / TICK_DURATION, 0.0, 1.0)
+	var tick_progress = clampf(elapsed_sec / SkillSystem.TICK_DURATION, 0.0, 1.0)
 	
 	for i in range(timer.total_ticks):
 		var a0 = start_angle + i * (seg_angle + _segment_gap)

@@ -43,6 +43,7 @@ const PLAYER_HEALED         := "player_healed"
 const PLAYER_DIED           := "player_died"
 const PLAYER_MOVED          := "player_moved"
 const PLAYER_SKILL_USED     := "player_skill_used"
+const PLAYER_ATTACK_USED    := "player_attack_used"
 #const PLAYER_SKILL_READY    := "player_skill_ready"
 const PLAYER_LEVEL_UP       := "player_level_up"
 
