@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://c5s18xw3yrsqx" path="res://scripts/entities/enemies/enemy_waddler.gd" id="1_55178"]
 [ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="2_3huk5"]
-[ext_resource type="Script" path="res://scripts/entities/components/health_component.gd" id="3"]
-[ext_resource type="Script" path="res://scripts/entities/components/movement_component.gd" id="4"]
+[ext_resource type="Script" uid="uid://do4cd6e4iwpra" path="res://scripts/entities/components/health_component.gd" id="3"]
+[ext_resource type="Script" uid="uid://ddde6lblvskai" path="res://scripts/entities/components/movement_component.gd" id="4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3xd07"]
 size = Vector2(16, 16)
@@ -11,7 +11,7 @@ size = Vector2(16, 16)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_55178"]
 size = Vector2(16, 16)
 
-[node name="enemy_waddler" type="CharacterBody2D" unique_id=1562589981 groups=["Cuttable", "Enemy"]]
+[node name="enemy_chace" type="CharacterBody2D" unique_id=1562589981 groups=["Enemy"]]
 collision_layer = 2
 script = ExtResource("1_55178")
 
@@ -24,7 +24,7 @@ texture = ExtResource("2_3huk5")
 
 [node name="hurtbox" type="Area2D" parent="." unique_id=488127183]
 collision_layer = 2
-collision_mask = 2
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hurtbox" unique_id=484769724]
 shape = SubResource("RectangleShape2D_55178")
@@ -32,7 +32,6 @@ shape = SubResource("RectangleShape2D_55178")
 [node name="health_component" type="Node" parent="." unique_id=100000010]
 script = ExtResource("3")
 max_health = 1.0
-invincibility_time = 0.0
 
 [node name="movement_component" type="Node" parent="." unique_id=100000011]
 script = ExtResource("4")

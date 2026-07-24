@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://cqeaxe3ebrykw"]
+
+[ext_resource type="Script" uid="uid://h8h0qn2hmxuw" path="res://scripts/entities/enemies/enemy_chaser.gd" id="1_o6qs0"]
+[ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="2_b5h63"]
+[ext_resource type="Script" uid="uid://do4cd6e4iwpra" path="res://scripts/entities/components/health_component.gd" id="3_nahlv"]
+[ext_resource type="Script" uid="uid://ddde6lblvskai" path="res://scripts/entities/components/movement_component.gd" id="4_deqa4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3xd07"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_55178"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jq8tk"]
+size = Vector2(300, 300)
+
+[node name="enemy_chacer" type="CharacterBody2D" unique_id=1562589981 groups=["Cuttable", "Enemy"]]
+collision_layer = 2
+script = ExtResource("1_o6qs0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=828399677]
+shape = SubResource("RectangleShape2D_3xd07")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1403774303]
+scale = Vector2(0.125, 0.125)
+texture = ExtResource("2_b5h63")
+
+[node name="hurtbox" type="Area2D" parent="." unique_id=488127183]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurtbox" unique_id=484769724]
+shape = SubResource("RectangleShape2D_55178")
+
+[node name="health_component" type="Node" parent="." unique_id=100000010]
+script = ExtResource("3_nahlv")
+max_health = 1.0
+
+[node name="movement_component" type="Node" parent="." unique_id=100000011]
+script = ExtResource("4_deqa4")
+speed = 50.0
+
+[node name="detect_shape" type="Area2D" parent="." unique_id=693589019]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="detect_shape" unique_id=1893203880]
+shape = SubResource("RectangleShape2D_jq8tk")
+
+[connection signal="body_entered" from="detect_shape" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="detect_shape" to="." method="_on_area_2d_body_exited"]

@@ -29,7 +29,8 @@ func _on_died() -> void:
 
 
 ## Apply damage to this enemy.
-func take_damage(amount: float, source: Node = null) -> float:
-	if health_component:
-		return health_component.take_damage(amount, source)
-	return 0.0
+#func take_damage(amount: float, source: Node = null) -> float:
+#	if health_component:
+#		print(amount);
+#		return health_component.take_damage(amount, source)
+#	return 0.0

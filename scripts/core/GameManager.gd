@@ -18,7 +18,7 @@ enum RunState {
 @onready var ui: Control = get_tree().root.get_node("GameMain/CanvasLayer/ui");
 
 var current_run_state: RunState = RunState.MENU
-var current_room: int = -1
+var current_room: int = 0
 var current_level: Node2D = null;
 var total_rooms_in_run: int = 0
 var is_paused: bool = false
@@ -102,7 +102,6 @@ func runstate_room_transition():
 	await tween.finished;
 	
 	if(current_level != null):
-		print(current_level)
 		current_level.queue_free();
 	
 	var new_level = load("res://scenes/levels/level_" + str(current_room + 1) +".tscn").instantiate(); 
