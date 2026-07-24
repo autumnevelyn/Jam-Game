@@ -32,7 +32,7 @@ func _ready() -> void:
 	#EventBus.subscribe(EventBus.ENEMY_KILLED, current_level._on_enemy_killed)
 
 func _process(delta: float) -> void:
-	pass
+	print(EventBus._listeners);
 
 ## Start a new game run.
 func start_run() -> void:

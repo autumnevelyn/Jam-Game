@@ -53,6 +53,7 @@ func _on_eneny_killed(data: Dictionary):
 		print(item_type)
 		droped_item.position = position;
 		droped_item.update();
+		EventBus.unsubscribe(EventBus.ENEMY_KILLED, _on_eneny_killed);;
 	
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
