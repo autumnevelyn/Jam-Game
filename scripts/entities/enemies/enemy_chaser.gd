@@ -5,7 +5,9 @@ extends "res://scripts/entities/enemies/base_enemy.gd"
 
 @onready var detect_shape: Area2D = $detect_shape
 
-@export var item_drop: Skill;
+const SKILL = preload("res://scenes/prefabs/skill.tscn")
+
+@export var item_drop: ItemDrop;
 
 ## Initial patrol direction.
 
@@ -19,6 +21,7 @@ func _ready() -> void:
 	super._ready()
 	
 	startPos = position;
+	EventBus.subscribe(EventBus.ENEMY_KILLED, _on_eneny_killed);
 
 
 func _physics_process(delta: float) -> void:
@@ -38,9 +41,21 @@ func _physics_process(delta: float) -> void:
 	velocity = _direction * speed
 	move_and_slide()
 
+func _on_eneny_killed(data: Dictionary):
+	if(data["enemy"] == self):
+		var item_type = item_drop.getItem();
+		var droped_item = SKILL.instantiate();
+		
+		#droped_item.get_child(1).texture = item_type.texture;
+		
+		add_sibling(droped_item);
+		droped_item.skill = item_type;
+		print(item_type)
+		droped_item.position = position;
+		droped_item.update();
+	
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	print("a")
 	if(body.name == "player"):
 		target = body;
 		print("a")

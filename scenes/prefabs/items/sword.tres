@@ -1,15 +1,17 @@
 [gd_resource type="Resource" script_class="Skill" format=3 uid="uid://nrl0kefm1ofa"]
 
 [ext_resource type="Script" uid="uid://dm8c5146rdpbp" path="res://scripts/items/skill.gd" id="1_27hvu"]
-[ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="2_vpv8d"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_vpv8d"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_27hvu"]
 radius = 8.0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vpv8d"]
+load_path = "res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex"
 
 [resource]
 script = ExtResource("1_27hvu")
-texture = ExtResource("2_vpv8d")
+texture = SubResource("CompressedTexture2D_vpv8d")
 skill_name = "Sword"
 description = "A basic sword skill"
-hitbox_size = SubResource("CircleShape2D_vpv8d")
+hitbox_size = SubResource("CircleShape2D_27hvu")
 metadata/_custom_type_script = "uid://dm8c5146rdpbp"

@@ -9,6 +9,9 @@ extends Area2D
 
 
 func _ready() -> void:
+	update();
+		
+func update():
 	if skill and sprite_2d:
 		sprite_2d.texture = skill.texture
 
