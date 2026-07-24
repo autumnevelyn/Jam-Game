@@ -4,7 +4,7 @@
 [ext_resource type="TileSet" uid="uid://3lg3jkm4mt04" path="res://assets/tile_set.tres" id="2_glw47"]
 [ext_resource type="PackedScene" uid="uid://c4c30da2f5eb5" path="res://scenes/prefabs/player.tscn" id="3_4wsov"]
 [ext_resource type="Texture2D" uid="uid://bwa5tfoawua36" path="res://assets/Pixel Art Top Down - Basic v1.2.3/Texture/TX Tileset Grass.png" id="3_qvnao"]
-[ext_resource type="PackedScene" uid="uid://c6v3aixvhh1ao" path="res://scenes/prefabs/enemy_boss.tscn" id="5_anwe6"]
+[ext_resource type="PackedScene" uid="uid://bagyjwlisaq7n" path="res://scenes/prefabs/enemy_boss.tscn" id="5_anwe6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qi5uv"]
 texture = ExtResource("3_qvnao")
@@ -292,7 +292,7 @@ position = Vector2(231, 169)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1896290860]
 position = Vector2(231, 169)
-zoom = Vector2(2, 2)
+zoom = Vector2(3, 3)
 
 [node name="enemy_boss" parent="." unique_id=1562589981 instance=ExtResource("5_anwe6")]
 position = Vector2(615, 169)
