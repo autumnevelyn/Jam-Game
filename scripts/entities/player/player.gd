@@ -6,6 +6,7 @@ extends CharacterBody2D
 # ---- Components ----
 @onready var health_component: HealthComponent = $health_component
 @onready var movement_component: MovementComponent = $movement_component
+@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var state_machine: StateMachine = $state_machine
 @onready var attack_hitbox: Area2D = $attack_hitbox
 @onready var hurtbox: Area2D = $hurtbox
@@ -16,6 +17,9 @@ enum State { IDLE, WALK, STUNNED, SLASH }
 
 var active_state: State = State.IDLE
 var _skills: Array = []
+var _direction := Vector2(0, 1);
+
+var knockback_force := 400.0;
 
 
 func _ready() -> void:
@@ -52,6 +56,13 @@ func _physics_process(delta: float) -> void:
 
 func state_idle_enter() -> void:
 	active_state = State.IDLE
+	if(_direction == Vector2(0, 1)):
+		animated_sprite_2d.play("down idle");
+	elif(_direction == Vector2(0, -1)):
+		animated_sprite_2d.play("up idle");
+	else:
+		animated_sprite_2d.play("side idle");
+		animated_sprite_2d.flip_h = _direction == Vector2(-1, 0);
 
 
 func state_idle_physics_process(delta: float) -> void:
@@ -68,6 +79,13 @@ func state_idle_physics_process(delta: float) -> void:
 
 func state_walk_enter() -> void:
 	active_state = State.WALK
+	if(_direction == Vector2(0, 1)):
+		animated_sprite_2d.play("down walk");
+	elif(_direction == Vector2(0, -1)):
+		animated_sprite_2d.play("up walk");
+	else:
+		animated_sprite_2d.play("side walk");
+		animated_sprite_2d.flip_h = _direction.x < 0;
 
 
 func state_walk_physics_process(delta: float) -> void:
@@ -75,10 +93,17 @@ func state_walk_physics_process(delta: float) -> void:
 	if direction == Vector2.ZERO:
 		state_machine.transition("idle")
 		return
-
+	else: _direction = direction;
 	_handle_attack_input()
 	_handle_skill_input()
 	movement_component.process_movement(direction, delta)
+	if(_direction == Vector2(0, 1)):
+		animated_sprite_2d.play("down walk");
+	elif(_direction == Vector2(0, -1)):
+		animated_sprite_2d.play("up walk");
+	else:
+		animated_sprite_2d.play("side walk");
+		animated_sprite_2d.flip_h = _direction.x < 0;
 
 
 func state_stunned_enter() -> void:
@@ -154,9 +179,10 @@ func _on_attack_fired(data: Dictionary) -> void:
 func _on_damaged(amount: float, source: Node) -> void:
 	PlayerData.health -= amount
 	state_machine.transition("stunned")
+	animated_sprite_2d.play("die");
 	if source:
 		var knockback_dir = Vector2.from_angle(source.get_angle_to(position))
-		movement_component.apply_knockback(knockback_dir * 200.0)
+		movement_component.apply_knockback(knockback_dir * knockback_force)
 
 
 func _on_died() -> void:

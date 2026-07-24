@@ -8,7 +8,7 @@ extends Node
 ## If true, knockback is applied.
 @export var knockback_enabled: bool = true
 ## Knockback decay factor per frame (0.0–1.0).
-@export var knockback_decay: float = 0.5
+@export var knockback_decay: float = 0.8
 
 var knockback: Vector2 = Vector2.ZERO
 
@@ -40,7 +40,6 @@ func process_movement(direction: Vector2, delta: float) -> void:
 	if not knockback.is_zero_approx():
 		_parent.velocity += knockback
 		knockback *= knockback_decay
-		_parent.velocity *= 0.8
 
 	# apply movement direction
 	if direction.length() > 0.0:
