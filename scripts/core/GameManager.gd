@@ -18,7 +18,7 @@ enum RunState {
 @onready var ui: Control = get_tree().root.get_node("GameMain/CanvasLayer/ui");
 
 var current_run_state: RunState = RunState.MENU
-var current_room: int = 0
+var current_room: int = -1
 var current_level: Node2D = null;
 var total_rooms_in_run: int = 0
 var is_paused: bool = false
