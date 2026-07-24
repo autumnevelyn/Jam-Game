@@ -24,7 +24,7 @@ func unsubscribe(event_name: String, callable: Callable) -> void:
 func emit_event(event_name: String, data: Dictionary = {}) -> void:
 	print_rich("[color=#0086ce]%s[/color]" %event_name)
 	if not _listeners.has(event_name):
-		print_rich("\t[color=#545454]no listeners[/color]\n")
+		print_rich("\t[color=#545454]no listeners[/color]")
 		return
 
 	for callable in _listeners[event_name]:

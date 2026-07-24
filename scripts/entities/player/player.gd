@@ -136,10 +136,7 @@ func _try_use_skill(slot: int) -> void:
 	var skill_resource = _skills[slot]
 	if not skill_resource:
 		return
-	EventBus.emit_event(EventBus.PLAYER_SKILL_USED, {
-		"slot": slot,
-		"skill": skill_resource,
-	})
+	SkillSystem.start_skill(slot, skill_resource)
 
 
 # -- Attack Fired Handler ------------------------------------
