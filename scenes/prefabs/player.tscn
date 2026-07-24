@@ -335,12 +335,12 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_jq8tk"]
 radius = 8.062258
 
-[sub_resource type="Gradient" id="Gradient_6v0jn"]
+[sub_resource type="Gradient" id="Gradient_r053x"]
 offsets = PackedFloat32Array(0, 0.70955884)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_3xd07"]
-gradient = SubResource("Gradient_6v0jn")
+gradient = SubResource("Gradient_r053x")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 

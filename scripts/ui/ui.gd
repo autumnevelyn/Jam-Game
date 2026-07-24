@@ -58,6 +58,6 @@ func _update_all_hearts() -> void:
 func _on_enemy_killed(_data: Dictionary, loading := false):
 	money_label.text = "Money: " + str(int(PlayerData.money));
 	if(loading):
-		enemies_left_label.text = str(get_tree().get_nodes_in_group("Enemy").size());
+		enemies_left_label.text = "Enemies Left: " + str(get_tree().get_nodes_in_group("Enemy").size());
 	else:
-		enemies_left_label.text = str(get_tree().get_nodes_in_group("Enemy").size() - 1);
+		enemies_left_label.text = "Enemies Left: " + str(get_tree().get_nodes_in_group("Enemy").size() - 1);

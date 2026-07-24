@@ -272,6 +272,15 @@ animations = [{
 "speed": 16.0
 }]
 
+[sub_resource type="Gradient" id="Gradient_6v0jn"]
+offsets = PackedFloat32Array(0, 0.70955884)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fv3iw"]
+gradient = SubResource("Gradient_6v0jn")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
 [node name="enemy_boss" type="CharacterBody2D" unique_id=1562589981 groups=["Enemy"]]
 collision_layer = 2
 script = ExtResource("1_i8vdl")
@@ -335,6 +344,13 @@ scale = Vector2(1.594, 2.614)
 sprite_frames = SubResource("SpriteFrames_jq8tk")
 frame = 11
 frame_progress = 1.0
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=316552679]
+scale = Vector2(4.375, 4.375)
+shadow_enabled = true
+shadow_filter = 1
+shadow_filter_smooth = 2.7
+texture = SubResource("GradientTexture2D_fv3iw")
 
 [connection signal="body_entered" from="detect_shape" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="detect_shape" to="." method="_on_area_2d_body_exited"]

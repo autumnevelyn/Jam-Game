@@ -7,7 +7,7 @@ extends "res://scripts/entities/enemies/base_enemy.gd"
 
 const SKILL = preload("res://scenes/prefabs/skill.tscn")
 
-@export var item_drop: ItemDrop;
+@export var item_drop: ItemDrop = preload("res://scenes/prefabs/items/item_drop_default.tres");
 
 ## Initial patrol direction.
 

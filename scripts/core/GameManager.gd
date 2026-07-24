@@ -122,5 +122,5 @@ func runstate_room_transition():
 	_change_state(RunState.PLAYING)
 
 func _on_room_cleared(data: Dictionary):
-	
-	advance_room();
+	pass
+	#advance_room();

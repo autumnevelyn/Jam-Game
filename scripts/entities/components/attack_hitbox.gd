@@ -3,7 +3,8 @@
 extends Area2D
 
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
-@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+@onready var animated_sprite_2d: AnimatedSprite2D = $Node2D/AnimatedSprite2D
+@onready var node_2d: Node2D = $Node2D
 @onready var timer: Timer = $Timer
 
 var parent: Node2D
@@ -50,7 +51,8 @@ func _on_skill_timer_expired(data: Dictionary):
 				animated_sprite_2d.scale = Vector2(1, 1);
 				
 		
-	animated_sprite_2d.rotation = parent.get_angle_to(global_position) + PI / 4;
+	
+	node_2d.rotation = parent.get_angle_to(get_global_mouse_position());
 
 func _on_area_entered(area: Area2D) -> void:
 	if not active:
