@@ -6,7 +6,6 @@
 bg_color = Color(1, 1, 1, 1)
 
 [node name="game_over" type="Control" unique_id=1443848354]
-modulate = Color(1, 1, 1, 0)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,6 +13,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_83jc8")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1215794172]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6431373)
 
 [node name="Label" type="Label" parent="." unique_id=1656910180]
 layout_mode = 1
@@ -60,15 +68,6 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_3xd07")
 text = "Menu"
-
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1215794172]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.6431373)
 
 [connection signal="pressed" from="BoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="BoxContainer/Button3" to="." method="_on_button_3_pressed"]

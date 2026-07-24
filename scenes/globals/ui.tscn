@@ -64,5 +64,6 @@ theme_override_font_sizes/font_size = 41
 text = "GOLD: "
 vertical_alignment = 1
 
-[node name="game_over" parent="." unique_id=1048573428 instance=ExtResource("3_mwuyt")]
+[node name="game_over" parent="." unique_id=1443848354 instance=ExtResource("3_mwuyt")]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
