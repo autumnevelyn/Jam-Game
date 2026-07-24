@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://d1plm63wydsgj" path="res://scenes/prefabs/skill.tscn" id="5_6761a"]
 [ext_resource type="PackedScene" uid="uid://dyc3suf0e7he0" path="res://scenes/prefabs/enemy_waddler.tscn" id="6_sk5k4"]
 [ext_resource type="Resource" uid="uid://c68f12s8v18if" path="res://scenes/prefabs/items/freeze breeze.tres" id="7_oc4kc"]
+[ext_resource type="PackedScene" uid="uid://c3ojvipdg6tp3" path="res://scenes/prefabs/money_pile.tscn" id="8_s8va5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x42e6"]
 texture = ExtResource("3_oc4kc")
@@ -477,3 +478,6 @@ position = Vector2(154, 567)
 [node name="item2" parent="." unique_id=1310020022 instance=ExtResource("5_6761a")]
 position = Vector2(401, 161)
 skill = ExtResource("7_oc4kc")
+
+[node name="money_pile" parent="." unique_id=421441149 instance=ExtResource("8_s8va5")]
+position = Vector2(216, 457)
