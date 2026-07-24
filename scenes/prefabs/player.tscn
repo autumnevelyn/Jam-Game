@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://do4cd6e4iwpra" path="res://scripts/entities/components/health_component.gd" id="6"]
 [ext_resource type="Script" uid="uid://ddde6lblvskai" path="res://scripts/entities/components/movement_component.gd" id="7"]
 [ext_resource type="Script" uid="uid://co4mkcfumul3s" path="res://scripts/entities/components/combat_component.gd" id="8"]
+[ext_resource type="Script" uid="uid://qyp85ss631ke" path="res://scripts/ui/PlayerSkillOverlay.gd" id="9_pso"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6761a"]
 radius = 7.5
@@ -384,6 +385,10 @@ script = ExtResource("7")
 
 [node name="combat_component" type="Node" parent="." unique_id=100000004]
 script = ExtResource("8")
+
+[node name="skill_overlay" type="Node2D" parent="." unique_id=100000005]
+position = Vector2(0, -40)
+script = ExtResource("9_pso")
 
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=1370086233]
 scale = Vector2(2.40625, 2.4062498)

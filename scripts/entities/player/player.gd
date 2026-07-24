@@ -3,7 +3,7 @@
 # Uses the tick-based SkillSystem (autoload) for all attack/skill timers.
 extends CharacterBody2D
 
-# -- Components --
+# ---- Components ----
 @onready var health_component: HealthComponent = $health_component
 @onready var movement_component: MovementComponent = $movement_component
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
@@ -12,7 +12,7 @@ extends CharacterBody2D
 @onready var hurtbox: Area2D = $hurtbox
 @onready var stun_timer: Timer = $stun_timer
 
-# -- State --
+# ---- State ----
 enum State { IDLE, WALK, STUNNED, SLASH }
 
 var active_state: State = State.IDLE
@@ -161,13 +161,10 @@ func _try_use_skill(slot: int) -> void:
 	var skill_resource = _skills[slot]
 	if not skill_resource:
 		return
-	EventBus.emit_event(EventBus.PLAYER_SKILL_USED, {
-		"slot": slot,
-		"skill": skill_resource,
-	})
+	SkillSystem.start_skill(slot, skill_resource)
 
 
-# -- Attack Fired Handler ------------------------------------
+# ---- Attack Fired Handler ----
 
 func _on_attack_fired(data: Dictionary) -> void:
 	# Spawn the attack hitbox in the direction of the mouse

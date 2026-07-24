@@ -24,7 +24,6 @@ var _running_countdowns: Dictionary = {}
 var _player: Node2D = null
 
 func _ready() -> void:
-	EventBus.subscribe(EventBus.PLAYER_SKILL_USED, _on_skill_used)
 	_setup_tick_timer()
 
 func _setup_tick_timer() -> void:
@@ -51,6 +50,8 @@ func start_skill(slot: int, skill: Skill) -> void:
 	if _running_countdowns.has(slot):
 		return  # skill already counting down
 	_running_countdowns[slot] = CountDown.new(slot, skill)
+	EventBus.emit_event(EventBus.PLAYER_SKILL_USED, {"slot": slot, "skill": skill})
+	print_rich(skill.skill_name," [%d]"%slot )
 	EventBus.emit_event(EventBus.SKILL_TIMER_STARTED, {
 		"slot": slot,
 		"skill": skill,
@@ -64,7 +65,7 @@ func get_remaining_ticks(slot: int) -> int:
 	return -1
 
 
-# -- Process ticks --
+# ---- Process ticks ----
 func _on_tick() -> void:
 	var expiring: Array = []
 	
@@ -137,7 +138,7 @@ func _on_tick() -> void:
 			"direction": _get_mouse_direction(),
 		})
 	
-	# -- non-damaging skills that expired alone --
+	# ---- non-damaging skills that expired alone ----
 	elif non_damaging.size() > 0:
 		for countdown in non_damaging:
 			EventBus.emit_event(EventBus.SELF_BUFF_APPLIED, {
@@ -153,7 +154,7 @@ func _on_tick() -> void:
 		})
 
 
-# -- Helpers --------------------------------------------------
+# ---- Helpers ----
 
 ## Add an effect to the array, stacking strength if it already exists.
 func _add_or_stack_effect(effects: Array, name: String, strength: float) -> void:
@@ -168,6 +169,7 @@ func _on_skill_used(data: Dictionary) -> void:
 	var skill = data.get("skill")
 	if slot < 0 or not skill:
 		return
+	
 	start_skill(slot, skill)
 
 func _get_mouse_direction() -> Vector2:
