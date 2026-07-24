@@ -14,7 +14,7 @@ size = Vector2(16, 16)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jq8tk"]
 size = Vector2(273, 300)
 
-[node name="enemy_chacer" type="CharacterBody2D" unique_id=1562589981 groups=["Enemy"]]
+[node name="enemy_boss" type="CharacterBody2D" unique_id=1562589981 groups=["Enemy"]]
 collision_layer = 2
 script = ExtResource("1_i8vdl")
 enemyRating = 2
