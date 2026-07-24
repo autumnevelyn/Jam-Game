@@ -8,6 +8,7 @@ extends Node
 const TICK_DURATION: float = 2
 ## Basic attack base damage
 const BASIC_ATCK_DMG: float = 1.0
+
 ## Data for one running skill countdown.
 class CountDown:
 	var skill: Skill
@@ -18,44 +19,51 @@ class CountDown:
 		slot = p_slot
 		skill = p_skill
 		remaining_ticks = p_skill.ticks if p_skill else 1
-## running timers keyed by slot index (-1 = basic attack).
+
+var tick_timer = Timer.new() 
+## running timers; keyed by slot index (-1 = basic attack).
 var _running_countdowns: Dictionary = {}
+## countdowns to be run on next tick; keyed by slot index (-1 = basic attack).
+var _queued_countdowns: Dictionary = {}
 ## player reference
 var _player: Node2D = null
 
 func _ready() -> void:
-	EventBus.subscribe(EventBus.PLAYER_SKILL_USED, _on_skill_used)
 	_setup_tick_timer()
 
 func _setup_tick_timer() -> void:
-	var tick_timer = Timer.new()
 	tick_timer.wait_time = TICK_DURATION
 	tick_timer.one_shot = false
 	tick_timer.timeout.connect(_on_tick)
 	add_child(tick_timer)
 	tick_timer.start()
+	
+func _reset_tick_timer() -> void:
+	tick_timer.start()
+	_on_tick()
 
 ## set player node reference for attacks position
 func set_player(player: Node2D) -> void:
 	_player = player
 
 # API
-## start the basic attack timer (1 tick).
-func start_basic_attack() -> void:
-	if _running_countdowns.has(-1): return  # basic attack already counting down
-	_running_countdowns[-1] = CountDown.new(-1, null)
-	EventBus.emit_event(EventBus.BASIC_ATTACK_STARTED, {})
+## queue the basic attack timer (1 tick).
+func queue_basic_attack() -> void:
+	if _queued_countdowns.has(-1):
+		return  # basic attack already queued (basic attack can be bufferd)
+	_queued_countdowns[-1] = CountDown.new(-1, null)
+	EventBus.emit_event(EventBus.PLAYER_ATTACK_USED, {})
+	if _no_countdowns(): _reset_tick_timer()
 
-## start a skill timer for the given slot.
-func start_skill(slot: int, skill: Skill) -> void:
-	if _running_countdowns.has(slot):
-		return  # skill already counting down
-	_running_countdowns[slot] = CountDown.new(slot, skill)
-	EventBus.emit_event(EventBus.SKILL_TIMER_STARTED, {
-		"slot": slot,
-		"skill": skill,
-		"total_ticks": skill.ticks,
-	})
+
+## queue a skill timer for the given slot.
+func queue_skill(slot: int, skill: Skill) -> void:
+	if _running_countdowns.has(slot) or _queued_countdowns.has(slot):
+		return  # skill already queued or counting down (no buffer)
+	_queued_countdowns[slot] = CountDown.new(slot, skill)
+	EventBus.emit_event(EventBus.PLAYER_SKILL_USED, {"slot": slot, "skill": skill})
+	print_rich(skill.skill_name," [%d]"%slot )
+	if _no_countdowns(): _reset_tick_timer()
 
 ## returns the remaining ticks for a timer, or -1 if not active.
 func get_remaining_ticks(slot: int) -> int:
@@ -64,10 +72,9 @@ func get_remaining_ticks(slot: int) -> int:
 	return -1
 
 
-# -- Process ticks --
+# ---- Process ticks ----
 func _on_tick() -> void:
 	var expiring: Array = []
-	
 	# tick all timers
 	for slot in _running_countdowns.keys():
 		var countdown = _running_countdowns[slot] as CountDown
@@ -84,19 +91,19 @@ func _on_tick() -> void:
 		if countdown.remaining_ticks <= 0:
 			expiring.append(slot)
 	
-	if expiring.is_empty():
-		return
-	
+	# deal with expiring timers
 	# separate damage-dealing timers from buff/mod/util
 	var damaging: Array = []
 	var non_damaging: Array = []
-	
 	for slot in expiring:
 		var countdown = _running_countdowns[slot]
 		_running_countdowns.erase(slot)
+		EventBus.emit_event(EventBus.SKILL_TIMER_EXPIRED, {
+			"slot": slot,
+		})
 		
 		if slot == -1:
-			# Basic attack
+			# basic attack
 			damaging.append(countdown)
 		elif countdown.skill.skill_type == Skill.SkillType.DAMAGE:
 			damaging.append(countdown)
@@ -137,7 +144,7 @@ func _on_tick() -> void:
 			"direction": _get_mouse_direction(),
 		})
 	
-	# -- non-damaging skills that expired alone --
+	# non-damaging skills that expired alone
 	elif non_damaging.size() > 0:
 		for countdown in non_damaging:
 			EventBus.emit_event(EventBus.SELF_BUFF_APPLIED, {
@@ -146,14 +153,10 @@ func _on_tick() -> void:
 				"effect_strength": countdown.skill.effect_strength if countdown.skill else 0.0,
 			})
 	
-	# Emit expiry events for all expired timers
-	for slot in expiring:
-		EventBus.emit_event(EventBus.SKILL_TIMER_EXPIRED, {
-			"slot": slot,
-		})
+	_start_queued_timers() # moves timers from queue array to running array
 
 
-# -- Helpers --------------------------------------------------
+# ---- Helpers ----
 
 ## Add an effect to the array, stacking strength if it already exists.
 func _add_or_stack_effect(effects: Array, name: String, strength: float) -> void:
@@ -163,14 +166,25 @@ func _add_or_stack_effect(effects: Array, name: String, strength: float) -> void
 			return
 	effects.append({"name": name, "strength": strength})
 
-func _on_skill_used(data: Dictionary) -> void:
-	var slot = data.get("slot", -1)
-	var skill = data.get("skill")
-	if slot < 0 or not skill:
-		return
-	start_skill(slot, skill)
-
 func _get_mouse_direction() -> Vector2:
 	if not _player:
 		return Vector2.RIGHT
 	return (_player.get_global_mouse_position() - _player.global_position).normalized()
+
+func _start_queued_timers() -> void:
+	for slot in _queued_countdowns.keys():
+		var countdown = _queued_countdowns[slot] as CountDown
+		_running_countdowns[slot] = countdown
+		if countdown.slot == -1:
+			EventBus.emit_event(EventBus.BASIC_ATTACK_STARTED, {})
+		else:
+			EventBus.emit_event(EventBus.SKILL_TIMER_STARTED, {
+				"slot": slot,
+				"skill": countdown.skill,
+				"total_ticks": countdown.skill.ticks,
+			})
+			print_rich( countdown.skill.skill_name," [%d]"%slot )
+	_queued_countdowns.clear()
+
+func _no_countdowns() -> bool:
+	return _queued_countdowns.size() >= 1 and _running_countdowns.is_empty()

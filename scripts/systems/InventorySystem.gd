@@ -15,6 +15,7 @@ func _on_item_picked_up(data: Dictionary) -> void:
 
 	# handle different item types
 	if item is Skill:
+		print_rich(item.skill_name)
 		PlayerData.add_skill(item)
 	elif item.name.begins_with("relic"):
 		PlayerData.add_relic(item)
