@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Skill" format=3 uid="uid://c68f12s8v18if"]
+
+[ext_resource type="Script" uid="uid://dm8c5146rdpbp" path="res://scripts/items/skill.gd" id="1_0hrw3"]
+[ext_resource type="Texture2D" uid="uid://dr80rr27yk5t4" path="res://assets/isometric tileset/isometric tileset/separated images/tile_104.png" id="2_wp0o1"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wp0o1"]
+radius = 16.0
+
+[resource]
+script = ExtResource("1_0hrw3")
+texture = ExtResource("2_wp0o1")
+skill_name = "Freeze Breeze"
+description = "Causes a gust of frozen air, slowing enemies hit and causing a dot"
+ticks = 4
+base_damage = 0.0
+effect_name = "Frozen"
+hitbox_size = SubResource("CircleShape2D_wp0o1")
+metadata/_custom_type_script = "uid://dm8c5146rdpbp"

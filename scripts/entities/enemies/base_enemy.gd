@@ -2,11 +2,15 @@
 # base class for all enemy types. Provides health, movement, and combat components.
 extends CharacterBody2D
 
+enum Rating {MINION, EASY, MEDIUM, HARD, BOSS}
+
 @onready var health_component: HealthComponent = $health_component
 @onready var movement_component: MovementComponent = $movement_component
 
 @export var speed: float = 50.0
 @export var damage: float = 1.0
+
+@export var enemyRating: Rating = Rating.MINION;
 
 func _ready() -> void:
 	if health_component:
@@ -15,18 +19,31 @@ func _ready() -> void:
 		movement_component.speed = speed
 
 
-func _exit_tree() -> void:
-	if health_component and health_component.died.is_connected(_on_died):
-		health_component.died.disconnect(_on_died)
+#func _exit_tree() -> void:
+#	if health_component and health_component.died.is_connected(_on_died):
+#		health_component.died.disconnect(_on_died)
 
 
 func _on_died() -> void:
+	
+	dropGold();
+	
 	EventBus.emit_event(EventBus.ENEMY_KILLED, {
 		"enemy": self,
 		"position": global_position,
 	})
 	queue_free()
 
+func dropGold():
+	match(enemyRating):
+		Rating.EASY:
+			PlayerData.gain_gold(10);
+		Rating.MEDIUM:
+			PlayerData.gain_gold(30);
+		Rating.HARD:
+			PlayerData.gain_gold(50);
+		Rating.BOSS:
+			PlayerData.gain_gold(50);
 
 ## Apply damage to this enemy.
 #func take_damage(amount: float, source: Node = null) -> float:
