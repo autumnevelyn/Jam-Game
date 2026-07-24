@@ -17,6 +17,8 @@ enum State { IDLE, WALK, STUNNED, SLASH }
 var active_state: State = State.IDLE
 var _skills: Array = []
 
+var knockback_force := 400.0;
+
 
 func _ready() -> void:
 	state_machine.initial_state = "idle"
@@ -159,7 +161,7 @@ func _on_damaged(amount: float, source: Node) -> void:
 	state_machine.transition("stunned")
 	if source:
 		var knockback_dir = Vector2.from_angle(source.get_angle_to(position))
-		movement_component.apply_knockback(knockback_dir * 200.0)
+		movement_component.apply_knockback(knockback_dir * knockback_force)
 
 
 func _on_died() -> void:
