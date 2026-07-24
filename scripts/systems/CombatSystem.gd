@@ -5,6 +5,7 @@ extends Node
 
 func _ready() -> void:
 	EventBus.subscribe(EventBus.COMBAT_HIT, _on_combat_hit)
+	EventBus.subscribe(EventBus.ENEMY_KILLED, _on_enemy_killed)
 
 
 ## Validate and process a combat hit.
@@ -33,24 +34,16 @@ func _on_combat_hit(data: Dictionary) -> void:
 	if actual_damage > 0.0 and effects.size() > 0:
 		_apply_effects(target, effects, attacker)
 
-	# if target died
-	if health_comp.health <= 0.0:
-		if target.is_in_group("Enemy"):
-			GameData.enemies_killed += 1
-			EventBus.emit_event(EventBus.ENEMY_KILLED, {
-				"enemy": target,
-				"position": target.global_position,
-			})
-			target.queue_free()
-
+func _on_enemy_killed(_data: Dictionary):
+	GameData.enemies_killed += 1
 
 ## Apply effects to a target
 ## TODO implement
 func _apply_effects(target: Node, effects: Array, attacker: Node) -> void:
 	for effect in effects:
-		var name = effect.get("name", "")
+		var ef_name = effect.get("name", "")
 		var strength = effect.get("strength", 1.0)
-		match name:
+		match ef_name:
 			"burn":
 				_apply_burn(target, strength, attacker)
 			"freeze":
