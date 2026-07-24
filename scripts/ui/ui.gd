@@ -13,7 +13,7 @@ var _heart_nodes: Array = []
 
 # skill icon instances keyed by slot index
 var _skill_icons: Dictionary = {}
-
+var _basic_attack_icon = SkillCircleIcon.new()
 
 func _ready() -> void:
 	# cache heart references
@@ -21,6 +21,8 @@ func _ready() -> void:
 		_heart_nodes.append(child)
 		if child.has_method("set_id"):
 			child.set_id(_heart_nodes.size() - 1)
+		
+	skill_container.add_child(_basic_attack_icon)
 
 	# connect to reactive events instead of polling
 	PlayerData.health_changed.connect(_on_player_health_changed)
@@ -69,7 +71,7 @@ func _on_player_died() -> void:
 
 
 ## Called when a new skill is added to the player's inventory.
-func _on_skill_added(slot_index: int, skill: Resource) -> void:
+func _on_skill_added(_slot_index: int, _skill: Resource) -> void:
 	# Refresh all icons (simple approach)
 	_refresh_all_skill_icons()
 
@@ -89,11 +91,9 @@ func _refresh_all_skill_icons() -> void:
 		if not skill_res:
 			continue
 		
-		#var icon = SkillCircleIcon.new()
-		#icon.skill = skill_res
-		#icon.slot_index = i
-		#skill_container.add_child(icon)
-		#_skill_icons[i] = icon
+		var icon = SkillCircleIcon.new(skill_res, i)
+		skill_container.add_child(icon)
+		_skill_icons[i] = icon
 
 
 ## Called when a skill timer starts.
@@ -108,7 +108,6 @@ func _on_skill_timer_started(data: Dictionary) -> void:
 func _on_skill_timer_tick(data: Dictionary) -> void:
 	var slot = data.get("slot", -1)
 	var remaining = data.get("remaining", 0)
-	var total = data.get("total", 1)
 	if _skill_icons.has(slot):
 		_skill_icons[slot].on_tick_elapsed(remaining)
 
@@ -116,13 +115,15 @@ func _on_skill_timer_tick(data: Dictionary) -> void:
 ## Called when a skill timer expires.
 func _on_skill_timer_expired(data: Dictionary) -> void:
 	var slot = data.get("slot", -1)
-	if _skill_icons.has(slot):
+	if slot == -1:
+		_basic_attack_icon.stop_timer()
+	elif _skill_icons.has(slot):
 		_skill_icons[slot].stop_timer()
 
 
-## Called when basic attack timer starts (no dedicated icon for now).
+## Called when basic attack timer starts.
 func _on_basic_attack_started(_data: Dictionary) -> void:
-	# Could flash a basic attack indicator
+	_basic_attack_icon.start_timer(1) # TODO: hardcoded value
 	pass
 
 
@@ -132,7 +133,7 @@ func _update_all_hearts() -> void:
 		if heart.has_method("health_changed"):
 			heart.health_changed()
 
-func _on_enemy_killed(data: Dictionary, loading := false):
+func _on_enemy_killed(_data: Dictionary, loading := false):
 	money_label.text = "Money: " + str(int(PlayerData.money));
 	if(loading):
 		enemies_left_label.text = str(get_tree().get_nodes_in_group("Enemy").size());
