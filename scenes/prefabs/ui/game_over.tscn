@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://c21id33v26xgr"]
+
+[ext_resource type="Script" uid="uid://bfcj1idby1kki" path="res://scripts/ui/game_over.gd" id="1_83jc8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3xd07"]
+bg_color = Color(1, 1, 1, 1)
+
+[node name="game_over" type="Control" unique_id=1443848354]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_83jc8")
+
+[node name="Label" type="Label" parent="." unique_id=1656910180]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -229.0
+offset_top = 67.0
+offset_right = 229.0
+offset_bottom = 267.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 80
+text = "GAME OVER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BoxContainer" type="BoxContainer" parent="." unique_id=122191191]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -324.0
+offset_top = 434.0
+offset_right = 324.0
+offset_bottom = -168.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 167
+alignment = 1
+
+[node name="Button" type="Button" parent="BoxContainer" unique_id=1008792923]
+z_index = 1
+custom_minimum_size = Vector2(189.825, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_3xd07")
+text = "Restart"
+
+[node name="Button3" type="Button" parent="BoxContainer" unique_id=84570106]
+z_index = 1
+custom_minimum_size = Vector2(189.825, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_3xd07")
+text = "Menu"
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1215794172]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6431373)
+
+[connection signal="pressed" from="BoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="BoxContainer/Button3" to="." method="_on_button_3_pressed"]

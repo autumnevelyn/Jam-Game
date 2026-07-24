@@ -11,7 +11,7 @@ func _process(delta: float) -> void:
 
 
 func _on_button_pressed() -> void:
-	GameManager.advance_room();
+	GameManager.start_run();
 	queue_free();
 
 
