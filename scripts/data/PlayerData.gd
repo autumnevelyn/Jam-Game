@@ -42,7 +42,7 @@ var current_equipment: Array = []
 var current_relics: Array = []
 
 # max inventory slots
-const MAX_SKILL_SLOTS: int = 4
+const MAX_SKILL_SLOTS: int = 2
 const MAX_EQUIPMENT_SLOTS: int = 4
 const MAX_RELIC_SLOTS: int = 4
 
@@ -84,6 +84,10 @@ func add_skill(skill_resource) -> int:
 	skill_added.emit(slot, skill_resource)
 	return slot
 
+func swap_skill(skill_resource, slot):
+	var temp = current_skills[slot];
+	current_skills[slot] = skill_resource;
+	return temp;
 
 ## Add an equipment item.
 func add_equipment(item_resource) -> int:

@@ -22,6 +22,7 @@ var _direction := Vector2(0, 1);
 var knockback_force := 400.0;
 var dead := false;
 
+var onSkill := false;
 
 func _ready() -> void:
 	state_machine.initial_state = "idle"
@@ -130,14 +131,15 @@ func _handle_attack_input() -> void:
 
 
 func _handle_skill_input() -> void:
-	if Input.is_action_just_pressed("skill 1"):
-		_try_use_skill(0)
-	if Input.is_action_just_pressed("skill 2"):
-		_try_use_skill(1)
-	if Input.is_action_just_pressed("skill 3"):
-		_try_use_skill(2)
-	if Input.is_action_just_pressed("skill 4"):
-		_try_use_skill(3)
+	if(not onSkill):
+		if Input.is_action_just_pressed("skill 1"):
+			_try_use_skill(0)
+		if Input.is_action_just_pressed("skill 2"):
+			_try_use_skill(1)
+		if Input.is_action_just_pressed("skill 3"):
+			_try_use_skill(2)
+		if Input.is_action_just_pressed("skill 4"):
+			_try_use_skill(3)
 
 
 func _start_attack_combo() -> void:

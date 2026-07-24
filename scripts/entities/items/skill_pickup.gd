@@ -7,9 +7,21 @@ extends Area2D
 ## The skill resource this pickup grants.
 @export var skill: Skill
 
+var playerOn := false;
 
 func _ready() -> void:
 	update();
+	
+func _process(delta: float) -> void:
+	if(playerOn):
+		if(Input.is_action_just_pressed("skill 1")):
+			skill = PlayerData.swap_skill(skill, 0);
+			update();
+		if(Input.is_action_just_pressed("skill 2")):
+			var temp = PlayerData.current_skills[0];
+			PlayerData.current_skills[0] = skill;
+			skill = temp;
+			update();
 		
 func update():
 	if skill and sprite_2d:
@@ -18,7 +30,19 @@ func update():
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player") or body.name == "player":
-		EventBus.emit_event(EventBus.ITEM_PICKED_UP, {
-			"item": skill
-		})
-		queue_free()
+		if(PlayerData.current_skills.size() < 2):
+			EventBus.emit_event(EventBus.ITEM_PICKED_UP, {
+				"item": skill
+			})
+			queue_free()
+		else:
+			playerOn = true;
+			body.onSkill = true;
+			
+
+
+func _on_body_exited(body: Node2D) -> void:
+	if body.is_in_group("Player") or body.name == "player":
+		if(PlayerData.current_skills.size() >= 2):
+			playerOn = false;
+			body.onSkill = false;
