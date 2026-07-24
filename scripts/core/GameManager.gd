@@ -102,7 +102,6 @@ func runstate_room_transition():
 	await tween.finished;
 	
 	if(current_level != null):
-		print(current_level)
 		current_level.queue_free();
 	
 	var new_level = load("res://scenes/levels/level_" + str(current_room + 1) +".tscn").instantiate(); 

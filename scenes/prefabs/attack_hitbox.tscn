@@ -1,12 +1,13 @@
 [gd_scene format=3 uid="uid://bxi372o7q3eh1"]
 
-[ext_resource type="Script" uid="uid://d14eb3f4cdeli" path="res://scripts/attack_hitbox.gd" id="1_v8v5g"]
+[ext_resource type="Script" uid="uid://d14eb3f4cdeli" path="res://scripts/entities/components/attack_hitbox.gd" id="1_v8v5g"]
 [ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="2_v8v5g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3xd07"]
 size = Vector2(15, 15)
 
 [node name="attack_hitbox" type="Area2D" unique_id=1244579918 groups=["Cutting Tool"]]
+collision_layer = 0
 collision_mask = 2
 script = ExtResource("1_v8v5g")
 

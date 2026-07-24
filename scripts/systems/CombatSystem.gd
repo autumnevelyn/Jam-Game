@@ -24,7 +24,7 @@ func _on_combat_hit(data: Dictionary) -> void:
 		return
 
 	var actual_damage = health_comp.take_damage(damage, attacker)
-
+	#print(actual_damage);
 	# track damage dealt
 	GameData.damage_dealt += actual_damage
 
