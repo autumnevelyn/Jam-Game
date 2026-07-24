@@ -8,7 +8,7 @@ extends Node2D
 # ---- Per-timer data ----
 class ActiveTimer:
 	var slot: int
-	var skill: Skill  # null for basic attack
+	var skill: Skill  # null for slash
 	var total_ticks: int
 	var remaining_ticks: int
 	var tick_start_msec: int  # time (ms) when the current tick began
@@ -46,7 +46,7 @@ func _ready() -> void:
 	EventBus.subscribe(EventBus.SKILL_TIMER_STARTED, _on_timer_started)
 	EventBus.subscribe(EventBus.SKILL_TIMER_TICK, _on_timer_tick)
 	EventBus.subscribe(EventBus.SKILL_TIMER_EXPIRED, _on_timer_expired)
-	EventBus.subscribe(EventBus.BASIC_ATTACK_STARTED, _on_basic_attack_started)
+	EventBus.subscribe(EventBus.SLASH_STARTED, _on_slash_started)
 	EventBus.subscribe(EventBus.PLAYER_SKILL_USED, _on_skill_queued)
 
 
@@ -55,7 +55,7 @@ func _exit_tree() -> void:
 		EventBus.unsubscribe(EventBus.SKILL_TIMER_STARTED, _on_timer_started)
 		EventBus.unsubscribe(EventBus.SKILL_TIMER_TICK, _on_timer_tick)
 		EventBus.unsubscribe(EventBus.SKILL_TIMER_EXPIRED, _on_timer_expired)
-		EventBus.unsubscribe(EventBus.BASIC_ATTACK_STARTED, _on_basic_attack_started)
+		EventBus.unsubscribe(EventBus.SLASH_STARTED, _on_slash_started)
 		EventBus.unsubscribe(EventBus.PLAYER_SKILL_USED, _on_skill_queued)
 
 
@@ -117,8 +117,8 @@ func _on_timer_expired(data: Dictionary) -> void:
 	queue_redraw()
 
 
-func _on_basic_attack_started(_data: Dictionary) -> void:
-	# Basic attack has 1 tick, no skill resource
+func _on_slash_started(_data: Dictionary) -> void:
+	# Slash has 1 tick, no skill resource
 	var slot = -1
 	_active_timers[slot] = ActiveTimer.new(slot, null, 1, 1)
 	queue_redraw()
@@ -228,7 +228,7 @@ func _draw_timer_circle(center: Vector2, timer: ActiveTimer) -> void:
 		)
 		draw_texture_rect(timer.skill.texture, icon_rect, false, Color.WHITE)
 	else:
-		# Placeholder circle for basic attack
+		# Placeholder circle for slash
 		draw_circle(center, _icon_size / 2, _placeholder_circle)
 
 

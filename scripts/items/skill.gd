@@ -6,10 +6,10 @@ extends Resource
 
 ## Types of skills
 enum SkillType {
-	BASIC_ATTACK,  # The default click-to-attack; 1-tick timer, small damage
-	DAMAGE,        # Deals damage; combines with other attacks on timer expiry
-	BUFF,           # Modifies an outgoing attack; applies to self if no outgoing attack 
-	UTIL,          # Utility effect; applies to self if no outgoing attack 
+	SLASH,			# The default click-to-attack; 1-tick timer, small damage
+	DAMAGE,			# Deals damage; combines with other attacks on timer expiry
+	BUFF,			# Modifies an outgoing attack; applies to self if no outgoing attack 
+	UTIL,			# Utility effect; applies to self if no outgoing attack 
 }
 
 @export var texture: Texture2D
@@ -22,7 +22,7 @@ enum SkillType {
 ## Duration in ticks (1 tick = 0.5 seconds)
 @export var ticks: int = 1
 
-## Base damage dealt (for BASIC_ATTACK and DAMAGE types)
+## Base damage dealt (for SLASH and DAMAGE types)
 @export var base_damage: float = 1.0
 
 # TODO: create a class for effects

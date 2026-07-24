@@ -6,8 +6,8 @@ extends Node
 
 ## Duration of one tick in seconds.
 const TICK_DURATION: float = 2
-## Basic attack base damage
-const BASIC_ATCK_DMG: float = 1.0
+## Slash base damage
+const SLASH_DMG: float = 1.0
 
 ## Data for one running skill countdown.
 class CountDown:
@@ -21,9 +21,9 @@ class CountDown:
 		remaining_ticks = p_skill.ticks if p_skill else 1
 
 var tick_timer = Timer.new() 
-## running timers; keyed by slot index (-1 = basic attack).
+## running timers; keyed by slot index (-1 = slash).
 var _running_countdowns: Dictionary = {}
-## countdowns to be run on next tick; keyed by slot index (-1 = basic attack).
+## countdowns to be run on next tick; keyed by slot index (-1 = slash).
 var _queued_countdowns: Dictionary = {}
 ## player reference
 var _player: Node2D = null
@@ -47,12 +47,12 @@ func set_player(player: Node2D) -> void:
 	_player = player
 
 # API
-## queue the basic attack timer (1 tick).
-func queue_basic_attack() -> void:
+## queue the slash timer (1 tick).
+func queue_slash() -> void:
 	if _queued_countdowns.has(-1):
-		return  # basic attack already queued (basic attack can be bufferd)
+		return  # slash already queued (slash can be buffered)
 	_queued_countdowns[-1] = CountDown.new(-1, null)
-	EventBus.emit_event(EventBus.PLAYER_ATTACK_USED, {})
+	EventBus.emit_event(EventBus.PLAYER_SLASH_USED, {})
 	if _no_countdowns(): _reset_tick_timer()
 
 
@@ -81,7 +81,7 @@ func _on_tick() -> void:
 		countdown.remaining_ticks -= 1
 		
 		# emit tick events for skill UI 
-		if countdown.skill and countdown.skill.skill_type != Skill.SkillType.BASIC_ATTACK:
+		if countdown.skill and countdown.skill.skill_type != Skill.SkillType.SLASH:
 			EventBus.emit_event(EventBus.SKILL_TIMER_TICK, {
 				"slot": slot,
 				"remaining": countdown.remaining_ticks,
@@ -103,7 +103,7 @@ func _on_tick() -> void:
 		})
 		
 		if slot == -1:
-			# basic attack
+			# slash
 			damaging.append(countdown)
 		elif countdown.skill.skill_type == Skill.SkillType.DAMAGE:
 			damaging.append(countdown)
@@ -121,7 +121,7 @@ func _on_tick() -> void:
 			if countdown.skill:
 				total_damage += countdown.skill.base_damage
 			else:
-				total_damage += BASIC_ATCK_DMG;
+				total_damage += SLASH_DMG;
 		
 		# apply combo multiplier (damage multiplies per extra skill)
 		total_damage *= 1.0 + 0.5 * (total_skills - 1) # TODO: probs needs refining
@@ -176,7 +176,7 @@ func _start_queued_timers() -> void:
 		var countdown = _queued_countdowns[slot] as CountDown
 		_running_countdowns[slot] = countdown
 		if countdown.slot == -1:
-			EventBus.emit_event(EventBus.BASIC_ATTACK_STARTED, {})
+			EventBus.emit_event(EventBus.SLASH_STARTED, {})
 		else:
 			EventBus.emit_event(EventBus.SKILL_TIMER_STARTED, {
 				"slot": slot,

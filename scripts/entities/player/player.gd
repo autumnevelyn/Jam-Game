@@ -126,7 +126,7 @@ func _get_input_direction() -> Vector2:
 
 func _handle_attack_input() -> void:
 	if Input.is_action_just_pressed("leftClick"):
-		SkillSystem.queue_basic_attack()
+		SkillSystem.queue_slash()
 
 
 func _handle_skill_input() -> void:

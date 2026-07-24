@@ -43,7 +43,7 @@ const PLAYER_HEALED         := "player_healed"
 const PLAYER_DIED           := "player_died"
 const PLAYER_MOVED          := "player_moved"
 const PLAYER_SKILL_USED     := "player_skill_used"
-const PLAYER_ATTACK_USED    := "player_attack_used"
+const PLAYER_SLASH_USED     := "player_slash_used"
 #const PLAYER_SKILL_READY    := "player_skill_ready"
 const PLAYER_LEVEL_UP       := "player_level_up"
 
@@ -63,8 +63,8 @@ const SKILL_TIMER_STARTED   := "skill_timer_started"
 const SKILL_TIMER_TICK      := "skill_timer_tick"
 ## Emitted when a skill timer expires.
 const SKILL_TIMER_EXPIRED   := "skill_timer_expired"
-## Emitted when the basic attack timer starts.
-const BASIC_ATTACK_STARTED  := "basic_attack_started"
+## Emitted when the slash timer starts.
+const SLASH_STARTED         := "slash_started"
 ## Emitted when an attack is fired (solo or combo).
 const ATTACK_FIRED          := "attack_fired"
 ## Emitted when a non-damage skill is applied to self.
