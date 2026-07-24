@@ -14,9 +14,10 @@ func _on_combat_hit(data: Dictionary) -> void:
 	var damage = data.get("damage", 1.0)
 	var effects = data.get("effects", [])
 	var hit_position = data.get("position", Vector2.ZERO)
-
-	if not target or not is_instance_valid(target):
-		return
+	
+	if not target or not is_instance_valid(target): return
+	
+	print_rich("dmg: %d" % damage, " | effects: ", effects)
 
 	# try to find a HealthComponent on the target
 	var health_comp = _find_health_component(target)

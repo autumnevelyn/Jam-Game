@@ -15,10 +15,7 @@ func _ready() -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player") or body.name == "player":
-		var slot = PlayerData.add_skill(skill)
-		if slot >= 0:
-			EventBus.emit_event(EventBus.ITEM_PICKED_UP, {
-				"item": skill,
-				"slot": slot,
-			})
-			queue_free()
+		EventBus.emit_event(EventBus.ITEM_PICKED_UP, {
+			"item": skill
+		})
+		queue_free()

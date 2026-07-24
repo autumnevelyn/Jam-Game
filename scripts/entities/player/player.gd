@@ -30,13 +30,11 @@ func _ready() -> void:
 	
 	# Listen for attack-fired events to spawn hitboxes
 	EventBus.subscribe(EventBus.ATTACK_FIRED, _on_attack_fired)
-	EventBus.subscribe(EventBus.ITEM_PICKED_UP, _on_item_picked_up);
 
 
 func _exit_tree() -> void:
 	# clean up EventBus subscriptions
 	EventBus.unsubscribe(EventBus.ATTACK_FIRED, _on_attack_fired)
-	EventBus.unsubscribe(EventBus.ITEM_PICKED_UP, _on_item_picked_up)
 	# disconnect component signals
 	if health_component:
 		if health_component.damaged.is_connected(_on_damaged):
@@ -153,9 +151,6 @@ func _on_attack_fired(data: Dictionary) -> void:
 	attack_hitbox.position = mouse_dir * 16.0
 	attack_hitbox.damage = data.get("damage", 1.0)
 	attack_hitbox.effects = data.get("effects", [])
-
-func _on_item_picked_up(data: Dictionary):
-	pass
 
 # signal handlers
 

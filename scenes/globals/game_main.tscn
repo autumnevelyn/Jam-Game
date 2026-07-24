@@ -19,6 +19,3 @@ grow_vertical = 2
 color = Color(0, 0, 0, 0)
 
 [node name="Menu" parent="CanvasLayer" unique_id=1313905390 instance=ExtResource("3_cq3vi")]
-
-[node name="combat_system" type="Node" parent="." unique_id=692649367]
-script = ExtResource("4_j71hc")

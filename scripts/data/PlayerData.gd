@@ -76,14 +76,12 @@ func heal(amount: float) -> float:
 ## Add a skill resource to the player's skill slots.
 func add_skill(skill_resource) -> int:
 	if current_skills.size() >= MAX_SKILL_SLOTS:
+		# TODO: handle slots full
 		return -1
+	
 	current_skills.append(skill_resource)
 	var slot = current_skills.size() - 1
 	skill_added.emit(slot, skill_resource)
-	EventBus.emit_event(EventBus.PLAYER_SKILL_READY, {
-		"slot": slot,
-		"skill": skill_resource,
-	})
 	return slot
 
 

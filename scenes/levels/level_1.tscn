@@ -423,8 +423,8 @@ script = ExtResource("7_oc4kc")
 texture = ExtResource("8_s8va5")
 skill_name = "Fire"
 description = "Sets stuff on fire"
-ticks = 2
-base_damage = 2.0
+ticks = 3
+base_damage = 5.0
 effect_name = "burn"
 hitbox_size = SubResource("CircleShape2D_50rl7")
 metadata/_custom_type_script = "uid://dm8c5146rdpbp"
@@ -487,9 +487,6 @@ initial_direction = Vector2(0, -1)
 
 [node name="enemy_waddler5" parent="." unique_id=129426385 instance=ExtResource("6_sk5k4")]
 position = Vector2(154, 567)
-
-[node name="item" parent="." unique_id=1686755671 instance=ExtResource("5_6761a")]
-position = Vector2(271, 286)
 
 [node name="item2" parent="." unique_id=1310020022 instance=ExtResource("5_6761a")]
 position = Vector2(401, 161)

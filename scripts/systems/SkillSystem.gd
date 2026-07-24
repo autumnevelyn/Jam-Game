@@ -5,7 +5,7 @@
 extends Node
 
 ## Duration of one tick in seconds.
-const TICK_DURATION: float = 0.5
+const TICK_DURATION: float = 2
 ## Basic attack base damage
 const BASIC_ATCK_DMG: float = 1.0
 ## Data for one running skill countdown.
@@ -42,8 +42,7 @@ func set_player(player: Node2D) -> void:
 # API
 ## start the basic attack timer (1 tick).
 func start_basic_attack() -> void:
-	if _running_countdowns.has(-1):
-		return  # basic attack already counting down
+	if _running_countdowns.has(-1): return  # basic attack already counting down
 	_running_countdowns[-1] = CountDown.new(-1, null)
 	EventBus.emit_event(EventBus.BASIC_ATTACK_STARTED, {})
 

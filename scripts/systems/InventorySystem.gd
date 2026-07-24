@@ -8,10 +8,8 @@ func _ready() -> void:
 
 func _on_item_picked_up(data: Dictionary) -> void:
 	var item = data.get("item")
-	var slot = data.get("slot", -1)
 
-	if not item:
-		return
+	if not item: return
 
 	GameData.items_collected += 1
 
