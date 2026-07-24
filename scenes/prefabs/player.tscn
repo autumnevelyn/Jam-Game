@@ -14,6 +14,15 @@ radius = 7.5
 [sub_resource type="CircleShape2D" id="CircleShape2D_jq8tk"]
 radius = 8.062258
 
+[sub_resource type="Gradient" id="Gradient_6v0jn"]
+offsets = PackedFloat32Array(0, 0.70955884)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_3xd07"]
+gradient = SubResource("Gradient_6v0jn")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
 [node name="player" type="CharacterBody2D" unique_id=821665466 groups=["Player"]]
 y_sort_enabled = true
 collision_layer = 4
@@ -52,6 +61,13 @@ script = ExtResource("7")
 
 [node name="combat_component" type="Node" parent="." unique_id=100000004]
 script = ExtResource("8")
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1370086233]
+scale = Vector2(2.40625, 2.4062498)
+shadow_enabled = true
+shadow_filter = 1
+shadow_filter_smooth = 2.7
+texture = SubResource("GradientTexture2D_3xd07")
 
 [connection signal="body_entered" from="hurtbox" to="." method="_on_hurtbox_body_entered"]
 [connection signal="timeout" from="stun_timer" to="." method="_on_stun_timer_timeout"]
