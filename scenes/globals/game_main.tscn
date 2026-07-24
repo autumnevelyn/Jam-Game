@@ -2,7 +2,6 @@
 
 [ext_resource type="PackedScene" uid="uid://bycsslfcog0wh" path="res://scenes/globals/ui.tscn" id="2_by607"]
 [ext_resource type="PackedScene" uid="uid://dgxavxmcy7m0f" path="res://scenes/levels/menu.tscn" id="3_cq3vi"]
-[ext_resource type="Script" uid="uid://c04qtxd53wsby" path="res://scripts/systems/CombatSystem.gd" id="4_j71hc"]
 [ext_resource type="AudioStream" uid="uid://8md8ejtytvvs" path="res://assets/game jam theme.wav" id="4_r6rm0"]
 
 [node name="GameMain" type="Node2D" unique_id=525167573]

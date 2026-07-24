@@ -104,6 +104,11 @@ func add_relic(relic_resource) -> int:
 	})
 	return current_relics.size() - 1
 
+func gain_gold(gold: int):
+	money += randi_range(gold-10, gold);
+	if money <= 1:
+		money = 1;
+	print(money)
 
 ## Reset all data for a new run.
 func reset_for_new_run() -> void:

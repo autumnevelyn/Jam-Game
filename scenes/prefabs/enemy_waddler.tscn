@@ -14,6 +14,7 @@ size = Vector2(16, 16)
 [node name="enemy_chace" type="CharacterBody2D" unique_id=1562589981 groups=["Enemy"]]
 collision_layer = 2
 script = ExtResource("1_55178")
+enemyRating = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=828399677]
 shape = SubResource("RectangleShape2D_3xd07")

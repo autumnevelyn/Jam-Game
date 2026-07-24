@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cqeaxe3ebrykw" path="res://scenes/prefabs/enemy_chaser.tscn" id="7_ibugp"]
 [ext_resource type="Resource" uid="uid://nrl0kefm1ofa" path="res://scenes/prefabs/items/sword.tres" id="8_3p04p"]
 [ext_resource type="Script" uid="uid://tgpfpj8wbdd3" path="res://scripts/items/item_drop.gd" id="8_8qukl"]
+[ext_resource type="PackedScene" uid="uid://c3ojvipdg6tp3" path="res://scenes/prefabs/money_pile.tscn" id="10_qsp8v"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x42e6"]
 texture = ExtResource("2_ibugp")
@@ -469,3 +470,21 @@ initial_direction = Vector2(0, -1)
 [node name="enemy_chacer" parent="." unique_id=1892350357 instance=ExtResource("7_ibugp")]
 position = Vector2(772, 436)
 item_drop = SubResource("Resource_o6qs0")
+
+[node name="money_pile" parent="." unique_id=421441149 instance=ExtResource("10_qsp8v")]
+position = Vector2(697, -41)
+
+[node name="money_pile2" parent="." unique_id=675244883 instance=ExtResource("10_qsp8v")]
+position = Vector2(738, -41)
+
+[node name="money_pile3" parent="." unique_id=1336778639 instance=ExtResource("10_qsp8v")]
+position = Vector2(754, -38)
+money = 5
+
+[node name="money_pile4" parent="." unique_id=724878378 instance=ExtResource("10_qsp8v")]
+position = Vector2(769, -40)
+money = 5
+
+[node name="money_pile5" parent="." unique_id=214239662 instance=ExtResource("10_qsp8v")]
+position = Vector2(823, -39)
+money = 20

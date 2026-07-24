@@ -6,6 +6,7 @@ extends Control
 @onready var health_container: BoxContainer = $health_container
 @onready var enemies_left_label: Label = $"enemies left_label"
 @onready var skill_container: VBoxContainer = $skill_container
+@onready var money_label: Label = $money_label
 
 # cached heart nodes
 var _heart_nodes: Array = []
@@ -132,6 +133,7 @@ func _update_all_hearts() -> void:
 			heart.health_changed()
 
 func _on_enemy_killed(data: Dictionary, loading := false):
+	money_label.text = "Money: " + str(int(PlayerData.money));
 	if(loading):
 		enemies_left_label.text = str(get_tree().get_nodes_in_group("Enemy").size());
 	else:
