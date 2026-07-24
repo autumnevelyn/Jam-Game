@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://iwu6e7c2i21y" path="res://scripts/ui/ui.gd" id="1_uke1k"]
 [ext_resource type="PackedScene" uid="uid://cef7vq5alew06" path="res://scenes/prefabs/ui/heart.tscn" id="3_t1p0u"]
+[ext_resource type="Script" uid="uid://dqgtbvpk6n7ja" path="res://scripts/ui/SkillBar.gd" id="4_wvqui"]
 
 [node name="ui" type="Control" unique_id=1436271836]
 layout_mode = 3
@@ -45,14 +46,6 @@ grow_horizontal = 0
 text = "1"
 horizontal_alignment = 2
 
-[node name="skill_container" type="VBoxContainer" parent="." unique_id=1971159162]
-layout_mode = 0
-offset_left = 15.0
-offset_top = 200.0
-offset_right = 100.0
-offset_bottom = 500.0
-theme_override_constants/separation = 8
-
 [node name="money_label" type="Label" parent="." unique_id=584193338]
 layout_mode = 0
 offset_left = 281.0
@@ -62,3 +55,16 @@ offset_bottom = 88.0
 theme_override_font_sizes/font_size = 41
 text = "GOLD: "
 vertical_alignment = 1
+
+[node name="skill_bar" type="Control" parent="." unique_id=1971159162]
+layout_mode = 1
+anchors_preset = 12
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -140.0
+offset_top = -80.0
+offset_right = 140.0
+offset_bottom = -20.0
+script = ExtResource("4_wvqui")
