@@ -45,14 +45,24 @@ func process_movement(direction: Vector2, delta: float) -> void:
 	if direction.length() > 0.0:
 		_parent.velocity += direction * speed
 	
-	if(_parent.effects.has("Frozen")):
-		print("aaaaaaaaaa")
-		_parent.velocity *= 0.75;
+	# apply frozen slow from status effects
+	var status_comp = _find_status_effect_component(_parent)
+	if status_comp and status_comp.has_status(Effect.Type.FREEZE):
+		_parent.velocity *= status_comp.get_slow_multiplier()
 
 	_parent.move_and_slide()
 
 
 ## Stop all movement immediately.
+func _find_status_effect_component(node: Node) -> StatusEffectComponent:
+	if not node:
+		return null
+	for child in node.get_children():
+		if child is StatusEffectComponent:
+			return child
+	if node is StatusEffectComponent:
+		return node
+	return null
 func stop() -> void:
 	if _parent:
 		_parent.velocity = Vector2.ZERO

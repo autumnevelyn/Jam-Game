@@ -1,6 +1,10 @@
 [gd_resource type="Resource" script_class="Skill" format=3 uid="uid://dawo01aq0h0l4"]
 
 [ext_resource type="Script" uid="uid://dm8c5146rdpbp" path="res://scripts/items/skill.gd" id="1_lho8e"]
+[ext_resource type="Script" uid="uid://dybc800nlugaj" path="res://scripts/items/Effect.gd" id="2_lho8e"]
+
+[sub_resource type="Resource" id="Effect_lho8e"]
+script = ExtResource("2_lho8e")
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dga24"]
 radius = 8.0
@@ -16,6 +20,6 @@ skill_name = "Fire Punch"
 description = "A Punch of fire dealing moderate damage"
 ticks = 3
 base_damage = 5.0
-effect_name = "Fire"
+effects = Array[ExtResource("2_lho8e")]([SubResource("Effect_lho8e")])
 hitbox_size = SubResource("CapsuleShape2D_dga24")
 metadata/_custom_type_script = "uid://dm8c5146rdpbp"
