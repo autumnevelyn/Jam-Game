@@ -6,6 +6,7 @@ extends "res://scripts/entities/enemies/base_enemy.gd"
 @onready var detect_shape: Area2D = $detect_shape
 
 const SKILL = preload("res://scenes/prefabs/skill.tscn")
+@onready var audio_stream_player_2d: AudioStreamPlayer2D = $AudioStreamPlayer2D
 
 @export var item_drop: ItemDrop = preload("res://scenes/prefabs/items/item_drop_default.tres");
 
@@ -79,6 +80,9 @@ func _physics_process(delta: float) -> void:
 			else:
 				animated_sprite_2d.play("walk_side");
 				animated_sprite_2d.flip_h = abs(velocity.angle()) > PI * 3 / 4;
+		if(not audio_stream_player_2d.playing):
+			audio_stream_player_2d.pitch_scale = randf_range(0.8, 1.1);
+			audio_stream_player_2d.play();
 	else:
 		if(isDead and animated_sprite_2d.animation != "dies"):
 			animated_sprite_2d.play("dies");

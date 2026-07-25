@@ -101,28 +101,24 @@ stretch_mode = 4
 [node name="TextureRect2" type="TextureRect" parent="skill_bar/HBoxContainer" unique_id=2069783219]
 custom_minimum_size = Vector2(41.76, 0)
 layout_mode = 2
-tooltip_text = "SLASH"
 expand_mode = 1
 stretch_mode = 4
 
 [node name="TextureRect3" type="TextureRect" parent="skill_bar/HBoxContainer" unique_id=553741150]
 custom_minimum_size = Vector2(41.76, 0)
 layout_mode = 2
-tooltip_text = "SLASH"
 expand_mode = 1
 stretch_mode = 4
 
 [node name="TextureRect4" type="TextureRect" parent="skill_bar/HBoxContainer" unique_id=2963]
 custom_minimum_size = Vector2(41.76, 0)
 layout_mode = 2
-tooltip_text = "SLASH"
 expand_mode = 1
 stretch_mode = 4
 
 [node name="TextureRect5" type="TextureRect" parent="skill_bar/HBoxContainer" unique_id=1264103118]
 custom_minimum_size = Vector2(41.76, 0)
 layout_mode = 2
-tooltip_text = "SLASH"
 expand_mode = 1
 stretch_mode = 4
 

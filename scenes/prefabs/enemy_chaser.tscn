@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://d0knc88t5wtwh" path="res://assets/slime.png" id="2_o6qs0"]
 [ext_resource type="Script" uid="uid://do4cd6e4iwpra" path="res://scripts/entities/components/health_component.gd" id="3_nahlv"]
 [ext_resource type="Script" uid="uid://ddde6lblvskai" path="res://scripts/entities/components/movement_component.gd" id="4_deqa4"]
+[ext_resource type="AudioStream" uid="uid://d34j66djolbj0" path="res://assets/audio/freesound_community-mcnasty-37242.mp3" id="5_b5h63"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3xd07"]
 size = Vector2(16, 16)
@@ -410,6 +411,12 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="detect_shape" unique_id=1893203880]
 shape = SubResource("RectangleShape2D_jq8tk")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1328734579]
+stream = ExtResource("5_b5h63")
+volume_db = -1.95
+max_distance = 546.0
+attenuation = 11.712673
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="detect_shape" to="." method="_on_area_2d_body_entered"]

@@ -12,6 +12,10 @@ extends CharacterBody2D
 @onready var hurtbox: Area2D = $hurtbox
 @onready var stun_timer: Timer = $stun_timer
 
+@onready var walk_audio: AudioStreamPlayer2D = $walkAudio
+@onready var hit_audio: AudioStreamPlayer2D = $hitAudio
+@onready var dash_audio: AudioStreamPlayer2D = $dashAudio
+
 # ---- State ----
 enum State { IDLE, WALK, STUNNED, SLASH, DASH }
 
@@ -67,6 +71,9 @@ func state_idle_enter() -> void:
 	else:
 		animated_sprite_2d.play("side idle");
 		animated_sprite_2d.flip_h = _direction == Vector2(-1, 0);
+		
+	if(walk_audio.playing):
+		walk_audio.stop();
 
 
 func state_idle_physics_process(delta: float) -> void:
@@ -108,12 +115,18 @@ func state_walk_physics_process(delta: float) -> void:
 	else:
 		animated_sprite_2d.play("side walk");
 		animated_sprite_2d.flip_h = _direction.x < 0;
+		
+	if(not walk_audio.playing):
+		walk_audio.play();
 
 
 func state_stunned_enter() -> void:
 	active_state = State.STUNNED
 	stun_timer.wait_time = 0.5
 	stun_timer.start()
+	
+	hit_audio.pitch_scale = randf_range(0.8, 1.1);
+	hit_audio.play();
 
 
 func state_stunned_physics_process(delta: float) -> void:
@@ -121,6 +134,8 @@ func state_stunned_physics_process(delta: float) -> void:
 
 func state_dash_enter() -> void:
 	active_state = State.DASH;
+	dash_audio.pitch_scale = randf_range(0.8, 1.1);
+	dash_audio.play()
 
 func state_dash_physics_process(delta: float) -> void:
 	move_and_slide()

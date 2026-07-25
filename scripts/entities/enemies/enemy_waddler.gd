@@ -3,6 +3,7 @@
 # extends base_enemy for health/combat, adds waddler-specific movement.
 extends "res://scripts/entities/enemies/base_enemy.gd"
 
+@onready var audio_stream_player_2d: AudioStreamPlayer2D = $AudioStreamPlayer2D
 
 ## Initial patrol direction.
 @export var initial_direction: Vector2 = Vector2(1.0, 0.0)
@@ -67,11 +68,17 @@ func _physics_process(delta: float) -> void:
 				animated_sprite_2d.play("walk_side");
 				animated_sprite_2d.flip_h = _direction.is_equal_approx(Vector2.LEFT);
 		
-		
+		if(not audio_stream_player_2d.playing):
+			if(randf() < 0.2):
+				audio_stream_player_2d.volume_db = -2;
+				audio_stream_player_2d.pitch_scale = randf_range(0.8, 1.1);
+				audio_stream_player_2d.play();
 		move_and_slide()
 	else:
 		if(isDead and animated_sprite_2d.animation != "dies"):
 			animated_sprite_2d.play("dies");
+			audio_stream_player_2d.volume_db = 1;
+			audio_stream_player_2d.play();
 		elif(hurting and not isDead):
 			move_and_slide();
 			if(animated_sprite_2d.animation != "hurt_down" and animated_sprite_2d.animation != "hurt_up" and animated_sprite_2d.animation != "hurt_side"):
@@ -82,6 +89,8 @@ func _physics_process(delta: float) -> void:
 				else:
 					animated_sprite_2d.play("hurt_side");
 					animated_sprite_2d.flip_h = velocity.is_equal_approx(Vector2.LEFT);
+			audio_stream_player_2d.volume_db = 1;
+			audio_stream_player_2d.play();
 		
 
 func _on_animated_sprite_2d_animation_finished() -> void:
