@@ -13,6 +13,10 @@ enum Rating {MINION, EASY, MEDIUM, HARD, BOSS}
 @export var enemyRating: Rating = Rating.MINION;
 
 var status_effects: StatusEffectComponent
+var knockback_power := 100.0;
+var animated_sprite_2d: AnimatedSprite2D;
+var isDead := false;
+var hurting := false;
 
 func _ready() -> void:
 	if health_component:
@@ -45,9 +49,16 @@ func _on_combat_hit(data: Dictionary):
 		for effect in eff_list:
 			if effect is Effect:
 				status_effects.apply_effect(effect)
+		# knockback + hurt animation
+		var damage = data.get("damage", 0.0)
+		if damage > 0.0 and not hurting and not isDead:
+			_hurt(data)
 
 
 func _on_died() -> void:
+	isDead = true;
+	if animated_sprite_2d:
+		animated_sprite_2d.play("dies");
 	
 	dropGold();
 	
@@ -55,7 +66,15 @@ func _on_died() -> void:
 		"enemy": self,
 		"position": global_position,
 	})
-	queue_free()
+	# queue_free handled by animation_finished for death anims
+
+
+func _hurt(data: Dictionary) -> void:
+	hurting = true
+	var attacker = data.get("attacker")
+	if attacker:
+		var knockback_dir = global_position.direction_to(attacker.global_position) * -1
+		movement_component.apply_knockback(knockback_dir * knockback_power)
 
 func dropGold():
 	match(enemyRating):

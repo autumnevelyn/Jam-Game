@@ -72,3 +72,55 @@ offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("4_wvqui")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="skill_bar" unique_id=1289600473]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = 9.0
+offset_right = -14.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="skill_bar/HBoxContainer" unique_id=673298746]
+custom_minimum_size = Vector2(41.76, 0)
+layout_mode = 2
+tooltip_text = "SLASH
+Deals light damage 
+Cooldown 1 tick
+range 1"
+expand_mode = 1
+stretch_mode = 4
+
+[node name="TextureRect2" type="TextureRect" parent="skill_bar/HBoxContainer" unique_id=2069783219]
+custom_minimum_size = Vector2(41.76, 0)
+layout_mode = 2
+tooltip_text = "SLASH"
+expand_mode = 1
+stretch_mode = 4
+
+[node name="TextureRect3" type="TextureRect" parent="skill_bar/HBoxContainer" unique_id=553741150]
+custom_minimum_size = Vector2(41.76, 0)
+layout_mode = 2
+tooltip_text = "SLASH"
+expand_mode = 1
+stretch_mode = 4
+
+[node name="TextureRect4" type="TextureRect" parent="skill_bar/HBoxContainer" unique_id=2963]
+custom_minimum_size = Vector2(41.76, 0)
+layout_mode = 2
+tooltip_text = "SLASH"
+expand_mode = 1
+stretch_mode = 4
+
+[node name="TextureRect5" type="TextureRect" parent="skill_bar/HBoxContainer" unique_id=1264103118]
+custom_minimum_size = Vector2(41.76, 0)
+layout_mode = 2
+tooltip_text = "SLASH"
+expand_mode = 1
+stretch_mode = 4
