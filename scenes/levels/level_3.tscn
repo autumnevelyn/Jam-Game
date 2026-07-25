@@ -1,4 +1,4 @@
-[gd_scene format=4 uid="uid://csvv78qt7fvln"]
+[gd_scene format=4 uid="uid://bcj3ucft42cha"]
 
 [ext_resource type="Script" uid="uid://oagkgxbkc72q" path="res://scripts/entities/level.gd" id="1_qpwj6"]
 [ext_resource type="TileSet" uid="uid://3lg3jkm4mt04" path="res://assets/tile_set.tres" id="2_2bnyt"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://cqeaxe3ebrykw" path="res://scenes/prefabs/enemy_chaser.tscn" id="7_ibugp"]
 [ext_resource type="Script" uid="uid://tgpfpj8wbdd3" path="res://scripts/items/item_drop.gd" id="8_8qukl"]
 [ext_resource type="PackedScene" uid="uid://c3ojvipdg6tp3" path="res://scenes/prefabs/money_pile.tscn" id="10_qsp8v"]
+[ext_resource type="PackedScene" uid="uid://cffk81j0mxj26" path="res://scenes/prefabs/portal.tscn" id="11_n6eey"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qi5uv"]
 texture = ExtResource("3_n6eey")
@@ -361,3 +362,6 @@ position = Vector2(729, 216)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=878900869]
 color = Color(0.62152386, 0.62152386, 0.6215238, 1)
+
+[node name="portal" parent="." unique_id=224939894 instance=ExtResource("11_n6eey")]
+position = Vector2(231, 125)

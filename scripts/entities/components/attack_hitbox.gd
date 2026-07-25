@@ -3,7 +3,8 @@
 extends Area2D
 
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
-@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+@onready var animated_sprite_2d: AnimatedSprite2D = $Node2D/AnimatedSprite2D
+@onready var node_2d: Node2D = $Node2D
 @onready var timer: Timer = $Timer
 
 var parent: Node2D
@@ -48,15 +49,17 @@ func _on_skill_timer_expired(data: Dictionary):
 			"Freeze Breeze":
 				animated_sprite_2d.play("freeze breeze");
 				animated_sprite_2d.scale = Vector2(1, 1);
-				
-		
-	animated_sprite_2d.rotation = parent.get_angle_to(global_position) + PI / 4;
+		if(PlayerData.current_skills[data["slot"]].skill_type == 1): # DAMAGE
+			collision_shape_2d.shape = PlayerData.current_skills[data["slot"]].hitbox_size;
+	node_2d.rotation = parent.get_angle_to(get_global_mouse_position());
 
 func _on_area_entered(area: Area2D) -> void:
+	print(active);
 	if not active:
 		return
 
 	var target = area.get_parent()
+	print(target);
 	if not target:
 		return
 

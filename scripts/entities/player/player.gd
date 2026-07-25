@@ -13,7 +13,7 @@ extends CharacterBody2D
 @onready var stun_timer: Timer = $stun_timer
 
 # ---- State ----
-enum State { IDLE, WALK, STUNNED, SLASH }
+enum State { IDLE, WALK, STUNNED, SLASH, DASH }
 
 var active_state: State = State.IDLE
 var _skills: Array = []
@@ -22,6 +22,7 @@ var _direction := Vector2(0, 1);
 var knockback_force := 400.0;
 var dead := false;
 
+var onSkill := false;
 
 func _ready() -> void:
 	state_machine.initial_state = "idle"
@@ -34,7 +35,8 @@ func _ready() -> void:
 	SkillSystem.set_player(self)
 	
 	# Listen for attack-fired events to spawn hitboxes
-	EventBus.subscribe(EventBus.ATTACK_FIRED, _on_attack_fired)
+	EventBus.subscribe(EventBus.ATTACK_FIRED, _on_attack_fired);
+	EventBus.subscribe(EventBus.SELF_BUFF_APPLIED, _on_self_buff_applied);
 
 
 func _exit_tree() -> void:
@@ -116,6 +118,13 @@ func state_stunned_enter() -> void:
 func state_stunned_physics_process(delta: float) -> void:
 	movement_component.process_movement(Vector2.ZERO, delta)
 
+func state_dash_enter() -> void:
+	active_state = State.DASH;
+
+func state_dash_physics_process(delta: float) -> void:
+	move_and_slide()
+
+
 # input helpers
 
 func _get_input_direction() -> Vector2:
@@ -130,14 +139,15 @@ func _handle_attack_input() -> void:
 
 
 func _handle_skill_input() -> void:
-	if Input.is_action_just_pressed("skill 1"):
-		_try_use_skill(0)
-	if Input.is_action_just_pressed("skill 2"):
-		_try_use_skill(1)
-	if Input.is_action_just_pressed("skill 3"):
-		_try_use_skill(2)
-	if Input.is_action_just_pressed("skill 4"):
-		_try_use_skill(3)
+	if(not onSkill):
+		if Input.is_action_just_pressed("skill 1"):
+			_try_use_skill(0)
+		if Input.is_action_just_pressed("skill 2"):
+			_try_use_skill(1)
+		if Input.is_action_just_pressed("skill 3"):
+			_try_use_skill(2)
+		if Input.is_action_just_pressed("skill 4"):
+			_try_use_skill(3)
 
 
 func _start_attack_combo() -> void:
@@ -171,7 +181,9 @@ func _on_attack_fired(data: Dictionary) -> void:
 	# Spawn the attack hitbox in the direction of the mouse
 	var mouse_dir = _get_mouse_direction()
 	attack_hitbox.active = true
-	attack_hitbox.position = mouse_dir * 16.0
+	print(data)
+	
+	attack_hitbox.position = mouse_dir * data["range"] * 16.0;
 	attack_hitbox.damage = data.get("damage", 1.0)
 	attack_hitbox.effects = data.get("effects", [])
 
@@ -185,6 +197,17 @@ func _on_damaged(amount: float, source: Node) -> void:
 		var knockback_dir = Vector2.from_angle(source.get_angle_to(position))
 		movement_component.apply_knockback(knockback_dir * knockback_force)
 
+func _on_self_buff_applied(data: Dictionary):
+	if(data["skill"].skill_type == 2):
+		pass
+	if(data["skill"].skill_type == 3):
+		match(data["skill"].skill_name):
+			"Dash":
+				state_machine.transition("dash");
+				velocity = _get_mouse_direction() * data["skill"].range * 16 * 10;
+				stun_timer.wait_time = 0.1;
+				stun_timer.start();
+				
 
 func _on_died() -> void:
 	EventBus.emit_event(EventBus.PLAYER_DIED, {
@@ -211,6 +234,8 @@ func _on_stun_timer_timeout() -> void:
 				state_machine.transition("idle")
 				print("stand up")
 		State.SLASH:
+			state_machine.transition("idle")
+		State.DASH:
 			state_machine.transition("idle")
 
 func _on_hurtbox_body_entered(body: Node2D) -> void:
