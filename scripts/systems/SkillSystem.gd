@@ -6,8 +6,9 @@ extends Node
 
 ## Duration of one tick in seconds.
 const TICK_DURATION: float = 2
-## Slash base damage
-const SLASH_DMG: float = 1.0
+
+## Ddefault slash attack resource.
+static var slash_skill: Skill = preload("res://scenes/prefabs/items/slash.tres")
 
 ## Data for one running skill countdown.
 class CountDown:
@@ -21,9 +22,9 @@ class CountDown:
 		remaining_ticks = p_skill.ticks if p_skill else 1
 
 var tick_timer = Timer.new() 
-## running timers; keyed by slot index (-1 = slash).
+## running timers; keyed by slot index (0-4).
 var _running_countdowns: Dictionary = {}
-## countdowns to be run on next tick; keyed by slot index (-1 = slash).
+## countdowns to be run on next tick; keyed by slot index (0-4).
 var _queued_countdowns: Dictionary = {}
 ## player reference
 var _player: Node2D = null
@@ -47,21 +48,13 @@ func set_player(player: Node2D) -> void:
 	_player = player
 
 # API
-## queue the slash timer (1 tick).
-func queue_slash() -> void:
-	if _queued_countdowns.has(-1):
-		return  # slash already queued (slash can be buffered)
-	_queued_countdowns[-1] = CountDown.new(-1, null)
-	EventBus.emit_event(EventBus.PLAYER_SLASH_USED, {})
-	if _no_countdowns(): _reset_tick_timer()
-
-
-## queue a skill timer for the given slot.
+## queue a skill timer for the given slot (0-4; 0 = slash, 1-4 = equipped skills).
 func queue_skill(slot: int, skill: Skill) -> void:
-	if _running_countdowns.has(slot) or _queued_countdowns.has(slot):
+	if (_queued_countdowns.has(slot) or 
+	  skill.skill_type != Skill.SkillType.SLASH and _running_countdowns.has(slot)):
 		return  # skill already queued or counting down (no buffer)
 	_queued_countdowns[slot] = CountDown.new(slot, skill)
-	EventBus.emit_event(EventBus.PLAYER_SKILL_USED, {"slot": slot, "skill": skill})
+	EventBus.emit_event(EventBus.PLAYER_SKILL_USED, {"skill": skill})
 	print_rich(skill.skill_name," [%d]"%slot )
 	if _no_countdowns(): _reset_tick_timer()
 
@@ -81,12 +74,10 @@ func _on_tick() -> void:
 		countdown.remaining_ticks -= 1
 		
 		# emit tick events for skill UI 
-		if countdown.skill and countdown.skill.skill_type != Skill.SkillType.SLASH:
-			EventBus.emit_event(EventBus.SKILL_TIMER_TICK, {
-				"slot": slot,
-				"remaining": countdown.remaining_ticks,
-				"total": countdown.skill.ticks,
-			})
+		EventBus.emit_event(EventBus.SKILL_TIMER_TICK, {
+			"skill": countdown.skill,
+			"remaining": countdown.remaining_ticks,
+		})
 		
 		if countdown.remaining_ticks <= 0:
 			expiring.append(slot)
@@ -99,13 +90,10 @@ func _on_tick() -> void:
 		var countdown = _running_countdowns[slot]
 		_running_countdowns.erase(slot)
 		EventBus.emit_event(EventBus.SKILL_TIMER_EXPIRED, {
-			"slot": slot,
+			"skill": countdown.skill,
 		})
 		
-		if slot == -1:
-			# slash
-			damaging.append(countdown)
-		elif countdown.skill.skill_type == Skill.SkillType.DAMAGE:
+		if countdown.skill.skill_type == Skill.SkillType.SLASH or countdown.skill.skill_type == Skill.SkillType.DAMAGE:
 			damaging.append(countdown)
 		else:
 			non_damaging.append(countdown)
@@ -120,8 +108,6 @@ func _on_tick() -> void:
 		for countdown in damaging:
 			if countdown.skill:
 				total_damage += countdown.skill.base_damage
-			else:
-				total_damage += SLASH_DMG;
 		
 		# apply combo multiplier (damage multiplies per extra skill)
 		total_damage *= 1.0 + 0.5 * (total_skills - 1) # TODO: probs needs refining
@@ -175,15 +161,10 @@ func _start_queued_timers() -> void:
 	for slot in _queued_countdowns.keys():
 		var countdown = _queued_countdowns[slot] as CountDown
 		_running_countdowns[slot] = countdown
-		if countdown.slot == -1:
-			EventBus.emit_event(EventBus.SLASH_STARTED, {})
-		else:
-			EventBus.emit_event(EventBus.SKILL_TIMER_STARTED, {
-				"slot": slot,
-				"skill": countdown.skill,
-				"total_ticks": countdown.skill.ticks,
-			})
-			print_rich( countdown.skill.skill_name," [%d]"%slot )
+		EventBus.emit_event(EventBus.SKILL_TIMER_STARTED, {
+			"skill": countdown.skill,
+		})
+		print_rich( countdown.skill.skill_name," [%d]"%slot )
 	_queued_countdowns.clear()
 
 func _no_countdowns() -> bool:

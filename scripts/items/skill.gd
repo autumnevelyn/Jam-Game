@@ -19,7 +19,7 @@ enum SkillType {
 ## The type of skill – determines behaviour on timer expiry
 @export var skill_type: SkillType = SkillType.DAMAGE
 
-## Duration in ticks (1 tick = 0.5 seconds)
+## Duration in ticks
 @export var ticks: int = 1
 
 ## Base damage dealt (for SLASH and DAMAGE types)

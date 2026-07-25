@@ -86,8 +86,8 @@ func _draw() -> void:
 		var slot_rect = Rect2(x, y, _slot_size, _slot_size)
 		
 		if i == SLASH_SLOT_IDX:
-			# Basic attack slot — always filled
-			_draw_slot(slot_rect, null, true)
+			# Slash slot — uses the shared slash skill resource
+			_draw_slot(slot_rect, SkillSystem.slash_skill, true)
 		else:
 			var skill_idx = i - 1  # skills start after slash
 			var has_skill = skill_idx < skills.size() and skills[skill_idx] != null

@@ -37,18 +37,22 @@ func _on_timer_timeout() -> void:
 
 
 func _on_skill_timer_expired(data: Dictionary):
-	if data["slot"] == -1:
+	var skill: Skill = data.get("skill")
+	if not skill:
+		return
+	
+	if skill.skill_type == Skill.SkillType.SLASH:
+		# Slash — always plays the default slash animation
 		animated_sprite_2d.play("slash");
 		animated_sprite_2d.scale = Vector2(0.5, 0.5);
 	else:
-		match(PlayerData.current_skills[data["slot"]].skill_name):
+		match(skill.skill_name):
 			"Fire Punch":
 				animated_sprite_2d.play("fire punch");
 				animated_sprite_2d.scale = Vector2(0.5, 0.5);
 			"Freeze Breeze":
 				animated_sprite_2d.play("freeze breeze");
 				animated_sprite_2d.scale = Vector2(1, 1);
-				
 		
 	animated_sprite_2d.rotation = parent.get_angle_to(global_position) + PI / 4;
 
