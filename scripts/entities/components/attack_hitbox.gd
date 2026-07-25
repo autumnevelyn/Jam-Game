@@ -44,6 +44,8 @@ func _on_skill_timer_expired(data: Dictionary):
 	if data["slot"] == -1:
 		animated_sprite_2d.play("slash");
 		animated_sprite_2d.scale = Vector2(0.5, 0.5);
+		collision_shape_2d.shape = RectangleShape2D.new();
+		collision_shape_2d.shape.size = Vector2(15, 15);
 	else:
 		match(PlayerData.current_skills[data["slot"]].skill_name):
 			"Fire Punch":
