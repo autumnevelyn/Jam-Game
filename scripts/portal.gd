@@ -24,4 +24,9 @@ func _on_game_room_cleared(data: Dictionary):
 func _on_body_entered(body: Node2D) -> void:
 	if(body.name == "player"):
 		if(open):
-			GameManager.advance_room();
+			if(GameManager.current_room == GameManager.rooms_until_boss):
+				body.won = true;
+				body.state_machine.transition("stunned")
+				GameManager.end_run(true);
+			else:
+				GameManager.advance_room();

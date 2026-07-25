@@ -38,6 +38,7 @@ func _ready() -> void:
 
 func _exit_tree() -> void:
 	EventBus.unsubscribe(EventBus.ENEMY_KILLED, _on_eneny_killed);
+	super._exit_tree()
 
 func _physics_process(delta: float) -> void:
 	

@@ -29,7 +29,7 @@ func emit_event(event_name: String, data: Dictionary = {}) -> void:
 	var n = _listeners[event_name].size()
 	print_rich("\t[color=#545454]",n ," listener%s"%("" if n==1 else "s"), "[/color]")
 	for callable in _listeners[event_name]:
-		#print_rich("\t[color=#545454]listening: ", callable, "[/color]")
+		print_rich("\t[color=#545454]listening: ", callable, "[/color]")
 		callable.call(data)
 
 

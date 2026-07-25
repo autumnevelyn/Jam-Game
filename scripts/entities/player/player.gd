@@ -25,6 +25,7 @@ var _direction := Vector2(0, 1);
 
 var knockback_force := 400.0;
 var dead := false;
+var won := false;
 
 var effects = {};
 var onSkill := false;
@@ -46,6 +47,7 @@ func _ready() -> void:
 
 func _exit_tree() -> void:
 	# clean up EventBus subscriptions
+	print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
 	EventBus.unsubscribe(EventBus.ATTACK_FIRED, _on_attack_fired)
 	# disconnect component signals
 	if health_component:
@@ -247,9 +249,11 @@ func _on_stun_timer_timeout() -> void:
 	print(active_state)
 	match active_state:
 		State.STUNNED:
-			if(not dead):
+			if(not dead and not won):
 				state_machine.transition("idle")
 				print("stand up")
+			if(won):
+				animated_sprite_2d.play("up idle");
 		State.SLASH:
 			state_machine.transition("idle")
 		State.DASH:

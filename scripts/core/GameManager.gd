@@ -17,6 +17,16 @@ enum RunState {
 @onready var color_rect: ColorRect = get_tree().root.get_node("GameMain/CanvasLayer/ColorRect");
 @onready var ui: Control = get_tree().root.get_node("GameMain/CanvasLayer/ui");
 
+var normal_rooms := [
+	preload("res://scenes/levels/level_2.tscn"),
+	preload("res://scenes/levels/level_3.tscn"),
+	preload("res://scenes/levels/level_4.tscn"),
+];
+var possible_rooms := normal_rooms;
+var first_room := preload("res://scenes/levels/level_1.tscn");
+var boss_room := preload("res://scenes/levels/level_boss.tscn");
+var rooms_until_boss := 4;
+
 var current_run_state: RunState = RunState.MENU
 var current_room: int = 0
 var current_level: Node2D = null;
@@ -36,7 +46,7 @@ func _process(delta: float) -> void:
 
 ## Start a new game run.
 func start_run() -> void:
-	current_room = 0
+	current_room = 4
 	total_rooms_in_run = 0
 	PlayerData.reset_for_new_run();
 	
@@ -107,7 +117,16 @@ func runstate_room_transition():
 		print_rich(current_level)
 		current_level.queue_free();
 	
-	var new_level = load("res://scenes/levels/level_" + str(current_room + 1) +".tscn").instantiate(); 
+	var new_level;
+	if(current_room == rooms_until_boss):
+		new_level = boss_room.instantiate();
+	elif(current_room == 0):
+		new_level = first_room.instantiate();
+	else:
+		new_level = possible_rooms.pop_at(randi_range(0, possible_rooms.size() - 1)).instantiate();
+		
+	
+	#var new_level = load("res://scenes/levels/level_" + str(current_room + 1) +".tscn").instantiate(); 
 	current_level = new_level;
 	add_child(current_level);
 	
