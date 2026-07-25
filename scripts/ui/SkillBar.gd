@@ -80,7 +80,7 @@ func _on_skill_added(_slot_index: int, _skill: Resource) -> void:
 		"Fire Punch":
 			get_child(0).get_child(_slot_index + 1).tooltip_text = "FIRE PUNCH
 			Deals moderate damage 
-			Appliese Fire debuff, damaging enemies over time
+			Applies Fire debuff, damaging enemies over time
 			Cooldown 3 tick
 			range 2";
 		"Freeze Breeze":
