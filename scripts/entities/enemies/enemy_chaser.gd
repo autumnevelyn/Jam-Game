@@ -1,6 +1,6 @@
-# enemy_waddler.gd
-# simple patrolling enemy that bounces off walls.
-# extends base_enemy for health/combat, adds waddler-specific movement.
+# enemy_chaser.gd
+# chases the player when detected.
+# extends base_enemy for health/combat, adds chaser-specific movement.
 extends "res://scripts/entities/enemies/base_enemy.gd"
 
 @onready var detect_shape: Area2D = $detect_shape
@@ -13,8 +13,6 @@ const HEART = preload("res://scenes/prefabs/heart.tscn")
 @export var item_drop: ItemDrop = preload("res://scenes/prefabs/items/item_drop_default.tres");
 @export var health_drop: float = 0.5;
 
-## Initial patrol direction.
-
 var target: Node2D;
 var startPos := Vector2(0.0, 0.0);
 
@@ -23,7 +21,7 @@ var _direction: Vector2 = Vector2(0.0, 0.0)
 
 func _ready() -> void:
 	super._ready()
-	knockback_power = 50.0;
+	var knockback_power = 50.0
 	
 	animated_sprite_2d = $AnimatedSprite2D
 	startPos = position;
@@ -37,7 +35,6 @@ func _physics_process(delta: float) -> void:
 			var direction = Vector2.from_angle(get_angle_to(target.position)).normalized();
 			_direction = direction;
 		else:
-			#_direction = Vector2((startPos - position), (startPos - position).normalized());
 			if (startPos - position) < (startPos - position).normalized():
 				_direction = (startPos - position)
 			else:
@@ -45,30 +42,15 @@ func _physics_process(delta: float) -> void:
 
 		velocity = _direction * speed
 
-		if(effects.has("Frozen")):
-			velocity *= 0.5;
-			health_component.take_damage(0.01 * effects.get("Frozen")[0], null);
-			
-			var value = effects.get("Frozen");
-			value[1] -= delta;
-			if(value[1] <= 0):
-				effects.erase("Frozen");
-			else:
-				effects.set("Frozen", value)
-		if(effects.has("Fire")):
-			health_component.take_damage(0.1 * effects.get("Fire")[0], null);
-			
-			var value = effects.get("Fire");
-			value[1] -= delta;
-			if(value[1] <= 0):
-				effects.erase("Fire");
-			else:
-				effects.set("Fire", value)
+		# freeze slow
+		if status_effects and status_effects.has_status(Effect.Type.FREEZE):
+			velocity *= status_effects.get_slow_multiplier()
 		
-		if(effects.has("Frozen")):
+		# visual effects for statuses
+		if status_effects and status_effects.has_status(Effect.Type.FREEZE):
 			modulate = Color(0.7, 0.7, 1.0, 1.0);
 			animated_sprite_2d.speed_scale = 0.5;
-		elif(effects.has("Fire")):
+		elif status_effects and status_effects.has_status(Effect.Type.BURN):
 			modulate = Color(1.0, 0.5, 0.5, 1.0);
 			animated_sprite_2d.speed_scale = 1.0;
 		else:
@@ -105,8 +87,6 @@ func _physics_process(delta: float) -> void:
 func _on_died():
 	var item_type = item_drop.getItem();
 	var droped_item = SKILL.instantiate();
-	
-	#droped_item.get_child(1).texture = item_type.texture;
 	
 	add_sibling(droped_item);
 	droped_item.skill = item_type;

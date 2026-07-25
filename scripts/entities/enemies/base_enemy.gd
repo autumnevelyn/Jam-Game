@@ -12,8 +12,8 @@ enum Rating {MINION, EASY, MEDIUM, HARD, BOSS}
 
 @export var enemyRating: Rating = Rating.MINION;
 
+var status_effects: StatusEffectComponent
 var knockback_power := 100.0;
-var effects = {};
 var animated_sprite_2d: AnimatedSprite2D;
 var isDead := false;
 var hurting := false;
@@ -24,6 +24,15 @@ func _ready() -> void:
 	if movement_component:
 		movement_component.speed = speed
 	
+	status_effects = StatusEffectComponent.new()
+	add_child(status_effects)
+	
+	var status_indicator = EffectStatusIcon.new()
+	status_indicator.name = "EffectStatusIcon"
+	# position above the enemy (adjust as needed for different sprites)
+	status_indicator._set_offset(Vector2(0, -24.0))
+	add_child(status_indicator)
+	
 	EventBus.subscribe(EventBus.COMBAT_HIT, _on_combat_hit);
 
 func _exit_tree() -> void:
@@ -32,13 +41,6 @@ func _exit_tree() -> void:
 	EventBus.unsubscribe(EventBus.COMBAT_HIT, _on_combat_hit);
 
 func _on_combat_hit(data: Dictionary):
-	if(data["target"] == self):
-		for effect in data["effects"]:
-			var effect_length := 5.0;
-			if(effect.name == "Frozen"):
-				effect_length = 10.0;
-			effects.set(effect.name, [effect.strength, effect_length]);
-			
 		if(animated_sprite_2d):
 			hurting = true;
 			if(enemyRating != Rating.BOSS):
@@ -50,8 +52,23 @@ func _on_combat_hit(data: Dictionary):
 			else:
 				animated_sprite_2d.play("hurt_side");
 				animated_sprite_2d.flip_h = velocity.is_equal_approx(Vector2.LEFT);
+	if data["target"] == self:
+		# don't apply effects if already dying or dead
+		if health_component and health_component.health <= 0.0:
+			return
+		var eff_list = data.get("effects", [])
+		for effect in eff_list:
+			if effect is Effect:
+				status_effects.apply_effect(effect)
+		# knockback + hurt animation
+		var damage = data.get("damage", 0.0)
+		if damage > 0.0 and not hurting and not isDead:
+			_hurt(data)
 
 func _on_died() -> void:
+	isDead = true;
+	if animated_sprite_2d:
+		animated_sprite_2d.play("dies");
 	
 	dropGold();
 	
@@ -59,11 +76,15 @@ func _on_died() -> void:
 		"enemy": self,
 		"position": global_position,
 	})
-	if(animated_sprite_2d):
-		print(animated_sprite_2d)
-		animated_sprite_2d.play("dies");
-		isDead = true;
-	else: queue_free()
+	# queue_free handled by animation_finished for death anims
+
+
+func _hurt(data: Dictionary) -> void:
+	hurting = true
+	var attacker = data.get("attacker")
+	if attacker:
+		var knockback_dir = global_position.direction_to(attacker.global_position) * -1
+		movement_component.apply_knockback(knockback_dir * knockback_power)
 
 func dropGold():
 	match(enemyRating):

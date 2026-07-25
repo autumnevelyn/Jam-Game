@@ -39,35 +39,34 @@ func clear_all() -> void:
 
 # ---- Pre-defined event names (for discoverability) ----
 
+# ---- Player events ----
 const PLAYER_DAMAGED        := "player_damaged"
 const PLAYER_HEALED         := "player_healed"
 const PLAYER_DIED           := "player_died"
 const PLAYER_MOVED          := "player_moved"
 const PLAYER_SKILL_USED     := "player_skill_used"
-#const PLAYER_SKILL_READY    := "player_skill_ready"
 const PLAYER_LEVEL_UP       := "player_level_up"
 
+# ---- Enemy events ----
 const ENEMY_DAMAGED         := "enemy_damaged"
 const ENEMY_KILLED          := "enemy_killed"
 
+# ---- Item events ----
 const ITEM_PICKED_UP        := "item_picked_up"
 const RELIC_ACQUIRED        := "relic_acquired"
 
+# ---- Combat events ----
 const COMBAT_HIT            := "combat_hit"
 const COMBAT_MISS           := "combat_miss"
 
 # ---- Tick-based skill timer events ----
-## Emitted when a skill timer starts for a given slot.
 const SKILL_TIMER_STARTED   := "skill_timer_started"
-## Emitted each tick for a running skill timer.
 const SKILL_TIMER_TICK      := "skill_timer_tick"
-## Emitted when a skill timer expires.
 const SKILL_TIMER_EXPIRED   := "skill_timer_expired"
-## Emitted when an attack is fired (solo or combo).
-const ATTACK_FIRED          := "attack_fired"
-## Emitted when a non-damage skill is applied to self.
+const ATTACK_FIRED          := "attack_fired" 
 const SELF_BUFF_APPLIED     := "self_buff_applied"
 
+# ---- Game states ----
 const GAME_RUN_STARTED      := "game_run_started"
 const GAME_RUN_ENDED        := "game_run_ended"
 const GAME_ROOM_CLEARED     := "game_room_cleared"

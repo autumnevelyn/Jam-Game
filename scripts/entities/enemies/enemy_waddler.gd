@@ -22,8 +22,6 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	# bounce off walls
-	#print(animated_sprite_2d.animation)
 	if(not isDead and not hurting):
 		if initial_direction.x != 0 and is_on_wall():
 			_direction.x *= -1
@@ -31,31 +29,16 @@ func _physics_process(delta: float) -> void:
 			_direction.y *= -1
 			
 		velocity = _direction * speed
-		if(effects.has("Frozen")):
-			velocity *= 0.5;
-			
-			health_component.take_damage(0.01 * effects.get("Frozen")[0], null);
-			
-			var value = effects.get("Frozen");
-			value[1] -= delta;
-			if(value[1] <= 0):
-				effects.erase("Frozen");
-			else:
-				effects.set("Frozen", value)
-		if(effects.has("Fire")):
-			health_component.take_damage(0.1 * effects.get("Fire")[0], null);
-			
-			var value = effects.get("Fire");
-			value[1] -= delta;
-			if(value[1] <= 0):
-				effects.erase("Fire");
-			else:
-				effects.set("Fire", value)
-			
-		if(effects.has("Frozen")):
+		
+		# freeze slow
+		if status_effects and status_effects.has_status(Effect.Type.FREEZE):
+			velocity *= status_effects.get_slow_multiplier()
+		
+		# visual effects for statuses
+		if status_effects and status_effects.has_status(Effect.Type.FREEZE):
 			modulate = Color(0.7, 0.7, 1.0, 1.0);
 			animated_sprite_2d.speed_scale = 0.5;
-		elif(effects.has("Fire")):
+		elif status_effects and status_effects.has_status(Effect.Type.BURN):
 			modulate = Color(1.0, 0.5, 0.5, 1.0);
 			animated_sprite_2d.speed_scale = 1.0;
 		else:

@@ -11,6 +11,7 @@ extends CharacterBody2D
 @onready var attack_hitbox: Area2D = $attack_hitbox
 @onready var hurtbox: Area2D = $hurtbox
 @onready var stun_timer: Timer = $stun_timer
+var status_effects: StatusEffectComponent
 
 @onready var walk_audio: AudioStreamPlayer2D = $walkAudio
 @onready var hit_audio: AudioStreamPlayer2D = $hitAudio
@@ -27,7 +28,6 @@ var knockback_force := 400.0;
 var dead := false;
 var won := false;
 
-var effects = {};
 var onSkill := false;
 
 func _ready() -> void:
@@ -39,6 +39,10 @@ func _ready() -> void:
 	
 	# Register this player with the SkillSystem autoload
 	SkillSystem.set_player(self)
+	
+	# Set up status effect handling
+	status_effects = StatusEffectComponent.new()
+	add_child(status_effects)
 	
 	# Listen for attack-fired events to spawn hitboxes
 	EventBus.subscribe(EventBus.ATTACK_FIRED, _on_attack_fired);
@@ -217,16 +221,29 @@ func _on_damaged(amount: float, source: Node) -> void:
 		movement_component.apply_knockback(knockback_dir * knockback_force)
 
 func _on_self_buff_applied(data: Dictionary):
-	if(data["skill"].skill_type == 2):
-		pass
-	if(data["skill"].skill_type == 3):
-		match(data["skill"].skill_name):
+	var effects_data = data.get("effects", [])
+	for effect in effects_data:
+		if effect is Effect:
+			status_effects.apply_effect(effect)
+	
+	var skill = data.get("skill")
+	if not skill:
+		return
+	
+	if skill.skill_type == 2:
+		# play the skill animation on the player (self-buff visual)
+		attack_hitbox.active = true
+		attack_hitbox.position = Vector2.ZERO
+		attack_hitbox.rotation = 0.0
+		attack_hitbox.damage = 0.0
+	elif skill.skill_type == 3:
+		match(skill.skill_name):
 			"Dash":
 				state_machine.transition("dash");
-				velocity = _get_mouse_direction() * data["skill"].range * 16 * 10;
+				velocity = _get_mouse_direction() * skill.range * 16 * 10;
 				stun_timer.wait_time = 0.1;
 				stun_timer.start();
-				
+
 
 func _on_died() -> void:
 	EventBus.emit_event(EventBus.PLAYER_DIED, {
