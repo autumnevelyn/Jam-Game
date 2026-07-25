@@ -18,7 +18,7 @@ func _on_combat_hit(data: Dictionary) -> void:
 	
 	if not target or not is_instance_valid(target): return
 	
-	print_rich("dmg: %d" % damage, " | effects: ", effects)
+	print_rich(data)
 
 	# try to find a HealthComponent on the target
 	var health_comp = _find_health_component(target)
@@ -26,7 +26,6 @@ func _on_combat_hit(data: Dictionary) -> void:
 		return
 
 	var actual_damage = health_comp.take_damage(damage, attacker)
-	#print(actual_damage);
 	# track damage dealt
 	GameData.damage_dealt += actual_damage
 

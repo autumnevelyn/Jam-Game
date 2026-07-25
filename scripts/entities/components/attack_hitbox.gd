@@ -57,8 +57,8 @@ func _on_skill_timer_expired(data: Dictionary):
 			"Freeze Breeze":
 				animated_sprite_2d.play("freeze breeze");
 				animated_sprite_2d.scale = Vector2(1, 1);
-		if(PlayerData.current_skills[data["slot"]].skill_type == 1): # DAMAGE
-			collision_shape_2d.shape = PlayerData.current_skills[data["slot"]].hitbox_size;
+		if(skill.skill_type == Skill.SkillType.DAMAGE):
+			collision_shape_2d.shape = skill.hitbox_size;
 			
 	rotation = parent.get_angle_to(get_global_mouse_position()) + PI / 2;
 
@@ -66,12 +66,12 @@ func _on_attack_fired(data: Dictionary):
 	effects = data["effects"];
 
 func _on_area_entered(area: Area2D) -> void:
-	print(active);
+	#print_debug(active);
 	if not active:
 		return
 
 	var target = area.get_parent()
-	print(target);
+	#print_debug(target);
 	if not target:
 		return
 
