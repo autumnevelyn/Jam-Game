@@ -12,8 +12,9 @@
 [ext_resource type="AudioStream" uid="uid://dlti358r3eipp" path="res://assets/audio/ThrowAway.wav" id="10_50rl7"]
 [ext_resource type="AudioStream" uid="uid://vbbb8yhtvkkx" path="res://assets/audio/simple-whoosh-382724.mp3" id="11_oqq3r"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_6761a"]
-radius = 7.5
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5rv43"]
+radius = 5.0
+height = 14.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6v0jn"]
 atlas = ExtResource("2_6v0jn")
@@ -354,7 +355,9 @@ collision_layer = 4
 script = ExtResource("1_tou0u")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1739673041]
-shape = SubResource("CircleShape2D_6761a")
+position = Vector2(0, 2)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_5rv43")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=720307739]
 texture_filter = 1

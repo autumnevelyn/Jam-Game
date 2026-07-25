@@ -41,7 +41,8 @@ func _on_combat_hit(data: Dictionary):
 			
 		if(animated_sprite_2d):
 			hurting = true;
-			velocity = Vector2().from_angle(data["attacker"].get_angle_to(self.position)) * knockback_power;
+			if(enemyRating != Rating.BOSS):
+				velocity = Vector2().from_angle(data["attacker"].get_angle_to(self.position)) * knockback_power;
 			if(velocity.angle() > PI / 4 and velocity.angle() < PI * 3 / 4):
 				animated_sprite_2d.play("hurt_up");
 			elif(velocity.angle() < -PI / 4 and velocity.angle() > -PI * 3 / 4):
