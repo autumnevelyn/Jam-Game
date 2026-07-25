@@ -71,6 +71,28 @@ func _build_styles() -> void:
 # ---- Events ----
 func _on_skill_added(_slot_index: int, _skill: Resource) -> void:
 	queue_redraw()
+	match(_skill.skill_name):
+		"Slash":
+			get_child(0).get_child(0).tooltip_text = "SLASH
+			Deals light damage 
+			Cooldown 1 tick
+			range 1";
+		"Fire Punch":
+			get_child(0).get_child(_slot_index + 1).tooltip_text = "FIRE PUNCH
+			Deals moderate damage 
+			Applies Fire debuff, damaging enemies over time
+			Cooldown 3 tick
+			range 2";
+		"Freeze Breeze":
+			get_child(0).get_child(_slot_index + 1).tooltip_text = "FREEZE BREEZE
+			Applies Frozen debuff, slowing and damaging enemies over time
+			Cooldown 4 tick
+			range 2";
+		"Dash":
+			get_child(0).get_child(_slot_index + 1).tooltip_text = "Dash
+			Dashes towards the mouse
+			Cooldown 2 tick
+			range 4";
 
 
 # ---- Drawing ----
