@@ -5,11 +5,19 @@ extends Area2D
 @onready var sprite_2d: Sprite2D = $Sprite2D
 
 ## The skill resource this pickup grants.
-@export var skill: Skill
+@export var skill: Skill = null;
 
+var all_skills = [
+	preload("res://scenes/prefabs/items/dash.tres"), 
+	preload("res://scenes/prefabs/items/fire_punch.tres"), 
+	preload("res://scenes/prefabs/items/freeze breeze.tres"), 
+];
 var playerOn := false;
 
 func _ready() -> void:
+	if skill == null:
+		skill = all_skills.pick_random();
+	
 	update();
 	
 func _process(delta: float) -> void:

@@ -44,6 +44,10 @@ func process_movement(direction: Vector2, delta: float) -> void:
 	# apply movement direction
 	if direction.length() > 0.0:
 		_parent.velocity += direction * speed
+	
+	if(_parent.effects.has("Frozen")):
+		print("aaaaaaaaaa")
+		_parent.velocity *= 0.75;
 
 	_parent.move_and_slide()
 

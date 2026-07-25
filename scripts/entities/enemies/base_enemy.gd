@@ -12,17 +12,28 @@ enum Rating {MINION, EASY, MEDIUM, HARD, BOSS}
 
 @export var enemyRating: Rating = Rating.MINION;
 
+var effects = {};
+
 func _ready() -> void:
 	if health_component:
 		health_component.died.connect(_on_died)
 	if movement_component:
 		movement_component.speed = speed
+	
+	EventBus.subscribe(EventBus.COMBAT_HIT, _on_combat_hit);
 
+func _exit_tree() -> void:
+	#if health_component and health_component.died.is_connected(_on_died):
+	#	health_component.died.disconnect(_on_died)
+	EventBus.unsubscribe(EventBus.COMBAT_HIT, _on_combat_hit);
 
-#func _exit_tree() -> void:
-#	if health_component and health_component.died.is_connected(_on_died):
-#		health_component.died.disconnect(_on_died)
-
+func _on_combat_hit(data: Dictionary):
+	if(data["target"] == self):
+		for effect in data["effects"]:
+			var effect_length := 5.0;
+			if(effect.name == "Frozen"):
+				effect_length = 10.0;
+			effects.set(effect.name, [effect.strength, effect_length]);
 
 func _on_died() -> void:
 	
