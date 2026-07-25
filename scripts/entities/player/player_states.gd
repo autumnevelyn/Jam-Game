@@ -9,7 +9,7 @@
 # see player.gd for the full implementations.
 #
 # Attacks and skills are now handled via the tick-based SkillSystem.
-# Basic attack: left click starts a 1-tick (0.5s) timer -> fires basic attack
+# Slash: left click starts a 1-tick (0.5s) timer -> fires slash
 # Skills: keys 1-4 start skill timers -> combo on same-tick expiry
 class_name PlayerStates
 extends Node

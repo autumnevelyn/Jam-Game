@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Skill" format=3 uid="uid://dv3m1tqxpq0vt"]
+
+[ext_resource type="Script" uid="uid://dm8c5146rdpbp" path="res://scripts/items/skill.gd" id="1_27hvu"]
+
+[resource]
+script = ExtResource("1_27hvu")
+skill_name = "Slash"
+description = "Default slash attack"
+skill_type = 0
+effect_strength = 0.0
+metadata/_custom_type_script = "uid://dm8c5146rdpbp"

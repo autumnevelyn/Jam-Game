@@ -1,5 +1,5 @@
 # SkillBar.gd
-# A bottom-center UI bar showing all equipped skills + basic attack.
+# A bottom-center UI bar showing all equipped skills + slash.
 # Slots are drawn as simple rounded-corner squares.
 # Empty slots appear dimmed/greyed; filled slots show the skill texture.
 extends Control
@@ -11,16 +11,16 @@ var _slot_gap: float = 6.0
 # ---- Colors ----
 var _empty_slot_color: Color = Color(0.2, 0.2, 0.2, 0.5)
 var _filled_slot_bg: Color = Color(0.15, 0.15, 0.15, 0.7)
-var _basic_attack_tint: Color = Color(0.8, 0.8, 0.8, 0.9)
+var _slash_tint: Color = Color(0.8, 0.8, 0.8, 0.9)
 var _slot_border_color: Color = Color(0.4, 0.4, 0.4, 0.6)
 
 # ---- Cached style boxes ----
 var _empty_style: StyleBoxFlat
 var _filled_style: StyleBoxFlat
 
-# ---- Number of slots (1 basic attack + up to 4 skills) ----
+# ---- Number of slots (1 slash + up to 4 skills) ----
 const TOTAL_SLOTS: int = 5
-const BASIC_ATTACK_SLOT_IDX: int = 0
+const SLASH_SLOT_IDX: int = 0
 
 
 # ---- Lifecycle ----
@@ -85,11 +85,11 @@ func _draw() -> void:
 		var x = start_x + i * (_slot_size + _slot_gap)
 		var slot_rect = Rect2(x, y, _slot_size, _slot_size)
 		
-		if i == BASIC_ATTACK_SLOT_IDX:
-			# Basic attack slot — always filled
-			_draw_slot(slot_rect, null, true)
+		if i == SLASH_SLOT_IDX:
+			# Slash slot — uses the shared slash skill resource
+			_draw_slot(slot_rect, SkillSystem.slash_skill, true)
 		else:
-			var skill_idx = i - 1  # skills start after basic attack
+			var skill_idx = i - 1  # skills start after slash
 			var has_skill = skill_idx < skills.size() and skills[skill_idx] != null
 			var skill_res = skills[skill_idx] if has_skill else null
 			_draw_slot(slot_rect, skill_res, has_skill)
@@ -114,6 +114,6 @@ func _draw_slot(rect: Rect2, skill_res: Skill, filled: bool) -> void:
 			var center = rect.get_center()
 			var r = rect.size.x * 0.25
 			# Draw a small circle as placeholder
-			draw_circle(center, r, _basic_attack_tint)
+			draw_circle(center, r, _slash_tint)
 	else:
 		draw_style_box(_empty_style, rect)

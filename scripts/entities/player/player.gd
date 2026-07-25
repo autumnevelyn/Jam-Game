@@ -16,7 +16,7 @@ extends CharacterBody2D
 enum State { IDLE, WALK, STUNNED, SLASH, DASH }
 
 var active_state: State = State.IDLE
-var _skills: Array = []
+var _slot_skills: Array = []  # 5-element: [0=slash, 1-4=equipped skills]
 var _direction := Vector2(0, 1);
 
 var knockback_force := 400.0;
@@ -136,19 +136,20 @@ func _get_input_direction() -> Vector2:
 
 func _handle_attack_input() -> void:
 	if Input.is_action_just_pressed("leftClick"):
-		SkillSystem.queue_basic_attack()
+		if _slot_skills.size() > 0 and _slot_skills[0]:
+			SkillSystem.queue_skill(0, _slot_skills[0])
 
 
 func _handle_skill_input() -> void:
-	if(not onSkill):
-		if Input.is_action_just_pressed("skill 1"):
-			_try_use_skill(0)
-		if Input.is_action_just_pressed("skill 2"):
-			_try_use_skill(1)
-		if Input.is_action_just_pressed("skill 3"):
-			_try_use_skill(2)
-		if Input.is_action_just_pressed("skill 4"):
-			_try_use_skill(3)
+	#if(not onSkill):
+	if Input.is_action_just_pressed("skill 1"):
+		_try_use_skill(1)
+	if Input.is_action_just_pressed("skill 2"):
+		_try_use_skill(2)
+	if Input.is_action_just_pressed("skill 3"):
+		_try_use_skill(3)
+	if Input.is_action_just_pressed("skill 4"):
+		_try_use_skill(4)
 
 
 func _start_attack_combo() -> void:
@@ -168,9 +169,9 @@ func _get_mouse_direction() -> Vector2:
 
 func _try_use_skill(slot: int) -> void:
 	_refresh_skills();
-	if slot >= _skills.size():
+	if slot >= _slot_skills.size():
 		return
-	var skill_resource = _skills[slot]
+	var skill_resource = _slot_skills[slot]
 	if not skill_resource:
 		return
 	SkillSystem.queue_skill(slot, skill_resource)
@@ -244,4 +245,4 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 		health_component.take_damage(1.0, body)
 
 func _refresh_skills() -> void:
-	_skills = PlayerData.current_skills.duplicate()
+	_slot_skills = [SkillSystem.slash_skill] + PlayerData.current_skills.duplicate()

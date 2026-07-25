@@ -1,27 +1,24 @@
 # PlayerSkillOverlay.gd
 # A Node2D child of the player that draws small timer-circle indicators
-# above the player's head for each actively running skill/basic-attack timer.
-# Shows only when timers are active (no dimmed/inactive state).
+# above the player's head for each actively running skill timer.
+# Shows a dimmed version when skills are queued (waiting for next tick).
 # Includes per-frame fuse animation for the current tick.
 extends Node2D
 
 # ---- Per-timer data ----
 class ActiveTimer:
-	var slot: int
-	var skill: Skill  # null for basic attack
-	var total_ticks: int
+	var skill: Skill
 	var remaining_ticks: int
 	var tick_start_msec: int  # time (ms) when the current tick began
 
-	func _init(p_slot: int, p_skill: Skill, p_total: int, p_remaining: int) -> void:
-		slot = p_slot
+	func _init(p_skill: Skill) -> void:
 		skill = p_skill
-		total_ticks = p_total
-		remaining_ticks = p_remaining
+		remaining_ticks = skill.ticks
 		tick_start_msec = Time.get_ticks_msec()
 
 # ---- State ----
-var _active_timers: Dictionary = {}  # slot -> ActiveTimer
+var _active_timers: Dictionary = {}  # skill -> ActiveTimer
+var _queued_skills: Array = []       # Skills queued but not yet running (ordered by queue)
 
 # ---- Drawing constants (smaller than the original SkillCircleIcon) ----
 var _outer_radius: float = 10.0
@@ -34,6 +31,7 @@ var _fuse_color_start: Color = Color(1.0, 0.8, 0.2)   # Bright gold
 var _fuse_color_end: Color = Color(1.0, 0.3, 0.1)     # Red-orange
 var _segment_done_color: Color = Color(0.3, 0.3, 0.3, 0.25)  # Greyed out
 var _placeholder_circle: Color = Color(0.6, 0.6, 0.6, 0.5)
+var _queued_segment_color: Color = Color(0.3, 0.3, 0.3, 0.3)  # Dim grey for queued
 
 # ---- Spacing between multiple timer circles ----
 const CIRCLE_SPACING: float = 22.0
@@ -44,7 +42,7 @@ func _ready() -> void:
 	EventBus.subscribe(EventBus.SKILL_TIMER_STARTED, _on_timer_started)
 	EventBus.subscribe(EventBus.SKILL_TIMER_TICK, _on_timer_tick)
 	EventBus.subscribe(EventBus.SKILL_TIMER_EXPIRED, _on_timer_expired)
-	EventBus.subscribe(EventBus.BASIC_ATTACK_STARTED, _on_basic_attack_started)
+	EventBus.subscribe(EventBus.PLAYER_SKILL_USED, _on_skill_queued)
 
 
 func _exit_tree() -> void:
@@ -52,7 +50,7 @@ func _exit_tree() -> void:
 		EventBus.unsubscribe(EventBus.SKILL_TIMER_STARTED, _on_timer_started)
 		EventBus.unsubscribe(EventBus.SKILL_TIMER_TICK, _on_timer_tick)
 		EventBus.unsubscribe(EventBus.SKILL_TIMER_EXPIRED, _on_timer_expired)
-		EventBus.unsubscribe(EventBus.BASIC_ATTACK_STARTED, _on_basic_attack_started)
+		EventBus.unsubscribe(EventBus.PLAYER_SKILL_USED, _on_skill_queued)
 
 
 func _process(_delta: float) -> void:
@@ -65,82 +63,132 @@ func _process(_delta: float) -> void:
 
 # ---- Event handlers ----
 
-func _on_timer_started(data: Dictionary) -> void:
-	var slot = data.get("slot", -1)
+func _on_skill_queued(data: Dictionary) -> void:
 	var skill: Skill = data.get("skill")
-	var total = data.get("total_ticks", 1)
 	
-	if slot < 0:
+	if not skill:
 		return
 	
-	_active_timers[slot] = ActiveTimer.new(slot, skill, total, total)
+	# Avoid duplicates
+	if _queued_skills.has(skill):
+		return
+	
+	_queued_skills.append(skill)
+	queue_redraw()
+
+
+func _on_timer_started(data: Dictionary) -> void:
+	var skill: Skill = data.get("skill")
+	if not skill:
+		return
+	
+	# Remove from queued if it was still there
+	_queued_skills.erase(skill)
+	
+	_active_timers[skill] = ActiveTimer.new(skill)
 	queue_redraw()
 
 
 func _on_timer_tick(data: Dictionary) -> void:
-	var slot = data.get("slot", -1)
+	var skill: Skill = data.get("skill")
 	var remaining = data.get("remaining", 0)
 	
-	if not _active_timers.has(slot):
+	if not _active_timers.has(skill):
 		return
 	
-	var timer = _active_timers[slot]
+	var timer = _active_timers[skill]
 	timer.remaining_ticks = remaining
 	timer.tick_start_msec = Time.get_ticks_msec()
 
 
 func _on_timer_expired(data: Dictionary) -> void:
-	var slot = data.get("slot", -1)
+	var skill: Skill = data.get("skill")
 	
-	if not _active_timers.has(slot):
+	if not _active_timers.has(skill):
 		return
 	
-	_active_timers.erase(slot)
-	queue_redraw()
-
-
-func _on_basic_attack_started(_data: Dictionary) -> void:
-	# Basic attack has 1 tick, no skill resource
-	var slot = -1
-	_active_timers[slot] = ActiveTimer.new(slot, null, 1, 1)
+	_active_timers.erase(skill)
 	queue_redraw()
 
 
 # ---- Drawing ----
 
 func _draw() -> void:
-	if _active_timers.is_empty():
+	if _active_timers.is_empty() and _queued_skills.is_empty():
 		return
 	
-	# Sort timers by slot for consistent left-to-right ordering
-	var sorted_slots = _active_timers.keys()
-	sorted_slots.sort()
+	# Gather all entries
+	var all_entries: Array = []
 	
-	var count = sorted_slots.size()
+	for skill in _queued_skills:
+		if _active_timers.has(skill): continue
+		all_entries.append({"skill": skill, "queued": true, "remaining": skill.ticks})
+	
+	for skill in _active_timers.keys():
+		all_entries.append({"skill": skill, "queued": false, "remaining": _active_timers[skill].remaining_ticks})
+
+	if all_entries.is_empty():
+		return
+	
+	# Sort by remaining ticks descending (largest remaining first)
+	all_entries.sort_custom(func(a, b):
+		if a.remaining != b.remaining:
+			return a.remaining > b.remaining
+		return (a.skill != SkillSystem.slash_skill)
+	)
+	
+	var count = all_entries.size()
 	var total_width = (count - 1) * CIRCLE_SPACING
 	
 	for i in range(count):
-		var slot = sorted_slots[i]
-		var timer = _active_timers[slot]
+		var entry = all_entries[i]
 		var center_x = -total_width / 2.0 + i * CIRCLE_SPACING
 		var center = Vector2(center_x, 0.0)
 		
-		_draw_timer_circle(center, timer)
+		if entry.queued:
+			_draw_queued_indicator(center, entry.skill)
+		else:
+			_draw_timer_circle(center, _active_timers[entry.skill])
+
+
+func _draw_queued_indicator(center: Vector2, skill: Skill) -> void:
+	# Draw full circle dimmed — reuses the inactive/dim aesthetic
+	var seg_count = 1
+	if skill:
+		seg_count = max(skill.ticks, 1)
+	
+	var seg_angle = (TAU - _segment_gap * seg_count) / seg_count
+	var start_angle = -PI / 2
+	
+	for i in range(seg_count):
+		var a0 = start_angle + i * (seg_angle + _segment_gap)
+		var a1 = a0 + seg_angle
+		_draw_segment(center, _outer_radius, _inner_radius, a0, a1, _queued_segment_color)
+	
+	# Draw skill icon dimmed
+	if skill and skill.texture:
+		var icon_rect = Rect2(
+			center.x - _icon_size / 2,
+			center.y - _icon_size / 2,
+			_icon_size,
+			_icon_size
+		)
+		draw_texture_rect(skill.texture, icon_rect, false, Color.WHITE * 0.4)
 
 
 func _draw_timer_circle(center: Vector2, timer: ActiveTimer) -> void:
-	var seg_count = max(timer.total_ticks, 1)
+	var seg_count = max(timer.skill.ticks, 1)
 	var seg_angle = (TAU - _segment_gap * seg_count) / seg_count
 	var start_angle = -PI / 2  # start from top
 	
-	var elapsed_ticks = timer.total_ticks - timer.remaining_ticks
+	var elapsed_ticks = timer.skill.ticks - timer.remaining_ticks
 	
 	# Compute per-frame tick progress for fuse animation
 	var now_msec = Time.get_ticks_msec()
 	var elapsed_sec = (now_msec - timer.tick_start_msec) / 1000.0
 	var tick_progress = clampf(elapsed_sec / SkillSystem.TICK_DURATION, 0.0, 1.0)
 	
-	for i in range(timer.total_ticks):
+	for i in range(timer.skill.ticks):
 		var a0 = start_angle + i * (seg_angle + _segment_gap)
 		var a1 = a0 + seg_angle
 		
@@ -171,7 +219,7 @@ func _draw_timer_circle(center: Vector2, timer: ActiveTimer) -> void:
 		)
 		draw_texture_rect(timer.skill.texture, icon_rect, false, Color.WHITE)
 	else:
-		# Placeholder circle for basic attack
+		# Placeholder circle (no texture available)
 		draw_circle(center, _icon_size / 2, _placeholder_circle)
 
 
