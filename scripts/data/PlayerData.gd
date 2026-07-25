@@ -79,6 +79,9 @@ func add_skill(skill_resource) -> int:
 		# TODO: handle slots full
 		return -1
 	
+	if current_skills.has(skill_resource):
+		return -2  # already in inventory
+	
 	current_skills.append(skill_resource)
 	var slot = current_skills.size() - 1
 	skill_added.emit(slot, skill_resource)

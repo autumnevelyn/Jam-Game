@@ -12,12 +12,18 @@ func _on_item_picked_up(data: Dictionary) -> void:
 	if not item: return
 
 	GameData.items_collected += 1
-
+	var slot = -1;
 	# handle different item types
 	if item is Skill:
-		print_rich(item.skill_name)
-		PlayerData.add_skill(item)
+		slot = PlayerData.add_skill(item)
 	elif item.name.begins_with("relic"):
-		PlayerData.add_relic(item)
+		slot = PlayerData.add_relic(item)
 	else:
-		PlayerData.add_equipment(item)
+		slot = PlayerData.add_equipment(item)
+		
+	if (slot >= 0):
+		print_rich(item)
+	elif slot == -1:
+		print_rich("inventory full")
+	else:
+		print_rich("cannot be picked up")
