@@ -41,6 +41,7 @@ func _exit_tree() -> void:
 	EventBus.unsubscribe(EventBus.COMBAT_HIT, _on_combat_hit);
 
 func _on_combat_hit(data: Dictionary):
+	if data["target"] == self:
 		if(animated_sprite_2d):
 			hurting = true;
 			if(enemyRating != Rating.BOSS):
@@ -52,18 +53,17 @@ func _on_combat_hit(data: Dictionary):
 			else:
 				animated_sprite_2d.play("hurt_side");
 				animated_sprite_2d.flip_h = velocity.is_equal_approx(Vector2.LEFT);
-	if data["target"] == self:
-		# don't apply effects if already dying or dead
-		if health_component and health_component.health <= 0.0:
-			return
-		var eff_list = data.get("effects", [])
-		for effect in eff_list:
-			if effect is Effect:
-				status_effects.apply_effect(effect)
-		# knockback + hurt animation
-		var damage = data.get("damage", 0.0)
-		if damage > 0.0 and not hurting and not isDead:
-			_hurt(data)
+			# don't apply effects if already dying or dead
+			if health_component and health_component.health <= 0.0:
+				return
+			var eff_list = data.get("effects", [])
+			for effect in eff_list:
+				if effect is Effect:
+					status_effects.apply_effect(effect)
+			# knockback + hurt animation
+			var damage = data.get("damage", 0.0)
+			if damage > 0.0 and not hurting and not isDead:
+				_hurt(data)
 
 func _on_died() -> void:
 	isDead = true;
