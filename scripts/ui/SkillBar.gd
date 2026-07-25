@@ -85,7 +85,7 @@ func _on_skill_added(_slot_index: int, _skill: Resource) -> void:
 			range 2";
 		"Freeze Breeze":
 			get_child(0).get_child(_slot_index + 1).tooltip_text = "FREEZE BREEZE
-			Appliese Frozen debuff, slowing and damaging enemies over time
+			Applies Frozen debuff, slowing and damaging enemies over time
 			Cooldown 4 tick
 			range 2";
 		"Dash":
