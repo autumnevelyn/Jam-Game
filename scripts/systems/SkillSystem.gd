@@ -142,8 +142,8 @@ func _on_tick() -> void:
 			"range": range,
 		})
 	
-	# non-damaging skills that expired alone
-	if non_damaging.size() > 0:
+	# non-damaging skills that expired alone (no damaging skills this tick)
+	if non_damaging.size() > 0 and damaging.is_empty():
 		for countdown in non_damaging:
 			EventBus.emit_event(EventBus.SELF_BUFF_APPLIED, {
 				"skill": countdown.skill,

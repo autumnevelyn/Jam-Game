@@ -14,10 +14,15 @@ var _indicator_gap: float = 1.5
 var _active_statuses: Array = []
 
 func _ready() -> void:
+	# defer connecting — parent may not have created StatusEffectComponent yet
+	call_deferred("_find_and_connect")
+
+
+func _find_and_connect() -> void:
 	_status_comp = _find_status_effect_component(get_parent())
 	if _status_comp:
 		_status_comp.statuses_changed.connect(_refresh)
-	_refresh()
+		_refresh()
 
 
 func _refresh() -> void:
@@ -61,11 +66,11 @@ func _get_status_color(type: int) -> Color:
 
 
 func _find_status_effect_component(node: Node) -> StatusEffectComponent:
-	if not node:
-		return null
-	for child in node.get_children():
-		if child is StatusEffectComponent:
-			return child
-	if node is StatusEffectComponent:
-		return node
+	while node:
+		if node is StatusEffectComponent:
+			return node
+		for child in node.get_children():
+			if child is StatusEffectComponent:
+				return child
+		node = node.get_parent()
 	return null

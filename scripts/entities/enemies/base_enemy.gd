@@ -38,6 +38,9 @@ func _exit_tree() -> void:
 
 func _on_combat_hit(data: Dictionary):
 	if data["target"] == self:
+		# don't apply effects if already dying or dead
+		if health_component and health_component.health <= 0.0:
+			return
 		var eff_list = data.get("effects", [])
 		for effect in eff_list:
 			if effect is Effect:
