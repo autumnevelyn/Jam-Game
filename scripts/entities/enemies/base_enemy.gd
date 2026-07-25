@@ -12,7 +12,11 @@ enum Rating {MINION, EASY, MEDIUM, HARD, BOSS}
 
 @export var enemyRating: Rating = Rating.MINION;
 
+var knockback_power := 100.0;
 var effects = {};
+var animated_sprite_2d: AnimatedSprite2D;
+var isDead := false;
+var hurting := false;
 
 func _ready() -> void:
 	if health_component:
@@ -34,6 +38,17 @@ func _on_combat_hit(data: Dictionary):
 			if(effect.name == "Frozen"):
 				effect_length = 10.0;
 			effects.set(effect.name, [effect.strength, effect_length]);
+			
+		if(animated_sprite_2d):
+			hurting = true;
+			velocity = Vector2().from_angle(data["attacker"].get_angle_to(self.position)) * knockback_power;
+			if(velocity.angle() > PI / 4 and velocity.angle() < PI * 3 / 4):
+				animated_sprite_2d.play("hurt_up");
+			elif(velocity.angle() < -PI / 4 and velocity.angle() > -PI * 3 / 4):
+				animated_sprite_2d.play("hurt_down");
+			else:
+				animated_sprite_2d.play("hurt_side");
+				animated_sprite_2d.flip_h = velocity.is_equal_approx(Vector2.LEFT);
 
 func _on_died() -> void:
 	
@@ -43,7 +58,11 @@ func _on_died() -> void:
 		"enemy": self,
 		"position": global_position,
 	})
-	queue_free()
+	if(animated_sprite_2d):
+		print(animated_sprite_2d)
+		animated_sprite_2d.play("dies");
+		isDead = true;
+	else: queue_free()
 
 func dropGold():
 	match(enemyRating):
