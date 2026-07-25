@@ -296,11 +296,9 @@ zoom = Vector2(3, 3)
 
 [node name="cuttable_object2" parent="." unique_id=661520896 instance=ExtResource("3_nsrm0")]
 position = Vector2(360, 244.00002)
-scale = Vector2(1, 1.5)
 
 [node name="cuttable_object3" parent="." unique_id=1648321887 instance=ExtResource("3_nsrm0")]
 position = Vector2(360, 220)
-scale = Vector2(1, 1.5)
 
 [node name="cuttable_object4" parent="." unique_id=296117583 instance=ExtResource("3_nsrm0")]
 position = Vector2(440, 168)

@@ -256,7 +256,7 @@ func _on_stun_timer_timeout() -> void:
 			state_machine.transition("idle")
 
 func _on_hurtbox_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Enemy"):
+	if body.is_in_group("Enemy") and not body.isDead:
 		health_component.take_damage(1.0, body)
 
 func _refresh_skills() -> void:
