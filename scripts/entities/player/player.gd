@@ -214,8 +214,12 @@ func _on_self_buff_applied(data: Dictionary):
 		return
 	
 	if skill.skill_type == 2:
-		pass
-	if skill.skill_type == 3:
+		# play the skill animation on the player (self-buff visual)
+		attack_hitbox.active = true
+		attack_hitbox.position = Vector2.ZERO
+		attack_hitbox.rotation = 0.0
+		attack_hitbox.damage = 0.0
+	elif skill.skill_type == 3:
 		match(skill.skill_name):
 			"Dash":
 				state_machine.transition("dash");

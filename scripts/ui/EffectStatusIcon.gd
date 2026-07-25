@@ -8,7 +8,8 @@ class_name EffectStatusIcon
 var _offset: Vector2 = Vector2.ZERO
 var _status_comp: StatusEffectComponent = null
 
-var _indicator_radius: float = 3.0
+var _indicator_radius: float = 4.0
+var _indicator_arc_width: float = 2.5
 var _indicator_gap: float = 1.5
 
 var _active_statuses: Array = []
@@ -52,7 +53,17 @@ func _draw() -> void:
 		var center = Vector2(x, y)
 		
 		var color = _get_status_color(status.type)
-		draw_circle(center, _indicator_radius, color)
+		var fraction = float(status.remaining) / float(status.total) if status.total > 0 else 0.0
+		
+		# dim background circle
+		var dim_color = Color(color.r, color.g, color.b, 0.25)
+		draw_circle(center, _indicator_radius, dim_color)
+		
+		if fraction > 0.0:
+			# bright arc from top clockwise showing remaining fraction
+			var start_angle = -PI / 2
+			var end_angle = start_angle - TAU * fraction
+			draw_arc(center, _indicator_radius, start_angle, end_angle, max(4, int(TAU * fraction * 4)), color, _indicator_arc_width, true)
 
 
 func _get_status_color(type: int) -> Color:

@@ -39,7 +39,7 @@ func apply_effect(effect: Effect) -> void:
 		_statuses[effect.type].remaining_ticks = max(_statuses[effect.type].remaining_ticks, effect.base_duration_ticks)
 	else:
 		_statuses[effect.type] = ActiveStatus.new(effect.type, effect.base_strength, effect.base_duration_ticks, effect.base_duration_ticks)
-	print_rich(get_parent(), " gains: ", Effect.Type.keys()[effect.type])
+	print_rich(get_parent(), " gained status: ", Effect.Type.keys()[effect.type].to_lower())
 	statuses_changed.emit()
 
 # self-contained timer for consistent tick rate regardless of skill activity
@@ -60,9 +60,11 @@ func _setup_tick_timer() -> void:
 
 func _on_tick() -> void:
 	var expired: Array = []
+	var changed := false
 	for type in _statuses.keys():
 		var status = _statuses[type]
 		status.remaining_ticks -= 1
+		changed = true
 		if status.remaining_ticks <= 0:
 			expired.append(type)
 			continue
@@ -72,10 +74,10 @@ func _on_tick() -> void:
 				_apply_burn_tick(status)
 	
 	for type in expired:
-		print_rich(get_parent(), " lost: ", Effect.Type.keys()[type])
+		print_rich(get_parent(), " lost status: ", Effect.Type.keys()[type].to_lower())
 		_statuses.erase(type)
 	
-	if not expired.is_empty():
+	if changed:
 		statuses_changed.emit()
 
 func has_status(type: int) -> bool:

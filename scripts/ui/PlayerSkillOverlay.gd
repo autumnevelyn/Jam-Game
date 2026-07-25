@@ -24,7 +24,7 @@ var _queued_skills: Array = []       # Skills queued but not yet running (ordere
 var _outer_radius: float = 10.0
 var _inner_radius: float = 8.0
 var _icon_size: float = 13.0
-var _segment_gap: float = 0.04
+var _segment_gap: float = 0.1
 
 # ---- Colors ----
 var _fuse_color_start: Color = Color(1.0, 0.8, 0.2)   # Bright gold
@@ -131,7 +131,7 @@ func _draw() -> void:
 		all_entries.append({"skill": skill, "queued": true, "remaining": skill.ticks})
 	
 	for skill in _active_timers.keys():
-		all_entries.append({"skill": skill, "queued": false, "remaining": _active_timers[skill].remaining_ticks})
+		all_entries.append({"skill": skill, "queued": false, "remaining": skill.ticks})#_active_timers[skill].remaining_ticks})
 
 	if all_entries.is_empty():
 		return
