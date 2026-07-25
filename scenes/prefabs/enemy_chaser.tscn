@@ -35,7 +35,7 @@ shape = SubResource("RectangleShape2D_55178")
 
 [node name="health_component" type="Node" parent="." unique_id=100000010]
 script = ExtResource("3_nahlv")
-max_health = 5.0
+max_health = 10.0
 
 [node name="movement_component" type="Node" parent="." unique_id=100000011]
 script = ExtResource("4_deqa4")

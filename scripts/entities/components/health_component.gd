@@ -13,7 +13,7 @@ signal died
 ## Maximum health.
 @export var max_health: float = 3.0
 ## Invincibility duration after taking damage (seconds). 0 = no i-frames.
-@export var invincibility_time: float = 0.0
+@export var invincibility_time: float = 0.5
 
 ## Current health.
 var health: float:

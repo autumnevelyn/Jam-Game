@@ -11,6 +11,7 @@
 [ext_resource type="Resource" uid="uid://nrl0kefm1ofa" path="res://scenes/prefabs/items/sword.tres" id="8_3p04p"]
 [ext_resource type="Script" uid="uid://tgpfpj8wbdd3" path="res://scripts/items/item_drop.gd" id="8_8qukl"]
 [ext_resource type="PackedScene" uid="uid://c3ojvipdg6tp3" path="res://scenes/prefabs/money_pile.tscn" id="10_qsp8v"]
+[ext_resource type="PackedScene" uid="uid://cffk81j0mxj26" path="res://scenes/prefabs/portal.tscn" id="12_brxtv"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nt80m"]
 texture = ExtResource("3_nt80m")
@@ -311,6 +312,18 @@ position = Vector2(376, 248)
 [node name="cuttable_object2" parent="." unique_id=466884479 instance=ExtResource("4_3p04p")]
 position = Vector2(408, 248)
 
+[node name="cuttable_object7" parent="." unique_id=1113316276 instance=ExtResource("4_3p04p")]
+position = Vector2(864, 80)
+scale = Vector2(2, 1)
+
+[node name="cuttable_object8" parent="." unique_id=1945632985 instance=ExtResource("4_3p04p")]
+position = Vector2(768, 80)
+scale = Vector2(2, 1)
+
+[node name="cuttable_object9" parent="." unique_id=455849906 instance=ExtResource("4_3p04p")]
+position = Vector2(672, 80)
+scale = Vector2(2, 1)
+
 [node name="cuttable_object4" parent="." unique_id=296117583 instance=ExtResource("4_3p04p")]
 position = Vector2(440, 159)
 
@@ -351,3 +364,6 @@ money = 20
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1314877223]
 color = Color(0.62152386, 0.62152386, 0.6215238, 1)
+
+[node name="portal" parent="." unique_id=224939894 instance=ExtResource("12_brxtv")]
+position = Vector2(329, 129)
