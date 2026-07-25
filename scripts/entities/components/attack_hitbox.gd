@@ -10,6 +10,7 @@ extends Area2D
 var parent: Node2D
 var active: bool = false
 var damage: float = 1.0
+
 var effects: Array = []
 
 
@@ -18,6 +19,7 @@ func _ready() -> void:
 	visible = false
 	
 	EventBus.subscribe(EventBus.SKILL_TIMER_EXPIRED, _on_skill_timer_expired);
+	EventBus.subscribe(EventBus.ATTACK_FIRED, _on_attack_fired);
 
 
 func _process(delta: float) -> void:
@@ -31,6 +33,7 @@ func _process(delta: float) -> void:
 
 func _exit_tree() -> void:
 	EventBus.unsubscribe(EventBus.SKILL_TIMER_EXPIRED, _on_skill_timer_expired);
+	EventBus.unsubscribe(EventBus.ATTACK_FIRED, _on_attack_fired);
 
 func _on_timer_timeout() -> void:
 	active = false
@@ -51,7 +54,11 @@ func _on_skill_timer_expired(data: Dictionary):
 				animated_sprite_2d.scale = Vector2(1, 1);
 		if(PlayerData.current_skills[data["slot"]].skill_type == 1): # DAMAGE
 			collision_shape_2d.shape = PlayerData.current_skills[data["slot"]].hitbox_size;
-	node_2d.rotation = parent.get_angle_to(get_global_mouse_position());
+			
+	rotation = parent.get_angle_to(get_global_mouse_position()) + PI / 2;
+
+func _on_attack_fired(data: Dictionary):
+	effects = data["effects"];
 
 func _on_area_entered(area: Area2D) -> void:
 	print(active);

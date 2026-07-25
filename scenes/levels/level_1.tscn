@@ -7,11 +7,10 @@
 [ext_resource type="PackedScene" uid="uid://bdbqdqmieeehs" path="res://scenes/prefabs/cuttable_object.tscn" id="3_nsrm0"]
 [ext_resource type="PackedScene" uid="uid://d1plm63wydsgj" path="res://scenes/prefabs/skill.tscn" id="5_6761a"]
 [ext_resource type="PackedScene" uid="uid://dyc3suf0e7he0" path="res://scenes/prefabs/enemy_waddler.tscn" id="6_sk5k4"]
-[ext_resource type="Resource" uid="uid://c68f12s8v18if" path="res://scenes/prefabs/items/freeze breeze.tres" id="7_oc4kc"]
 [ext_resource type="Resource" uid="uid://dawo01aq0h0l4" path="res://scenes/prefabs/items/fire_punch.tres" id="8_dga24"]
 [ext_resource type="PackedScene" uid="uid://c3ojvipdg6tp3" path="res://scenes/prefabs/money_pile.tscn" id="8_s8va5"]
-[ext_resource type="Resource" uid="uid://ku4fi8gxicqf" path="res://scenes/prefabs/items/dash.tres" id="10_iav0o"]
 [ext_resource type="PackedScene" uid="uid://cffk81j0mxj26" path="res://scenes/prefabs/portal.tscn" id="10_qxy0u"]
+[ext_resource type="PackedScene" uid="uid://cqeaxe3ebrykw" path="res://scenes/prefabs/enemy_chaser.tscn" id="11_excbq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qxy0u"]
 texture = ExtResource("3_dga24")
@@ -342,15 +341,7 @@ position = Vector2(154, 567)
 
 [node name="item2" parent="." unique_id=1310020022 instance=ExtResource("5_6761a")]
 position = Vector2(401, 161)
-skill = ExtResource("7_oc4kc")
-
-[node name="item3" parent="." unique_id=1686755671 instance=ExtResource("5_6761a")]
-position = Vector2(413, 232)
 skill = ExtResource("8_dga24")
-
-[node name="item4" parent="." unique_id=2104050770 instance=ExtResource("5_6761a")]
-position = Vector2(322, 267)
-skill = ExtResource("10_iav0o")
 
 [node name="money_pile" parent="." unique_id=421441149 instance=ExtResource("8_s8va5")]
 position = Vector2(216, 457)
@@ -360,3 +351,6 @@ color = Color(0.62152386, 0.62152386, 0.6215238, 1)
 
 [node name="portal" parent="." unique_id=224939894 instance=ExtResource("10_qxy0u")]
 position = Vector2(232, 145)
+
+[node name="enemy_chacer" parent="." unique_id=1891009407 instance=ExtResource("11_excbq")]
+position = Vector2(175, 788)

@@ -2,8 +2,9 @@
 
 [ext_resource type="Script" uid="uid://dm8c5146rdpbp" path="res://scripts/items/skill.gd" id="1_lho8e"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_lho8e"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dga24"]
 radius = 8.0
+height = 32.0
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_lho8e"]
 load_path = "res://.godot/imported/tile_000.png-37722850764b542b9ca1874c9228780c.ctex"
@@ -15,5 +16,6 @@ skill_name = "Fire Punch"
 description = "A Punch of fire dealing moderate damage"
 ticks = 3
 base_damage = 5.0
-hitbox_size = SubResource("CircleShape2D_lho8e")
+effect_name = "Fire"
+hitbox_size = SubResource("CapsuleShape2D_dga24")
 metadata/_custom_type_script = "uid://dm8c5146rdpbp"

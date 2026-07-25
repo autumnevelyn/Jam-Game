@@ -22,6 +22,7 @@ var _direction := Vector2(0, 1);
 var knockback_force := 400.0;
 var dead := false;
 
+var effects = {};
 var onSkill := false;
 
 func _ready() -> void:

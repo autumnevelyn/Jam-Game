@@ -37,6 +37,27 @@ func _physics_process(delta: float) -> void:
 			_direction = (startPos - position).normalized()
 
 	velocity = _direction * speed
+	print(effects)
+	if(effects.has("Frozen")):
+		velocity *= 0.5;
+		health_component.take_damage(0.01 * effects.get("Frozen")[0], null);
+		
+		var value = effects.get("Frozen");
+		value[1] -= delta;
+		if(value[1] <= 0):
+			effects.erase("Frozen");
+		else:
+			effects.set("Frozen", value)
+	if(effects.has("Fire")):
+		health_component.take_damage(0.1 * effects.get("Fire")[0], null);
+		
+		var value = effects.get("Fire");
+		value[1] -= delta;
+		if(value[1] <= 0):
+			effects.erase("Fire");
+		else:
+			effects.set("Fire", value)
+	
 	move_and_slide()
 
 func _on_died():

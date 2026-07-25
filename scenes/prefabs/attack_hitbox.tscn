@@ -266,7 +266,7 @@ one_shot = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Node2D" unique_id=452051902]
 texture_filter = 1
-rotation = 0.7853982
+rotation = -0.7853982
 scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_3xd07")
 animation = &"freeze breeze"
