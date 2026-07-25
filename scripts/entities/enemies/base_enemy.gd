@@ -41,6 +41,17 @@ func _exit_tree() -> void:
 	EventBus.unsubscribe(EventBus.COMBAT_HIT, _on_combat_hit);
 
 func _on_combat_hit(data: Dictionary):
+		if(animated_sprite_2d):
+			hurting = true;
+			if(enemyRating != Rating.BOSS):
+				velocity = Vector2().from_angle(data["attacker"].get_angle_to(self.position)) * knockback_power;
+			if(velocity.angle() > PI / 4 and velocity.angle() < PI * 3 / 4):
+				animated_sprite_2d.play("hurt_up");
+			elif(velocity.angle() < -PI / 4 and velocity.angle() > -PI * 3 / 4):
+				animated_sprite_2d.play("hurt_down");
+			else:
+				animated_sprite_2d.play("hurt_side");
+				animated_sprite_2d.flip_h = velocity.is_equal_approx(Vector2.LEFT);
 	if data["target"] == self:
 		# don't apply effects if already dying or dead
 		if health_component and health_component.health <= 0.0:
@@ -53,7 +64,6 @@ func _on_combat_hit(data: Dictionary):
 		var damage = data.get("damage", 0.0)
 		if damage > 0.0 and not hurting and not isDead:
 			_hurt(data)
-
 
 func _on_died() -> void:
 	isDead = true;

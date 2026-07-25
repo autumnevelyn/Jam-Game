@@ -301,12 +301,19 @@ position = Vector2(231, 169)
 zoom = Vector2(3, 3)
 
 [node name="cuttable_object3" parent="." unique_id=812775330 instance=ExtResource("4_3p04p")]
+position = Vector2(584, 200)
+
+[node name="cuttable_object5" parent="." unique_id=696482300 instance=ExtResource("4_3p04p")]
 position = Vector2(584, 216)
-scale = Vector2(1, 3)
+
+[node name="cuttable_object6" parent="." unique_id=2070515148 instance=ExtResource("4_3p04p")]
+position = Vector2(584, 232)
 
 [node name="cuttable_object4" parent="." unique_id=2125397591 instance=ExtResource("4_3p04p")]
-position = Vector2(72, 32)
-scale = Vector2(1, 2)
+position = Vector2(72, 24)
+
+[node name="cuttable_object7" parent="." unique_id=157031495 instance=ExtResource("4_3p04p")]
+position = Vector2(72, 40)
 
 [node name="money_pile" parent="." unique_id=421441149 instance=ExtResource("10_qsp8v")]
 position = Vector2(-152, 184)

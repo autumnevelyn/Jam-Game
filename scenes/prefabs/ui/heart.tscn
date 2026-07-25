@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://cef7vq5alew06"]
 
-[ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="1_ojurv"]
 [ext_resource type="Script" uid="uid://c2kpthtkjvhvm" path="res://scripts/ui/health_icon.gd" id="1_qquft"]
+[ext_resource type="Texture2D" uid="uid://0l5gw31o6w81" path="res://assets/empty_heart.png" id="2_4ppsw"]
+[ext_resource type="Texture2D" uid="uid://wjytbtng3v4a" path="res://assets/heart.png" id="3_lyxnt"]
 
 [node name="hearts" type="Control" unique_id=86800923]
 custom_minimum_size = Vector2(60, 60)
@@ -11,22 +12,22 @@ offset_right = 60.0
 offset_bottom = 60.0
 script = ExtResource("1_qquft")
 
-[node name="heart_texture" type="TextureRect" parent="." unique_id=1331409958]
-modulate = Color(18.892157, 0, 0, 1)
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 55.0
-offset_bottom = 55.0
-texture = ExtResource("1_ojurv")
-expand_mode = 1
-
 [node name="heart_bg" type="TextureRect" parent="." unique_id=1051798730]
 z_index = -1
+texture_filter = 1
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 0
 offset_right = 60.0
 offset_bottom = 60.0
-texture = ExtResource("1_ojurv")
+texture = ExtResource("2_4ppsw")
+expand_mode = 1
+
+[node name="heart_texture" type="TextureRect" parent="." unique_id=468602268]
+z_index = -1
+texture_filter = 1
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 0
+offset_right = 60.0
+offset_bottom = 60.0
+texture = ExtResource("3_lyxnt")
 expand_mode = 1

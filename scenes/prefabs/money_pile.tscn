@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c3ojvipdg6tp3"]
 
 [ext_resource type="Script" uid="uid://bf7rrwi82tiem" path="res://scripts/entities/money_pile.gd" id="1_3f0t2"]
-[ext_resource type="Texture2D" uid="uid://d1gol5t12jvgs" path="res://assets/isometric tileset/isometric tileset/separated images/tile_041.png" id="1_6vvn4"]
+[ext_resource type="Texture2D" uid="uid://ynefc5uee6op" path="res://assets/money_pile.png" id="2_3f0t2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3xd07"]
 radius = 8.0
@@ -15,8 +15,6 @@ shape = SubResource("CircleShape2D_3xd07")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=566875653]
 texture_filter = 1
-position = Vector2(0, -3)
-scale = Vector2(0.5625, 0.5625)
-texture = ExtResource("1_6vvn4")
+texture = ExtResource("2_3f0t2")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

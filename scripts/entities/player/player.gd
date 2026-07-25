@@ -13,6 +13,10 @@ extends CharacterBody2D
 @onready var stun_timer: Timer = $stun_timer
 var status_effects: StatusEffectComponent
 
+@onready var walk_audio: AudioStreamPlayer2D = $walkAudio
+@onready var hit_audio: AudioStreamPlayer2D = $hitAudio
+@onready var dash_audio: AudioStreamPlayer2D = $dashAudio
+
 # ---- State ----
 enum State { IDLE, WALK, STUNNED, SLASH, DASH }
 
@@ -22,6 +26,7 @@ var _direction := Vector2(0, 1);
 
 var knockback_force := 400.0;
 var dead := false;
+var won := false;
 
 var onSkill := false;
 
@@ -46,6 +51,7 @@ func _ready() -> void:
 
 func _exit_tree() -> void:
 	# clean up EventBus subscriptions
+	print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
 	EventBus.unsubscribe(EventBus.ATTACK_FIRED, _on_attack_fired)
 	# disconnect component signals
 	if health_component:
@@ -71,6 +77,9 @@ func state_idle_enter() -> void:
 	else:
 		animated_sprite_2d.play("side idle");
 		animated_sprite_2d.flip_h = _direction == Vector2(-1, 0);
+		
+	if(walk_audio.playing):
+		walk_audio.stop();
 
 
 func state_idle_physics_process(delta: float) -> void:
@@ -112,12 +121,18 @@ func state_walk_physics_process(delta: float) -> void:
 	else:
 		animated_sprite_2d.play("side walk");
 		animated_sprite_2d.flip_h = _direction.x < 0;
+		
+	if(not walk_audio.playing):
+		walk_audio.play();
 
 
 func state_stunned_enter() -> void:
 	active_state = State.STUNNED
 	stun_timer.wait_time = 0.5
 	stun_timer.start()
+	
+	hit_audio.pitch_scale = randf_range(0.8, 1.1);
+	hit_audio.play();
 
 
 func state_stunned_physics_process(delta: float) -> void:
@@ -125,6 +140,8 @@ func state_stunned_physics_process(delta: float) -> void:
 
 func state_dash_enter() -> void:
 	active_state = State.DASH;
+	dash_audio.pitch_scale = randf_range(0.8, 1.1);
+	dash_audio.play()
 
 func state_dash_physics_process(delta: float) -> void:
 	move_and_slide()
@@ -249,16 +266,18 @@ func _on_stun_timer_timeout() -> void:
 	print(active_state)
 	match active_state:
 		State.STUNNED:
-			if(not dead):
+			if(not dead and not won):
 				state_machine.transition("idle")
 				print("stand up")
+			if(won):
+				animated_sprite_2d.play("up idle");
 		State.SLASH:
 			state_machine.transition("idle")
 		State.DASH:
 			state_machine.transition("idle")
 
 func _on_hurtbox_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Enemy"):
+	if body.is_in_group("Enemy") and not body.isDead:
 		health_component.take_damage(1.0, body)
 
 func _refresh_skills() -> void:
