@@ -37,7 +37,7 @@ func _physics_process(delta: float) -> void:
 			_direction = (startPos - position).normalized()
 
 	velocity = _direction * speed
-	print(effects)
+
 	if(effects.has("Frozen")):
 		velocity *= 0.5;
 		health_component.take_damage(0.01 * effects.get("Frozen")[0], null);
@@ -76,7 +76,6 @@ func _on_died():
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if(body.name == "player"):
 		target = body;
-		#print("a")
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:

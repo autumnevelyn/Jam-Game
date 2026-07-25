@@ -115,7 +115,7 @@ func _on_tick() -> void:
 					range = countdown.skill.range;
 			else:
 				range = 1.0;
-				total_damage += BASIC_ATCK_DMG;
+				total_damage += slash_skill.base_damage;
 		
 		# apply combo multiplier (damage multiplies per extra skill)
 		total_damage *= 1.0 + 0.5 * (total_skills - 1) # TODO: probs needs refining
@@ -174,7 +174,7 @@ func _start_queued_timers() -> void:
 		EventBus.emit_event(EventBus.SKILL_TIMER_STARTED, {
 			"skill": countdown.skill,
 		})
-		print_rich( countdown.skill.skill_name," [%d]"%slot )
+		#print_rich( countdown.skill.skill_name," [%d]"%slot )
 	_queued_countdowns.clear()
 
 func _no_countdowns() -> bool:
