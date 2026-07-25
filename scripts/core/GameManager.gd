@@ -38,6 +38,8 @@ func _process(delta: float) -> void:
 func start_run() -> void:
 	current_room = 0
 	total_rooms_in_run = 0
+	PlayerData.reset_for_new_run();
+	
 	_change_state(RunState.ROOM_TRANSITION)
 	EventBus.emit_event(EventBus.GAME_RUN_STARTED, {
 		"room": current_room,

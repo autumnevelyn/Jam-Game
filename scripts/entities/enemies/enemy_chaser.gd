@@ -6,9 +6,12 @@ extends "res://scripts/entities/enemies/base_enemy.gd"
 @onready var detect_shape: Area2D = $detect_shape
 
 const SKILL = preload("res://scenes/prefabs/skill.tscn")
+const HEART = preload("res://scenes/prefabs/heart.tscn")
+
 @onready var audio_stream_player_2d: AudioStreamPlayer2D = $AudioStreamPlayer2D
 
 @export var item_drop: ItemDrop = preload("res://scenes/prefabs/items/item_drop_default.tres");
+@export var health_drop: float = 0.5;
 
 ## Initial patrol direction.
 
@@ -110,6 +113,14 @@ func _on_died():
 	print_rich("dropped: ", item_type)
 	droped_item.position = position;
 	droped_item.update();
+	
+	if(randf() < health_drop):
+		print("ehart droped")
+		var heart = HEART.instantiate();
+		
+		add_sibling(heart);
+		heart.position = position;
+	
 	super._on_died()
 
 func _on_area_2d_body_entered(body: Node2D) -> void:

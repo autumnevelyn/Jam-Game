@@ -2,11 +2,14 @@
 # simple patrolling enemy that bounces off walls.
 # extends base_enemy for health/combat, adds waddler-specific movement.
 extends "res://scripts/entities/enemies/base_enemy.gd"
+const HEART = preload("res://scenes/prefabs/heart.tscn")
 
 @onready var audio_stream_player_2d: AudioStreamPlayer2D = $AudioStreamPlayer2D
 
 ## Initial patrol direction.
 @export var initial_direction: Vector2 = Vector2(1.0, 0.0)
+@export var health_drop: float = 0.5;
+
 
 var _direction: Vector2 = Vector2(1.0, 0.0)
 
@@ -95,6 +98,14 @@ func _physics_process(delta: float) -> void:
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	if(animated_sprite_2d.animation == "dies"):
+		
+		if(randf() < health_drop):
+			print("ehart droped")
+			var heart = HEART.instantiate();
+			
+			add_sibling(heart);
+			heart.position = position;
+		
 		queue_free();
 	elif(hurting):
 		hurting = false;

@@ -66,6 +66,7 @@ func heal(amount: float) -> float:
 	var before = health
 	health += amount
 	var healed = health - before
+	#get_tree().root.get_node("").health_component.health = health;
 	if healed > 0.0:
 		EventBus.emit_event(EventBus.PLAYER_HEALED, {
 			"amount": healed,

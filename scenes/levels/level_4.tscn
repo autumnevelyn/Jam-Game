@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bwa5tfoawua36" path="res://assets/Pixel Art Top Down - Basic v1.2.3/Texture/TX Tileset Grass.png" id="3_qvnao"]
 [ext_resource type="PackedScene" uid="uid://bagyjwlisaq7n" path="res://scenes/prefabs/enemy_boss.tscn" id="5_anwe6"]
 [ext_resource type="PackedScene" uid="uid://cffk81j0mxj26" path="res://scenes/prefabs/portal.tscn" id="6_rej77"]
+[ext_resource type="PackedScene" uid="uid://cnml2e8ukschb" path="res://scenes/prefabs/pot.tscn" id="7_5vn0v"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qi5uv"]
 texture = ExtResource("3_qvnao")
@@ -299,3 +300,39 @@ position = Vector2(615, 169)
 
 [node name="portal" parent="." unique_id=224939894 instance=ExtResource("6_rej77")]
 position = Vector2(616, 75)
+
+[node name="pot" parent="." unique_id=812775330 instance=ExtResource("7_5vn0v")]
+position = Vector2(424, 72)
+
+[node name="pot2" parent="." unique_id=1259750075 instance=ExtResource("7_5vn0v")]
+position = Vector2(456, 8)
+
+[node name="pot3" parent="." unique_id=2084981995 instance=ExtResource("7_5vn0v")]
+position = Vector2(520, -24)
+
+[node name="pot4" parent="." unique_id=32440395 instance=ExtResource("7_5vn0v")]
+position = Vector2(712, -24)
+
+[node name="pot5" parent="." unique_id=638852322 instance=ExtResource("7_5vn0v")]
+position = Vector2(776, 8)
+
+[node name="pot6" parent="." unique_id=1745729775 instance=ExtResource("7_5vn0v")]
+position = Vector2(808, 72)
+
+[node name="pot7" parent="." unique_id=1469501655 instance=ExtResource("7_5vn0v")]
+position = Vector2(808, 264)
+
+[node name="pot8" parent="." unique_id=1169697026 instance=ExtResource("7_5vn0v")]
+position = Vector2(776, 328)
+
+[node name="pot9" parent="." unique_id=2024796959 instance=ExtResource("7_5vn0v")]
+position = Vector2(712, 360)
+
+[node name="pot10" parent="." unique_id=37428881 instance=ExtResource("7_5vn0v")]
+position = Vector2(520, 360)
+
+[node name="pot11" parent="." unique_id=2074296146 instance=ExtResource("7_5vn0v")]
+position = Vector2(456, 328)
+
+[node name="pot12" parent="." unique_id=1373409931 instance=ExtResource("7_5vn0v")]
+position = Vector2(424, 264)

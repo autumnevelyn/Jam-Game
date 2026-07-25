@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://cnml2e8ukschb"]
+
+[ext_resource type="Script" uid="uid://dtjh2wdrptsbe" path="res://scripts/entities/pot.gd" id="1_u78v2"]
+[ext_resource type="Texture2D" uid="uid://bub4qdxf78xff" path="res://assets/pot.png" id="2_u78v2"]
+[ext_resource type="Script" uid="uid://do4cd6e4iwpra" path="res://scripts/entities/components/health_component.gd" id="3_r1wi5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kmkce"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3xd07"]
+size = Vector2(16, 16)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ga8vk"]
+polygon = PackedVector2Array(-6, 0, -6, 6, -4, 8, 4, 8, 6, 6, 6, 0, 5, -4, 5, -7, -5, -7, -5, -4)
+
+[node name="pot" type="StaticBody2D" unique_id=812775330 groups=["Cuttable"]]
+script = ExtResource("1_u78v2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1201091732]
+shape = SubResource("RectangleShape2D_kmkce")
+
+[node name="hurtbox" type="Area2D" parent="." unique_id=736081304]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurtbox" unique_id=987434723]
+shape = SubResource("RectangleShape2D_3xd07")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=969469983]
+texture_filter = 1
+texture_repeat = 2
+texture = ExtResource("2_u78v2")
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="health_component" type="Node" parent="." unique_id=100000020]
+script = ExtResource("3_r1wi5")
+max_health = 1.0
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=1750036077]
+occluder = SubResource("OccluderPolygon2D_ga8vk")
+
+[connection signal="area_entered" from="hurtbox" to="." method="_on_hurtbox_area_entered"]
