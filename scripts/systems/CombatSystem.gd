@@ -36,29 +36,26 @@ func _on_combat_hit(data: Dictionary) -> void:
 func _on_enemy_killed(_data: Dictionary):
 	GameData.enemies_killed += 1
 
-## Apply effects to a target
-## TODO implement
+## Apply effects to a target via its StatusEffectComponent
 func _apply_effects(target: Node, effects: Array, attacker: Node) -> void:
+	var status_comp = _find_status_effect_component(target)
+	if not status_comp:
+		return
+	
 	for effect in effects:
-		var ef_name = effect.get("name", "")
-		var strength = effect.get("strength", 1.0)
-		match ef_name:
-			"burn":
-				_apply_burn(target, strength, attacker)
-			"freeze":
-				_apply_freeze(target, strength, attacker)
-			_:
-				# unknown -> ignore
-				pass
+		if effect is Effect:
+			status_comp.apply_effect(effect)
 
-func _apply_burn(target: Node, strength: float, attacker: Node) -> void:
-	# dot?
-	pass
 
-func _apply_freeze(target: Node, strength: float, attacker: Node) -> void:
-	# slow down movement? (burn immunity for X ticks if target self)
-	pass
-
+func _find_status_effect_component(node: Node) -> StatusEffectComponent:
+	if not node:
+		return null
+	for child in node.get_children():
+		if child is StatusEffectComponent:
+			return child
+	if node is StatusEffectComponent:
+		return node
+	return null
 
 ## Walk up the tree to find a HealthComponent on the target or its children.
 func _find_health_component(node: Node) -> HealthComponent:

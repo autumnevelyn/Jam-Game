@@ -43,6 +43,12 @@ func _ready() -> void:
 	EventBus.subscribe(EventBus.SKILL_TIMER_TICK, _on_timer_tick)
 	EventBus.subscribe(EventBus.SKILL_TIMER_EXPIRED, _on_timer_expired)
 	EventBus.subscribe(EventBus.PLAYER_SKILL_USED, _on_skill_queued)
+	
+	# add status indicator below the skill timer circles
+	var status_indicator = EffectStatusIcon.new()
+	status_indicator.name = "EffectStatusIcon"
+	status_indicator._set_offset(Vector2(0, _outer_radius + 4.0))
+	add_child(status_indicator)
 
 
 func _exit_tree() -> void:

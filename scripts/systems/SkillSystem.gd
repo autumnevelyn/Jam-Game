@@ -122,13 +122,15 @@ func _on_tick() -> void:
 		
 		# collect effects from damaging skills
 		for countdown in damaging:
-			if countdown.skill and countdown.skill.effect_name and countdown.skill.effect_name != "":
-				_add_or_stack_effect(effects, countdown.skill.effect_name, countdown.skill.effect_strength)
+			if countdown.skill and countdown.skill.effects.size() > 0:
+				for effect in countdown.skill.effects:
+					_add_or_stack_effect(effects, effect)
 		
 		# non-damaging skills on this tick add their effects to the attack
 		for countdown in non_damaging:
-			if countdown.skill and countdown.skill.effect_name and countdown.skill.effect_name != "":
-				_add_or_stack_effect(effects, countdown.skill.effect_name, countdown.skill.effect_strength)
+			if countdown.skill and countdown.skill.effects.size() > 0:
+				for effect in countdown.skill.effects:
+					_add_or_stack_effect(effects, effect)
 		
 		EventBus.emit_event(EventBus.ATTACK_FIRED, {
 			"damage": total_damage,
@@ -145,8 +147,7 @@ func _on_tick() -> void:
 		for countdown in non_damaging:
 			EventBus.emit_event(EventBus.SELF_BUFF_APPLIED, {
 				"skill": countdown.skill,
-				"effect_name": countdown.skill.effect_name if countdown.skill else "",
-				"effect_strength": countdown.skill.effect_strength if countdown.skill else 0.0,
+				"effects": countdown.skill.effects.duplicate() if countdown.skill else [],
 			})
 	
 	_start_queued_timers() # moves timers from queue array to running array
@@ -154,13 +155,13 @@ func _on_tick() -> void:
 
 # ---- Helpers ----
 
-## Add an effect to the array, stacking strength if it already exists.
-func _add_or_stack_effect(effects: Array, name: String, strength: float) -> void:
+## Add an effect to the array, stacking strength if it already exists
+func _add_or_stack_effect(effects: Array, effect: Effect) -> void:
 	for e in effects:
-		if e.name == name:
-			e.strength += strength
+		if e.type == effect.type:
+			e.base_strength += effect.base_strength
 			return
-	effects.append({"name": name, "strength": strength})
+	effects.append(effect)
 
 func _get_mouse_direction() -> Vector2:
 	if not _player:

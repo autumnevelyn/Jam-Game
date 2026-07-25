@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://c3ojvipdg6tp3" path="res://scenes/prefabs/money_pile.tscn" id="8_s8va5"]
 [ext_resource type="PackedScene" uid="uid://cffk81j0mxj26" path="res://scenes/prefabs/portal.tscn" id="10_qxy0u"]
 [ext_resource type="PackedScene" uid="uid://cqeaxe3ebrykw" path="res://scenes/prefabs/enemy_chaser.tscn" id="11_excbq"]
+[ext_resource type="Resource" uid="uid://c68f12s8v18if" path="res://scenes/prefabs/items/freeze breeze.tres" id="13_mm8aj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qxy0u"]
 texture = ExtResource("3_dga24")
@@ -354,3 +355,7 @@ position = Vector2(232, 145)
 
 [node name="enemy_chacer" parent="." unique_id=1891009407 instance=ExtResource("11_excbq")]
 position = Vector2(175, 788)
+
+[node name="item3" parent="." unique_id=1686755671 instance=ExtResource("5_6761a")]
+position = Vector2(233, 212)
+skill = ExtResource("13_mm8aj")

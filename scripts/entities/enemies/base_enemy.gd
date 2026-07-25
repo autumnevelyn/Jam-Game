@@ -12,13 +12,22 @@ enum Rating {MINION, EASY, MEDIUM, HARD, BOSS}
 
 @export var enemyRating: Rating = Rating.MINION;
 
-var effects = {};
+var status_effects: StatusEffectComponent
 
 func _ready() -> void:
 	if health_component:
 		health_component.died.connect(_on_died)
 	if movement_component:
 		movement_component.speed = speed
+	
+	status_effects = StatusEffectComponent.new()
+	add_child(status_effects)
+	
+	var status_indicator = EffectStatusIcon.new()
+	status_indicator.name = "EffectStatusIcon"
+	# position above the enemy (adjust as needed for different sprites)
+	status_indicator._set_offset(Vector2(0, -24.0))
+	add_child(status_indicator)
 	
 	EventBus.subscribe(EventBus.COMBAT_HIT, _on_combat_hit);
 
@@ -28,12 +37,12 @@ func _exit_tree() -> void:
 	EventBus.unsubscribe(EventBus.COMBAT_HIT, _on_combat_hit);
 
 func _on_combat_hit(data: Dictionary):
-	if(data["target"] == self):
-		for effect in data["effects"]:
-			var effect_length := 5.0;
-			if(effect.name == "Frozen"):
-				effect_length = 10.0;
-			effects.set(effect.name, [effect.strength, effect_length]);
+	if data["target"] == self:
+		var eff_list = data.get("effects", [])
+		for effect in eff_list:
+			if effect is Effect:
+				status_effects.apply_effect(effect)
+
 
 func _on_died() -> void:
 	

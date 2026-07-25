@@ -25,11 +25,8 @@ enum SkillType {
 ## Base damage dealt (for SLASH and DAMAGE types)
 @export var base_damage: float = 1.0
 
-# TODO: create a class for effects
-## Named effect applied on hit (e.g. "burn", "freeze", "stun")
-@export var effect_name: String = ""
-## Strength/stack of the effect
-@export var effect_strength: float = 1.0
+# effects applied on hit (e g burn, freeze)
+@export var effects: Array[Effect] = []
 
 ## Hitbox shape and range
 @export var hitbox_size: Shape2D

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Skill" format=3 uid="uid://dgujynh5minhj"]
+
+[ext_resource type="Script" uid="uid://dybc800nlugaj" path="res://scripts/items/Effect.gd" id="1_e7vp3"]
+[ext_resource type="Script" uid="uid://dm8c5146rdpbp" path="res://scripts/items/skill.gd" id="2_d7158"]
+[ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="3_6opuq"]
+
+[sub_resource type="Resource" id="Resource_gu5on"]
+script = ExtResource("1_e7vp3")
+type = 1
+base_duration_ticks = 5
+metadata/_custom_type_script = "uid://dybc800nlugaj"
+
+[resource]
+script = ExtResource("2_d7158")
+texture = ExtResource("3_6opuq")
+skill_name = "TEST"
+description = "test skill"
+base_damage = 0.0
+effects = Array[ExtResource("1_e7vp3")]([SubResource("Resource_gu5on"), null])
+metadata/_custom_type_script = "uid://dm8c5146rdpbp"
