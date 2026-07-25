@@ -18,9 +18,7 @@ func _process(delta: float) -> void:
 			skill = PlayerData.swap_skill(skill, 0);
 			update();
 		if(Input.is_action_just_pressed("skill 2")):
-			var temp = PlayerData.current_skills[0];
-			PlayerData.current_skills[0] = skill;
-			skill = temp;
+			skill = PlayerData.swap_skill(skill, 1);
 			update();
 		
 func update():

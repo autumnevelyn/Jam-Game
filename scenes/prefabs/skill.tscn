@@ -14,7 +14,8 @@ script = ExtResource("1_g5lod")
 shape = SubResource("CircleShape2D_jq8tk")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1789972032]
-scale = Vector2(0.12499999, 0.12499999)
+texture_filter = 1
+scale = Vector2(0.49999997, 0.49999997)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

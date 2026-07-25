@@ -10,6 +10,7 @@
 [ext_resource type="Resource" uid="uid://c68f12s8v18if" path="res://scenes/prefabs/items/freeze breeze.tres" id="7_oc4kc"]
 [ext_resource type="Resource" uid="uid://dawo01aq0h0l4" path="res://scenes/prefabs/items/fire_punch.tres" id="8_dga24"]
 [ext_resource type="PackedScene" uid="uid://c3ojvipdg6tp3" path="res://scenes/prefabs/money_pile.tscn" id="8_s8va5"]
+[ext_resource type="Resource" uid="uid://ku4fi8gxicqf" path="res://scenes/prefabs/items/dash.tres" id="10_iav0o"]
 [ext_resource type="PackedScene" uid="uid://cffk81j0mxj26" path="res://scenes/prefabs/portal.tscn" id="10_qxy0u"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qxy0u"]
@@ -349,7 +350,7 @@ skill = ExtResource("8_dga24")
 
 [node name="item4" parent="." unique_id=2104050770 instance=ExtResource("5_6761a")]
 position = Vector2(322, 267)
-skill = ExtResource("8_dga24")
+skill = ExtResource("10_iav0o")
 
 [node name="money_pile" parent="." unique_id=421441149 instance=ExtResource("8_s8va5")]
 position = Vector2(216, 457)

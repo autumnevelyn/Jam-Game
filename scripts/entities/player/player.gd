@@ -13,7 +13,7 @@ extends CharacterBody2D
 @onready var stun_timer: Timer = $stun_timer
 
 # ---- State ----
-enum State { IDLE, WALK, STUNNED, SLASH }
+enum State { IDLE, WALK, STUNNED, SLASH, DASH }
 
 var active_state: State = State.IDLE
 var _skills: Array = []
@@ -35,7 +35,8 @@ func _ready() -> void:
 	SkillSystem.set_player(self)
 	
 	# Listen for attack-fired events to spawn hitboxes
-	EventBus.subscribe(EventBus.ATTACK_FIRED, _on_attack_fired)
+	EventBus.subscribe(EventBus.ATTACK_FIRED, _on_attack_fired);
+	EventBus.subscribe(EventBus.SELF_BUFF_APPLIED, _on_self_buff_applied);
 
 
 func _exit_tree() -> void:
@@ -117,6 +118,13 @@ func state_stunned_enter() -> void:
 func state_stunned_physics_process(delta: float) -> void:
 	movement_component.process_movement(Vector2.ZERO, delta)
 
+func state_dash_enter() -> void:
+	active_state = State.DASH;
+
+func state_dash_physics_process(delta: float) -> void:
+	move_and_slide()
+
+
 # input helpers
 
 func _get_input_direction() -> Vector2:
@@ -189,6 +197,17 @@ func _on_damaged(amount: float, source: Node) -> void:
 		var knockback_dir = Vector2.from_angle(source.get_angle_to(position))
 		movement_component.apply_knockback(knockback_dir * knockback_force)
 
+func _on_self_buff_applied(data: Dictionary):
+	if(data["skill"].skill_type == 2):
+		pass
+	if(data["skill"].skill_type == 3):
+		match(data["skill"].skill_name):
+			"Dash":
+				state_machine.transition("dash");
+				velocity = _get_mouse_direction() * data["skill"].range * 16 * 10;
+				stun_timer.wait_time = 0.1;
+				stun_timer.start();
+				
 
 func _on_died() -> void:
 	EventBus.emit_event(EventBus.PLAYER_DIED, {
@@ -215,6 +234,8 @@ func _on_stun_timer_timeout() -> void:
 				state_machine.transition("idle")
 				print("stand up")
 		State.SLASH:
+			state_machine.transition("idle")
+		State.DASH:
 			state_machine.transition("idle")
 
 func _on_hurtbox_body_entered(body: Node2D) -> void:
