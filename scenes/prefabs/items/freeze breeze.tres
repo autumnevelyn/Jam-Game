@@ -15,4 +15,5 @@ ticks = 4
 base_damage = 0.0
 effect_name = "Frozen"
 hitbox_size = SubResource("CircleShape2D_wp0o1")
+range = 2.0
 metadata/_custom_type_script = "uid://dm8c5146rdpbp"

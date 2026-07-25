@@ -49,9 +49,8 @@ func _on_skill_timer_expired(data: Dictionary):
 			"Freeze Breeze":
 				animated_sprite_2d.play("freeze breeze");
 				animated_sprite_2d.scale = Vector2(1, 1);
-				
-		
 	
+		collision_shape_2d.shape = PlayerData.current_skills[data["slot"]].hitbox_size;
 	node_2d.rotation = parent.get_angle_to(get_global_mouse_position());
 
 func _on_area_entered(area: Area2D) -> void:

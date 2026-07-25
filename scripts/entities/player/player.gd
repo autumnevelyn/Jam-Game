@@ -173,7 +173,9 @@ func _on_attack_fired(data: Dictionary) -> void:
 	# Spawn the attack hitbox in the direction of the mouse
 	var mouse_dir = _get_mouse_direction()
 	attack_hitbox.active = true
-	attack_hitbox.position = mouse_dir * 16.0
+	print(data)
+	
+	attack_hitbox.position = mouse_dir * data["range"] * 16.0;
 	attack_hitbox.damage = data.get("damage", 1.0)
 	attack_hitbox.effects = data.get("effects", [])
 

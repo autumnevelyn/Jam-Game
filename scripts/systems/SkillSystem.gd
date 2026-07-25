@@ -115,12 +115,18 @@ func _on_tick() -> void:
 		var total_damage: float = 0.0
 		var effects: Array = []
 		var total_skills: int = damaging.size() + non_damaging.size()
+		var shape: Shape2D;
+		var range: float = 0.0;
 		
 		# sum damage from all damaging skills
 		for countdown in damaging:
 			if countdown.skill:
 				total_damage += countdown.skill.base_damage
+				shape = countdown.skill.hitbox_size;
+				if range < countdown.skill.range:
+					range = countdown.skill.range;
 			else:
+				range = 1.0;
 				total_damage += BASIC_ATCK_DMG;
 		
 		# apply combo multiplier (damage multiplies per extra skill)
@@ -142,6 +148,8 @@ func _on_tick() -> void:
 			"combo_count": total_skills,
 			"position": _player.global_position if _player else Vector2.ZERO,
 			"direction": _get_mouse_direction(),
+			"shape": shape,
+			"range": range,
 		})
 	
 	# non-damaging skills that expired alone
