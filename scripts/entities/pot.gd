@@ -4,6 +4,7 @@ extends StaticBody2D
 
 @onready var health_component: HealthComponent = $health_component
 const HEART = preload("res://scenes/prefabs/heart.tscn")
+const MONEY_PILE = preload("res://scenes/prefabs/money_pile.tscn")
 
 @export var heartDrop := true;
 
@@ -33,8 +34,10 @@ func _on_destroyed() -> void:
 			var heart = HEART.instantiate();
 			add_sibling(heart);
 			heart.position = position + Vector2(randf_range(-10, 10), randf_range(-10, 10));
-		if(random < 0.67):
-			pass
+		elif(random < 0.67):
+			var money = MONEY_PILE.instantiate();
+			add_sibling(money);
+			money.position = position + Vector2(randf_range(-10, 10), randf_range(-10, 10));
 	
 	queue_free()
 

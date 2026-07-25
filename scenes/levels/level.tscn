@@ -4,6 +4,7 @@
 [ext_resource type="TileSet" uid="uid://3lg3jkm4mt04" path="res://assets/tile_set.tres" id="2_urvlt"]
 [ext_resource type="Texture2D" uid="uid://bwa5tfoawua36" path="res://assets/Pixel Art Top Down - Basic v1.2.3/Texture/TX Tileset Grass.png" id="3_d4w6o"]
 [ext_resource type="PackedScene" uid="uid://c4c30da2f5eb5" path="res://scenes/prefabs/player.tscn" id="4_mbbpy"]
+[ext_resource type="PackedScene" uid="uid://cffk81j0mxj26" path="res://scenes/prefabs/portal.tscn" id="5_urvlt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qi5uv"]
 texture = ExtResource("3_d4w6o")
@@ -274,6 +275,7 @@ script = ExtResource("1_xb4v1")
 color = Color(0.62152386, 0.62152386, 0.6215238, 1)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=694952842]
+texture_filter = 1
 tile_set = ExtResource("2_urvlt")
 
 [node name="TileMapLayer2" type="TileMapLayer" parent="." unique_id=1579463579]
@@ -288,3 +290,6 @@ position = Vector2(231, 169)
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1896290860]
 position = Vector2(231, 169)
 zoom = Vector2(3, 3)
+
+[node name="portal" parent="." unique_id=224939894 instance=ExtResource("5_urvlt")]
+position = Vector2(43, 2)

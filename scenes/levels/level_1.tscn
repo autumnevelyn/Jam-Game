@@ -349,4 +349,5 @@ color = Color(0.62152386, 0.62152386, 0.6215238, 1)
 position = Vector2(232, 145)
 
 [node name="pot" parent="." unique_id=812775330 instance=ExtResource("10_excbq")]
-position = Vector2(340, 296)
+position = Vector2(321, 286)
+heartDrop = false
