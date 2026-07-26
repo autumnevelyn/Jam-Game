@@ -684,6 +684,7 @@ size = Vector2(42, 9)
 collision_layer = 2
 script = ExtResource("1_i8vdl")
 speed = 100.0
+healthScale = 1.0
 enemyRating = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=828399677]
