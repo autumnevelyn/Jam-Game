@@ -284,6 +284,18 @@ func _on_stun_timer_timeout() -> void:
 func _on_hurtbox_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Enemy") and not body.isDead:
 		health_component.take_damage(1.0, body)
+		
+func _on_hurtbox_area_entered(area: Area2D) -> void:
+	if area.is_in_group("Enemy") and not area.get_parent().isDead:
+		if(area.get_parent().enemyRating == area.get_parent().Rating.BOSS):
+			if(area.get_parent().state_machine.current_state == "FIRE"):
+				health_component.take_damage(0.5, area);
+				var effect = Effect.new();
+				effect.base_duration_ticks = 4;
+				effect.base_strength = 0.5;
+				effect.type = effect.Type.BURN;
+				status_effects.apply_effect(effect);
+		else: health_component.take_damage(1.0, area)
 
 func _refresh_skills() -> void:
 	_slot_skills = [SkillSystem.slash_skill] + PlayerData.current_skills.duplicate()

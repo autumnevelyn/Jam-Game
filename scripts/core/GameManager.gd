@@ -47,7 +47,7 @@ func _process(delta: float) -> void:
 
 ## Start a new game run.
 func start_run() -> void:
-	current_room = 0
+	current_room = 4
 	total_rooms_in_run = 0
 	PlayerData.reset_for_new_run();
 	
