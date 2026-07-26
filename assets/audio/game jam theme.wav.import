@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://8md8ejtytvvs"
-path="res://.godot/imported/game jam theme.wav-1918388aaa567f0dfa1928fd141222e1.sample"
+path="res://.godot/imported/game jam theme.wav-a8ebf81eaad7cb88498d90fc79733264.sample"
 
 [deps]
 
-source_file="res://assets/game jam theme.wav"
-dest_files=["res://.godot/imported/game jam theme.wav-1918388aaa567f0dfa1928fd141222e1.sample"]
+source_file="res://assets/audio/game jam theme.wav"
+dest_files=["res://.godot/imported/game jam theme.wav-a8ebf81eaad7cb88498d90fc79733264.sample"]
 
 [params]
 

@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="Skill" format=3 uid="uid://c68f12s8v18if"]
 
 [ext_resource type="Script" uid="uid://dm8c5146rdpbp" path="res://scripts/items/skill.gd" id="1_0hrw3"]
-[ext_resource type="Texture2D" uid="uid://dr80rr27yk5t4" path="res://assets/isometric tileset/isometric tileset/separated images/tile_104.png" id="2_wp0o1"]
 [ext_resource type="Script" uid="uid://dybc800nlugaj" path="res://scripts/items/Effect.gd" id="3_0hrw3"]
+[ext_resource type="Texture2D" uid="uid://5eedaiv61knq" path="res://assets/freeze_breeze.png" id="3_hnj0c"]
 
 [sub_resource type="Resource" id="Effect_wp0o1"]
 script = ExtResource("3_0hrw3")
@@ -15,11 +15,11 @@ radius = 16.0
 
 [resource]
 script = ExtResource("1_0hrw3")
-texture = ExtResource("2_wp0o1")
+texture = ExtResource("3_hnj0c")
 skill_name = "Freeze Breeze"
 description = "Causes a gust of frozen air, slowing enemies hit and causing a dot"
 skill_type = 2
-ticks = 4
+ticks = 2
 base_damage = 0.0
 effects = Array[ExtResource("3_0hrw3")]([SubResource("Effect_wp0o1")])
 hitbox_size = SubResource("CircleShape2D_wp0o1")

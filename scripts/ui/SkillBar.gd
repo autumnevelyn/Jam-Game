@@ -71,6 +71,7 @@ func _build_styles() -> void:
 # ---- Events ----
 func _on_skill_added(_slot_index: int, _skill: Resource) -> void:
 	queue_redraw()
+	print(_skill.skill_name)
 	match(_skill.skill_name):
 		"Slash":
 			get_child(0).get_child(0).tooltip_text = "SLASH
@@ -93,6 +94,11 @@ func _on_skill_added(_slot_index: int, _skill: Resource) -> void:
 			Dashes towards the mouse
 			Cooldown 2 tick
 			range 4";
+		"Burn Up":
+			get_child(0).get_child(_slot_index + 1).tooltip_text = "Burn Up
+			Increases damage but puts you on fire
+			Cooldown 4 tick
+			range 0";
 
 
 # ---- Drawing ----

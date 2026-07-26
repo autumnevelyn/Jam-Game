@@ -5,6 +5,7 @@ extends Resource
 enum Type {
 	BURN,
 	FREEZE,
+	DAMAGE_UP,
 }
 
 ## which type of effect this is

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c2kpthtkjvhvm" path="res://scripts/ui/health_icon.gd" id="1_qquft"]
 [ext_resource type="Texture2D" uid="uid://0l5gw31o6w81" path="res://assets/empty_heart.png" id="2_4ppsw"]
+[ext_resource type="Texture2D" uid="uid://yjw3danfrxyn" path="res://assets/healf_heart.png" id="3_a46e4"]
 [ext_resource type="Texture2D" uid="uid://wjytbtng3v4a" path="res://assets/heart.png" id="3_lyxnt"]
 
 [node name="hearts" type="Control" unique_id=86800923]
@@ -29,5 +30,14 @@ custom_minimum_size = Vector2(60, 0)
 layout_mode = 0
 offset_right = 60.0
 offset_bottom = 60.0
-texture = ExtResource("3_lyxnt")
+texture = ExtResource("3_a46e4")
 expand_mode = 1
+
+[node name="heart_texture2" type="TextureRect" parent="." unique_id=2110632446]
+z_index = -1
+texture_filter = 1
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 0
+offset_right = 60.0
+offset_bottom = 60.0
+texture = ExtResource("3_lyxnt")

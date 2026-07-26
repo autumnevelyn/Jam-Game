@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="Skill" format=3 uid="uid://ckcaguxcrb3a0"]
+
+[ext_resource type="Script" uid="uid://dybc800nlugaj" path="res://scripts/items/Effect.gd" id="1_lhrnr"]
+[ext_resource type="Script" uid="uid://dm8c5146rdpbp" path="res://scripts/items/skill.gd" id="2_5tcm0"]
+[ext_resource type="Texture2D" uid="uid://bskf01fk5arn6" path="res://assets/burn up.png" id="3_lhrnr"]
+
+[sub_resource type="Resource" id="Effect_wp0o1"]
+script = ExtResource("1_lhrnr")
+base_strength = 0.5
+base_duration_ticks = 4
+
+[sub_resource type="Resource" id="Resource_ph5j7"]
+script = ExtResource("1_lhrnr")
+type = 2
+base_strength = 1.5
+base_duration_ticks = 6
+metadata/_custom_type_script = "uid://dybc800nlugaj"
+
+[resource]
+script = ExtResource("2_5tcm0")
+texture = ExtResource("3_lhrnr")
+skill_name = "Burn Up"
+description = "Increases damage but makes you burn"
+skill_type = 2
+ticks = 4
+base_damage = 0.0
+effects = Array[ExtResource("1_lhrnr")]([SubResource("Effect_wp0o1"), SubResource("Resource_ph5j7")])
+metadata/_custom_type_script = "uid://dm8c5146rdpbp"

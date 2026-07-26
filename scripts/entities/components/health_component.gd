@@ -34,13 +34,13 @@ func _ready() -> void:
 
 ## Apply damage to this entity.
 ## Returns the actual damage dealt (after armor/invincibility).
-func take_damage(amount: float, source: Node = null) -> float:
+func take_damage(amount: float, source: Node = null, direct: bool = false) -> float:
 	if is_invincible or health <= 0.0:
 		return 0.0
 
 	var actual = min(amount, health)
 	health -= amount
-	damaged.emit(actual, source)
+	damaged.emit(actual, source, direct);
 
 	if invincibility_time > 0.0:
 		_start_invincibility()

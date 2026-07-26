@@ -2,7 +2,8 @@
 # individual heart/life icon that updates based on PlayerData health.
 extends Control
 
-@onready var heart_texture: TextureRect = $heart_texture
+@onready var half_heart: TextureRect = $heart_texture
+@onready var full_heart: TextureRect = $heart_texture2
 
 var _id: int = -1
 
@@ -30,4 +31,5 @@ func _on_health_changed(_old: float, _new: float, _max: float) -> void:
 func health_changed() -> void:
 	if _id < 0:
 		return
-	heart_texture.visible = PlayerData.health >= _id + 1
+	full_heart.visible = PlayerData.health >= _id + 1.0;
+	half_heart.visible = PlayerData.health >= _id + 0.5;

@@ -11,6 +11,7 @@ extends CharacterBody2D
 @onready var attack_hitbox: Area2D = $attack_hitbox
 @onready var hurtbox: Area2D = $hurtbox
 @onready var stun_timer: Timer = $stun_timer
+@onready var direct_damage_audio: AudioStreamPlayer2D = $directDamageAudio
 var status_effects: StatusEffectComponent
 
 @onready var walk_audio: AudioStreamPlayer2D = $walkAudio
@@ -51,8 +52,8 @@ func _ready() -> void:
 
 func _exit_tree() -> void:
 	# clean up EventBus subscriptions
-	print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
 	EventBus.unsubscribe(EventBus.ATTACK_FIRED, _on_attack_fired)
+	EventBus.unsubscribe(EventBus.SELF_BUFF_APPLIED, _on_self_buff_applied);
 	# disconnect component signals
 	if health_component:
 		if health_component.damaged.is_connected(_on_damaged):
@@ -65,6 +66,7 @@ func _exit_tree() -> void:
 
 func _physics_process(delta: float) -> void:
 	state_machine.physics_process(delta)
+	
 
 # state methods — called by StateMachine via convention
 
@@ -212,10 +214,13 @@ func _on_attack_fired(data: Dictionary) -> void:
 
 # signal handlers
 
-func _on_damaged(amount: float, source: Node) -> void:
+func _on_damaged(amount: float, source: Node, direct: bool) -> void:
 	PlayerData.health -= amount
-	state_machine.transition("stunned")
-	animated_sprite_2d.play("die");
+	if(not direct):
+		state_machine.transition("stunned")
+		animated_sprite_2d.play("die");
+	else:
+		direct_damage_audio.play();
 	if source:
 		var knockback_dir = Vector2.from_angle(source.get_angle_to(position))
 		movement_component.apply_knockback(knockback_dir * knockback_force)
