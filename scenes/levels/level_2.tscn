@@ -6,10 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bwa5tfoawua36" path="res://assets/Pixel Art Top Down - Basic v1.2.3/Texture/TX Tileset Grass.png" id="3_nt80m"]
 [ext_resource type="PackedScene" uid="uid://bdbqdqmieeehs" path="res://scenes/prefabs/cuttable_object.tscn" id="4_3p04p"]
 [ext_resource type="PackedScene" uid="uid://dyc3suf0e7he0" path="res://scenes/prefabs/enemy_waddler.tscn" id="5_qsp8v"]
-[ext_resource type="Resource" uid="uid://dawo01aq0h0l4" path="res://scenes/prefabs/items/fire_punch.tres" id="7_8qukl"]
 [ext_resource type="PackedScene" uid="uid://cqeaxe3ebrykw" path="res://scenes/prefabs/enemy_chaser.tscn" id="7_ibugp"]
-[ext_resource type="Resource" uid="uid://nrl0kefm1ofa" path="res://scenes/prefabs/items/sword.tres" id="8_3p04p"]
-[ext_resource type="Script" uid="uid://tgpfpj8wbdd3" path="res://scripts/items/item_drop.gd" id="8_8qukl"]
 [ext_resource type="PackedScene" uid="uid://c3ojvipdg6tp3" path="res://scenes/prefabs/money_pile.tscn" id="10_qsp8v"]
 [ext_resource type="PackedScene" uid="uid://cffk81j0mxj26" path="res://scenes/prefabs/portal.tscn" id="12_brxtv"]
 
@@ -275,15 +272,6 @@ texture = ExtResource("3_nt80m")
 [sub_resource type="TileSet" id="TileSet_tv7cl"]
 sources/0 = SubResource("TileSetAtlasSource_nt80m")
 
-[sub_resource type="Resource" id="Resource_o6qs0"]
-script = ExtResource("8_8qukl")
-itemDropList = {
-"Common": [ExtResource("8_3p04p")],
-"Rare": [ExtResource("7_8qukl")],
-"Uncommon": [ExtResource("7_8qukl")]
-}
-metadata/_custom_type_script = "uid://tgpfpj8wbdd3"
-
 [node name="level" type="Node2D" unique_id=1973902866]
 script = ExtResource("1_qpwj6")
 
@@ -342,7 +330,6 @@ initial_direction = Vector2(0, -1)
 
 [node name="enemy_chacer" parent="." unique_id=1892350357 instance=ExtResource("7_ibugp")]
 position = Vector2(772, 436)
-item_drop = SubResource("Resource_o6qs0")
 
 [node name="money_pile" parent="." unique_id=421441149 instance=ExtResource("10_qsp8v")]
 position = Vector2(650, -40)

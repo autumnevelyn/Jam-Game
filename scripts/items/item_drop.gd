@@ -13,6 +13,8 @@ extends Resource
 var all_skills = [
 	preload("res://scenes/prefabs/items/fire_punch.tres"),
 	preload("res://scenes/prefabs/items/freeze breeze.tres"),
+	preload("res://scenes/prefabs/items/burn up.tres"),
+	preload("res://scenes/prefabs/items/dash.tres"),
 ]
 
 func getItem():

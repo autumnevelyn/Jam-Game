@@ -10,7 +10,6 @@ const HEART = preload("res://scenes/prefabs/heart.tscn")
 @export var initial_direction: Vector2 = Vector2(1.0, 0.0)
 @export var health_drop: float = 0.5;
 
-
 var _direction: Vector2 = Vector2(1.0, 0.0)
 
 
@@ -19,6 +18,8 @@ func _ready() -> void:
 	
 	animated_sprite_2d = $AnimatedSprite2D
 	_direction = initial_direction.normalized()
+	
+	maxHealthScale(healthScale);
 
 
 func _physics_process(delta: float) -> void:

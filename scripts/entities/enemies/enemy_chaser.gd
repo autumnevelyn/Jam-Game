@@ -25,6 +25,8 @@ func _ready() -> void:
 	
 	animated_sprite_2d = $AnimatedSprite2D
 	startPos = position;
+	
+	maxHealthScale(healthScale);
 
 func _physics_process(delta: float) -> void:
 	
