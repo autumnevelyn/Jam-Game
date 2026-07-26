@@ -14,6 +14,10 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_uke1k")
 
+[node name="game_over" parent="." unique_id=1443848354 instance=ExtResource("3_mwuyt")]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+
 [node name="health_container" type="BoxContainer" parent="." unique_id=1703910760]
 layout_mode = 1
 anchors_preset = 10
@@ -46,6 +50,9 @@ offset_top = 7.0
 offset_right = -9.0
 offset_bottom = 30.0
 grow_horizontal = 0
+tooltip_text = "The amount of enemies left in this level
+Kill them all to open the portal"
+mouse_filter = 1
 text = "1"
 horizontal_alignment = 2
 
@@ -126,7 +133,3 @@ custom_minimum_size = Vector2(41.76, 0)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 4
-
-[node name="game_over" parent="." unique_id=1443848354 instance=ExtResource("3_mwuyt")]
-modulate = Color(1, 1, 1, 0)
-layout_mode = 1

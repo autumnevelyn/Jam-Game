@@ -9,6 +9,7 @@ enum Rating {MINION, EASY, MEDIUM, HARD, BOSS}
 
 @export var speed: float = 50.0
 @export var damage: float = 1.0
+@export var healthScale: float = 2.0;
 
 @export var enemyRating: Rating = Rating.MINION;
 
@@ -33,7 +34,9 @@ func _ready() -> void:
 	status_indicator._set_offset(Vector2(0, -24.0))
 	add_child(status_indicator)
 	
+	
 	EventBus.subscribe(EventBus.COMBAT_HIT, _on_combat_hit);
+	
 
 func _exit_tree() -> void:
 	#if health_component and health_component.died.is_connected(_on_died):
@@ -103,3 +106,8 @@ func dropGold():
 #		print(amount);
 #		return health_component.take_damage(amount, source)
 #	return 0.0
+
+func maxHealthScale(scaler: float):
+	health_component.max_health *= 1.0 + (get_tree().root.get_node("/root/GameManager").current_room) / scaler;
+	health_component.health = health_component.max_health;
+	print(health_component.health);

@@ -39,6 +39,8 @@ func _ready() -> void:
 	animated_sprite_2d = $AnimatedSprite2D
 	startPos = position;
 	EventBus.subscribe(EventBus.ENEMY_KILLED, _on_eneny_killed);
+	
+	maxHealthScale(healthScale);
 
 func _exit_tree() -> void:
 	EventBus.unsubscribe(EventBus.ENEMY_KILLED, _on_eneny_killed);
