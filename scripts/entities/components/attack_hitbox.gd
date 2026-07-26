@@ -42,12 +42,15 @@ func _on_timer_timeout() -> void:
 
 func _on_skill_timer_expired(data: Dictionary):
 	var skill: Skill = data.get("skill")
+	print("SKILLLL")
+	print(skill);
 	if not skill:
 		return
 	
 	if skill.skill_type == Skill.SkillType.SLASH:
 		# Slash — always plays the default slash animation
 		animated_sprite_2d.play("slash");
+		scale = Vector2(1, 1);
 		animated_sprite_2d.scale = Vector2(0.5, 0.5);
 		collision_shape_2d.shape = RectangleShape2D.new();
 		collision_shape_2d.shape.size = Vector2(15, 15);
@@ -55,9 +58,11 @@ func _on_skill_timer_expired(data: Dictionary):
 		match(skill.skill_name):
 			"Fire Punch":
 				animated_sprite_2d.play("fire punch");
+				scale = Vector2(1, 1);
 				animated_sprite_2d.scale = Vector2(0.5, 0.5);
 			"Freeze Breeze":
 				animated_sprite_2d.play("freeze breeze");
+				scale = Vector2(1, 1);
 				animated_sprite_2d.scale = Vector2(1, 1);
 		if(skill.skill_type == Skill.SkillType.DAMAGE):
 			collision_shape_2d.shape = skill.hitbox_size;
@@ -66,6 +71,45 @@ func _on_skill_timer_expired(data: Dictionary):
 
 func _on_attack_fired(data: Dictionary):
 	effects = data["effects"];
+
+	#var skill: Skill = data.get("skill")
+	print("SKILLLL")
+	#print(skill);
+	#if not skill:
+	#	return
+	
+	if data["main_type"] == Skill.SkillType.SLASH: # NEVER HAPPENS
+		# Slash — always plays the default slash animation
+		print("aaaaaaaaaaaaaaaaaaaaaaa")
+		animated_sprite_2d.play("slash");
+		scale = Vector2(1, 1);
+		collision_shape_2d.shape = RectangleShape2D.new();
+		collision_shape_2d.shape.size = Vector2(15, 15);
+	else:
+		if(data["main_type"] == Skill.SkillType.DAMAGE and data["combo_count"] > 1):
+			for effect in data["effects"]:
+				if(effect.type == Effect.Type.BURN):
+					animated_sprite_2d.play("slash_fire");
+					scale = Vector2(1, 1);
+					collision_shape_2d.shape = CapsuleShape2D.new();
+					collision_shape_2d.shape.radius = 8.0;
+					collision_shape_2d.shape.height = 32.0;
+				elif(effect.type == Effect.Type.FREEZE):
+					animated_sprite_2d.play("slash_frozen");
+					scale = Vector2(2, 2);
+					collision_shape_2d.shape = CircleShape2D.new();
+					collision_shape_2d.shape.radius = 8;
+		#match(skill.skill_name):
+		#	"Fire Punch":
+		#		animated_sprite_2d.play("fire punch");
+		#		animated_sprite_2d.scale = Vector2(0.5, 0.5);
+		#	"Freeze Breeze":
+		#		animated_sprite_2d.play("freeze breeze");
+		#		animated_sprite_2d.scale = Vector2(1, 1);
+		#if(skill.skill_type == Skill.SkillType.DAMAGE):
+		#	collision_shape_2d.shape = skill.hitbox_size;
+		#	
+	rotation = parent.get_angle_to(get_global_mouse_position()) + PI / 2;
 
 func _on_area_entered(area: Area2D) -> void:
 	#print_debug(active);

@@ -105,6 +105,7 @@ func _on_tick() -> void:
 		var total_skills: int = damaging.size() + non_damaging.size()
 		var shape: Shape2D;
 		var range: float = 0.0;
+		var type: Skill.SkillType;
 		
 		# sum damage from all damaging skills
 		for countdown in damaging:
@@ -113,9 +114,17 @@ func _on_tick() -> void:
 				shape = countdown.skill.hitbox_size;
 				if range < countdown.skill.range:
 					range = countdown.skill.range;
+				type = Skill.SkillType.DAMAGE;
 			else:
 				range = 1.0;
 				total_damage += slash_skill.base_damage;
+				
+				if(type == null): type = Skill.SkillType.SLASH;
+		
+		# apply damage buffs from effects to damage
+		var status_comp = _find_status_effect_component(_player);
+		if status_comp and status_comp.has_status(Effect.Type.DAMAGE_UP):
+			total_damage *= status_comp.get_damage_multiplier();
 		
 		# apply combo multiplier (damage multiplies per extra skill)
 		total_damage *= 1.0 + 0.5 * (total_skills - 1) # TODO: probs needs refining
@@ -140,6 +149,7 @@ func _on_tick() -> void:
 			"direction": _get_mouse_direction(),
 			"shape": shape,
 			"range": range,
+			"main_type": type,
 		})
 	
 	# non-damaging skills that expired alone (no damaging skills this tick)
@@ -180,3 +190,13 @@ func _start_queued_timers() -> void:
 
 func _no_countdowns() -> bool:
 	return _queued_countdowns.size() >= 1 and _running_countdowns.is_empty()
+
+func _find_status_effect_component(node: Node) -> StatusEffectComponent:
+	if not node:
+		return null
+	for child in node.get_children():
+		if child is StatusEffectComponent:
+			return child
+	if node is StatusEffectComponent:
+		return node
+	return null

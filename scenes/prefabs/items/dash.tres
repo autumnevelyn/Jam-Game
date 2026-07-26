@@ -1,11 +1,12 @@
 [gd_resource type="Resource" script_class="Skill" format=3 uid="uid://ku4fi8gxicqf"]
 
+[ext_resource type="Script" uid="uid://dybc800nlugaj" path="res://scripts/items/Effect.gd" id="1_5no7m"]
 [ext_resource type="Script" uid="uid://dm8c5146rdpbp" path="res://scripts/items/skill.gd" id="1_t0p22"]
-[ext_resource type="Texture2D" uid="uid://c1aukdgh2qm8d" path="res://assets/isometric tileset/isometric tileset/separated images/tile_050.png" id="2_t0p22"]
+[ext_resource type="Texture2D" uid="uid://bn8xyj4rw7pm6" path="res://assets/dash.png" id="3_yseui"]
 
 [resource]
 script = ExtResource("1_t0p22")
-texture = ExtResource("2_t0p22")
+texture = ExtResource("3_yseui")
 skill_name = "Dash"
 description = "Dashes toward the mouse"
 skill_type = 3

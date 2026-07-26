@@ -21,6 +21,7 @@ var normal_rooms := [
 	preload("res://scenes/levels/level_2.tscn"),
 	preload("res://scenes/levels/level_3.tscn"),
 	preload("res://scenes/levels/level_4.tscn"),
+	preload("res://scenes/levels/level_5.tscn"),
 ];
 var possible_rooms := normal_rooms;
 var first_room := preload("res://scenes/levels/level_1.tscn");

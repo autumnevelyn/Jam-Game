@@ -100,7 +100,7 @@ func get_active_statuses() -> Array:
 func _apply_burn_tick(status: ActiveStatus) -> void:
 	var health_comp = _find_health_component(get_parent())
 	if health_comp:
-		health_comp.take_damage(status.strength)
+		health_comp.take_damage(status.strength, null, true);
 
 func _find_health_component(node: Node) -> HealthComponent:
 	if not node:
@@ -111,3 +111,8 @@ func _find_health_component(node: Node) -> HealthComponent:
 	if node is HealthComponent:
 		return node
 	return null
+
+func get_damage_multiplier() -> float:
+	if _statuses.has(Effect.Type.DAMAGE_UP):
+		return 1.5;
+	return 1.0
