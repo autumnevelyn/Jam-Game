@@ -49,7 +49,8 @@ func _ready() -> void:
 	status_indicator.name = "EffectStatusIcon"
 	status_indicator._set_offset(Vector2(0, _outer_radius + 4.0))
 	add_child(status_indicator)
-
+	
+	get_viewport().canvas_item_default_texture_filter = Viewport.DEFAULT_CANVAS_ITEM_TEXTURE_FILTER_NEAREST
 
 func _exit_tree() -> void:
 	if EventBus:
