@@ -33,6 +33,9 @@ func _ready() -> void:
 	status_indicator._set_offset(Vector2(0, -24.0))
 	add_child(status_indicator)
 	
+	health_component.max_health *= 1.0 + (get_tree().root.get_node("/root/GameManager").current_room) / 2.0;
+	health_component.health = health_component.max_health;
+	
 	EventBus.subscribe(EventBus.COMBAT_HIT, _on_combat_hit);
 
 func _exit_tree() -> void:
