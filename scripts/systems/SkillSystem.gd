@@ -5,7 +5,7 @@
 extends Node
 
 ## Duration of one tick in seconds.
-const TICK_DURATION: float = 2
+const TICK_DURATION: float = 1.21	
 
 ## Ddefault slash attack resource.
 static var slash_skill: Skill = preload("res://scenes/prefabs/items/slash.tres")
