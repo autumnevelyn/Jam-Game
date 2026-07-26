@@ -1,2 +1,2 @@
 # CountBound
-### A GMTK game-jam game
+### a GMTK jam game
