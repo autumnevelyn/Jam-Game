@@ -36,8 +36,14 @@ var _queued_segment_color: Color = Color(0.3, 0.3, 0.3, 0.3)  # Dim grey for que
 # ---- Spacing between multiple timer circles ----
 const CIRCLE_SPACING: float = 22.0
 
+# ---- Aim indicator ----
+var _aim_direction: Vector2 = Vector2.RIGHT
+var _aim_range: float = 28.0
+
 
 # ---- Lifecycle ----
+var _arrow_texture: Texture2D = preload("res://assets/arrow.png")
+
 func _ready() -> void:
 	EventBus.subscribe(EventBus.SKILL_TIMER_STARTED, _on_timer_started)
 	EventBus.subscribe(EventBus.SKILL_TIMER_TICK, _on_timer_tick)
@@ -61,11 +67,10 @@ func _exit_tree() -> void:
 
 
 func _process(_delta: float) -> void:
-	if _active_timers.is_empty():
-		return
+	# track aim direction for crosshair
+	_aim_direction = _get_aim_direction()
 	
-	# Any active timer means we need to update per-frame for the fuse animation
-	queue_redraw()
+	queue_redraw()  # always redraw for crosshair
 
 
 # ---- Event handlers ----
@@ -121,9 +126,13 @@ func _on_timer_expired(data: Dictionary) -> void:
 # ---- Drawing ----
 
 func _draw() -> void:
-	if _active_timers.is_empty() and _queued_skills.is_empty():
-		return
+	if not _active_timers.is_empty() or not _queued_skills.is_empty():
+		_draw_timer_indicators()
 	
+	_draw_aim_crosshair()
+
+
+func _draw_timer_indicators() -> void:
 	# Gather all entries
 	var all_entries: Array = []
 	
@@ -156,6 +165,35 @@ func _draw() -> void:
 			_draw_queued_indicator(center, entry.skill)
 		else:
 			_draw_timer_circle(center, _active_timers[entry.skill])
+
+
+func _draw_aim_crosshair() -> void:
+	var mouse_pos = get_global_mouse_position()
+	var overlay_pos = get_parent().global_position if get_parent() else Vector2.ZERO
+	var dir = (mouse_pos - overlay_pos).normalized()
+	if dir.length() < 0.1:
+		dir = Vector2.RIGHT
+	
+	var aim_global = overlay_pos + dir * _aim_range
+	var aim_local = to_local(aim_global)
+	
+	if _arrow_texture:
+		# rotate the arrow texture to face the aim direction
+		var angle = dir.angle()
+		var tex_size = _arrow_texture.get_size()
+		var draw_center = aim_local - tex_size / 2.0
+		draw_set_transform(draw_center + tex_size / 2.0, angle)
+		draw_texture(_arrow_texture, -tex_size / 2.0)
+		draw_set_transform(Vector2.ZERO, 0.0)  # reset transform
+
+
+func _get_aim_direction() -> Vector2:
+	var mouse_pos = get_global_mouse_position()
+	var global_origin = get_parent().global_position if get_parent() else Vector2.ZERO
+	var dir = (mouse_pos - global_origin).normalized()
+	if dir.length() < 0.001:
+		return Vector2.RIGHT
+	return dir
 
 
 func _draw_queued_indicator(center: Vector2, skill: Skill) -> void:

@@ -55,6 +55,15 @@ func _update_all_hearts() -> void:
 		if heart.has_method("health_changed"):
 			heart.health_changed()
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		var menu = get_tree().root.get_node_or_null("GameMain/CanvasLayer/Menu")
+		if menu:
+			menu.visible = not menu.visible
+			GameManager.toggle_pause()
+		get_viewport().set_input_as_handled()
+
+
 func _on_enemy_killed(_data: Dictionary, loading := false):
 	money_label.text = "Money: " + str(int(PlayerData.money));
 	if(loading):
