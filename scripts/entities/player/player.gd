@@ -256,6 +256,8 @@ func _on_died() -> void:
 	})
 	GameManager.end_run(false)
 	
+	state_machine.transition("STUNNED");
+	animated_sprite_2d.play("die");
 	dead = true;
 
 
